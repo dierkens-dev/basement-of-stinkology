@@ -1,29 +1,37 @@
 <template>
-  <div class="container">
-    <TheCard />
+  <div class="container grid grid-cols-2 mx-auto my-0">
+    <TheCard v-for="card in cards" :key="card.name" :card="card" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import TheCard from '@/components/UI/Card.vue';
+import { Card } from '@/store/card';
 
 export default defineComponent({
   components: { TheCard },
-  setup() {},
+  setup() {
+    const cards: Card[] = [
+      {
+        name: 'First Lastname',
+        description: 'Lorem ipsum dolor sitamet...',
+        gamertag: 'Gamertag',
+        avatar: '',
+      },
+      {
+        name: 'Jacob Dierkens',
+        description: "Kill 'em and Grill 'em",
+        gamertag: 'Sonofab1rd',
+        avatar: '',
+      },
+    ];
+    return { cards };
+  },
 });
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  /* display: flex; */
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
