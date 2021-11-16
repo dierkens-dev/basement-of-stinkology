@@ -19,19 +19,19 @@ export default defineComponent({
         name: 'First Lastname',
         description: 'Lorem ipsum dolor sitamet...',
         gamertag: 'Gamertag',
-        avatar: '',
+        avatar: 'drink.png',
       },
       {
         name: 'Jacob Dierkens',
         description: "Kill 'em and Grill 'em",
         gamertag: 'Sonofab1rd',
-        avatar: '',
+        avatar: 'drink.png',
       },
       {
         name: 'Chris Dierkens',
         description: 'RRRRRRRRRRAAWWWWR',
         gamertag: 'dinoRawr',
-        avatar: '',
+        avatar: 'drink.png',
       },
     ];
     return { cards };

@@ -1,11 +1,14 @@
 <template>
   <div class="border-2 border-black rounded-lg grid grid-cols-2 mx-4">
     <div class="text-sm mt-4 ml-4">{{ card.name }}</div>
-    <div
-      class="row-span-3 rounded-full bg-blue-500 h-20 w-20 lg:h-40 lg:w-40 ml-8 mt-2 lg:ml-4"
-    ></div>
+
+    <img
+      class="row-span-3 rounded-full h-20 w-20 lg:h-40 lg:w-40 ml-8 mt-2 lg:ml-4"
+      :src="require(`../../assets/${card.avatar}`)"
+    />
+
     <div class="text-3xl ml-4">{{ card.gamertag }}</div>
-    <div class="ml-4">{{ card.description }}</div>
+    <div class="ml-4 h-12 mt-2">{{ card.description }}</div>
     <AppButton class="m-2.5 w-24 border-black text-lg border-4"
       >Profile</AppButton
     >
@@ -27,7 +30,7 @@ export default defineComponent<Card>({
         name: 'First Lastname',
         description: 'Lorem ipsum dolor sit amet...',
         gamertag: 'Gamertag',
-        avatar: '',
+        avatar: 'drink.png',
       }),
     },
   },
