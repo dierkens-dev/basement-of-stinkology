@@ -1,5 +1,7 @@
 <template>
-  <div class="container grid grid-cols-2 mx-auto my-0">
+  <div
+    class="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mx-auto mt-4 gap-10"
+  >
     <TheCard v-for="card in cards" :key="card.name" :card="card" />
   </div>
 </template>
@@ -23,6 +25,12 @@ export default defineComponent({
         name: 'Jacob Dierkens',
         description: "Kill 'em and Grill 'em",
         gamertag: 'Sonofab1rd',
+        avatar: '',
+      },
+      {
+        name: 'Chris Dierkens',
+        description: 'RRRRRRRRRRAAWWWWR',
+        gamertag: 'dinoRawr',
         avatar: '',
       },
     ];
