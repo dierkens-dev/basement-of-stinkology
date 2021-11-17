@@ -1,15 +1,11 @@
 import { getAccessorType, mutationTree, actionTree } from 'typed-vuex';
 import Cookie from 'js-cookie';
 import { Request } from 'express';
+import { Card } from '~/types/card';
+import { AuthData } from '~/types/auth';
 
 // Import all your submodules
 // import * as submodule from '~/store/submodule'
-
-interface AuthData {
-  isLogin: Boolean;
-  email: String;
-  password: String;
-}
 
 interface State {
   token: string | null;
@@ -120,6 +116,9 @@ export const actions = actionTree(
         .$post('/date-plan', payload)
         .then()
         .catch((e: any) => console.log('error', e));
+    },
+    getCardData(): Promise<Card[]> {
+      return this.$axios.$get('/card');
     },
   },
 );
