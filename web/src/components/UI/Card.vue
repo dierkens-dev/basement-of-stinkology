@@ -11,9 +11,11 @@
 
     <div class="text-3xl ml-4">{{ card.gamertag }}</div>
     <div class="text-base ml-4 h-12 mt-2">{{ card.slogan }}</div>
-    <AppButton class="m-2.5 w-36 border-black text-lg border-4"
-      >Profile</AppButton
-    >
+    <nuxt-link :to="`/user-profile/${card.user.id}`">
+      <AppButton class="m-2.5 w-36 border-black text-lg border-4"
+        >Profile</AppButton
+      >
+    </nuxt-link>
   </div>
 </template>
 
