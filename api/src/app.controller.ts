@@ -40,4 +40,28 @@ export class AppController {
   setWeekendOptions(@Request() req) {
     return '';
   }
+
+  @Get('card')
+  getCards() {
+    return [
+      {
+        user: { firstName: 'First', lastName: 'LastName' },
+        slogan: 'Lorem ipsum dolor sitamet...',
+        gamertag: 'Gamertag',
+        avatar: 'drink.png',
+      },
+      {
+        user: { firstName: 'Jacob', lastName: 'Dierkens' },
+        slogan: "Kill 'em and Grill 'em",
+        gamertag: 'Sonofab1rd',
+        avatar: 'drink.png',
+      },
+      {
+        user: { firstName: 'Chris', lastName: 'Dierkens' },
+        slogan: 'RRRRRRRRRRAAWWWWR',
+        gamertag: 'dinoRawr',
+        avatar: 'drink.png',
+      },
+    ];
+  }
 }

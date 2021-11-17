@@ -1,39 +1,32 @@
 <template>
-  <div
-    class="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mx-auto mt-4 gap-10"
-  >
-    <TheCard v-for="card in cards" :key="card.name" :card="card" />
+  <div class="text-center mt-4 text-2xl">
+    Players
+    <div
+      class="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mx-auto mt-4 gap-10"
+    >
+      <TheCard v-for="card in cards" :key="card.name" :card="card" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import {
+  defineComponent,
+  ref,
+  useFetch,
+  useStore,
+} from '@nuxtjs/composition-api';
 import TheCard from '@/components/UI/Card.vue';
-import { Card } from '@/store/card';
+import { Card } from '@/types/card';
 
-export default defineComponent({
+export default defineComponent<Card[]>({
   components: { TheCard },
   setup() {
-    const cards: Card[] = [
-      {
-        name: 'First Lastname',
-        description: 'Lorem ipsum dolor sitamet...',
-        gamertag: 'Gamertag',
-        avatar: 'drink.png',
-      },
-      {
-        name: 'Jacob Dierkens',
-        description: "Kill 'em and Grill 'em",
-        gamertag: 'Sonofab1rd',
-        avatar: 'drink.png',
-      },
-      {
-        name: 'Chris Dierkens',
-        description: 'RRRRRRRRRRAAWWWWR',
-        gamertag: 'dinoRawr',
-        avatar: 'drink.png',
-      },
-    ];
+    const store = useStore();
+    const cards = ref<Card[]>();
+    useFetch(async () => {
+      cards.value = await store.dispatch('getCardData');
+    });
     return { cards };
   },
 });
