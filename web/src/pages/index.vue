@@ -1,6 +1,5 @@
 <template>
-  <div class="text-center mt-4 text-2xl">
-    Players
+  <div class="mt-4 text-2xl">
     <div
       class="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mx-auto mt-4 gap-10"
     >
@@ -25,7 +24,7 @@ export default defineComponent<Card[]>({
     const store = useStore();
     const cards = ref<Card[]>();
     useFetch(async () => {
-      cards.value = await store.dispatch('getCardData');
+      cards.value = await store.dispatch('getUsers');
     });
     return { cards };
   },

@@ -4,4 +4,7 @@ export interface User {
   firstName: string;
   lastName: string;
   authData: AuthData;
+  slogan: String;
+  gamertag: String;
+  avatar: String;
 }
