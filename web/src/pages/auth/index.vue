@@ -1,23 +1,30 @@
 <template>
-  <div class="p-5">
-    <div class="border-white w-80 m-auto p-2 box-border shadow rounded">
-      <form @submit.prevent="onSubmit">
-        <AppControlInput v-model="email" type="email" size="30"
-          >E-Mail Address</AppControlInput
-        >
-        <AppControlInput v-model="password" type="password" size="30"
-          >Password</AppControlInput
-        >
-        <AppButton class="m-2.5 border-black text-lg border-4" type="submit">{{
-          isLogin ? 'Login' : 'Sign Up'
-        }}</AppButton>
-        <AppButton
-          type="button"
-          class="m-2.5 border-black text-lg border-4"
-          @click="isLogin = !isLogin"
-          >Switch to {{ isLogin ? 'Signup' : 'Login' }}</AppButton
-        >
-      </form>
+  <div v-if="isLoggedInUser">
+    <profile-form />
+  </div>
+  <div v-else>
+    <div class="p-5">
+      <div class="border-white w-80 m-auto p-2 box-border shadow rounded">
+        <form @submit.prevent="onSubmit">
+          <AppControlInput v-model="email" type="email" size="30"
+            >E-Mail Address</AppControlInput
+          >
+          <AppControlInput v-model="password" type="password" size="30"
+            >Password</AppControlInput
+          >
+          <AppButton
+            class="m-2.5 border-black text-lg border-4"
+            type="submit"
+            >{{ isLogin ? 'Login' : 'Sign Up' }}</AppButton
+          >
+          <AppButton
+            type="button"
+            class="m-2.5 border-black text-lg border-4"
+            @click="isLogin = !isLogin"
+            >Switch to {{ isLogin ? 'Signup' : 'Login' }}</AppButton
+          >
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -31,9 +38,10 @@ import {
 } from '@nuxtjs/composition-api';
 import AppControlInput from '~/components/UI/AppControlInput.vue';
 import AppButton from '~/components/UI/AppButton.vue';
+import ProfileForm from '~/components/UI/ProfileForm.vue';
 
 export default defineComponent({
-  components: { AppControlInput, AppButton },
+  components: { AppControlInput, AppButton, ProfileForm },
   setup() {
     const isLogin = ref(true);
     const email = ref('');
@@ -47,9 +55,13 @@ export default defineComponent({
           email: email.value,
           password: password.value,
         })
-        .then(() => router.push('/'));
+        .then(() => router.push('/user-profile/1'));
     };
     return { isLogin, email, password, onSubmit };
+  },
+  asyncData({ store }) {
+    const isLoggedInUser = store.getters.isAuthenticated;
+    return { isLoggedInUser };
   },
 });
 </script>
