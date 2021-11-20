@@ -1,32 +1,39 @@
 <template>
   <div class="p-5">
-    <div class="border-white w-80 m-auto p-2 box-border shadow rounded">
-      <form @submit.prevent="onSubmit">
-        <AppControlInput type="image"> Avatar </AppControlInput>
-        <AppControlInput v-model="fname" aria-label="First Name" type="text"
-          >First Name</AppControlInput
-        >
-        <AppControlInput v-model="lname" aria-label="Last Name" type="text"
-          >Last Name</AppControlInput
-        >
-        <AppControlInput v-model="email" aria-label="Email" type="email"
-          >Email</AppControlInput
-        >
-        <AppControlInput v-model="currentPassword" type="password" size="30"
-          >Current Password</AppControlInput
-        >
-        <AppControlInput v-model="newPassword" type="password" size="30"
-          >New Password</AppControlInput
-        >
-        <AppControlInput v-model="gamertag" aria-label="Gamertag" type="text"
-          >Gamertag</AppControlInput
-        >
-        <AppControlInput v-model="slogan" aria-label="Slogan" type="text"
-          >Slogan</AppControlInput
-        >
-        <AppButton>Submit</AppButton>
-      </form>
-    </div>
+    <form
+      class="border-white w-96 m-auto p-2 box-border shadow rounded"
+      @submit.prevent="onSubmit"
+    >
+      <AppControlInput type="file">
+        <img class="mx-auto" :src="require(`../../assets/drink.png`)" />Avatar
+      </AppControlInput>
+      <AppControlInput :value="firstName" aria-label="First Name"
+        >First Name</AppControlInput
+      >
+      <AppControlInput :value="lastName" aria-label="Last Name"
+        >Last Name</AppControlInput
+      >
+      <AppControlInput :value="email" aria-label="Email" type="email"
+        >Email</AppControlInput
+      >
+      <AppControlInput :value="currentPassword" type="password"
+        >Current Password</AppControlInput
+      >
+      <AppControlInput :value="newPassword" type="password"
+        >New Password</AppControlInput
+      >
+      <AppControlInput :value="gamertag" aria-label="Gamertag"
+        >Gamertag</AppControlInput
+      >
+      <AppControlInput
+        :value="slogan"
+        aria-label="Slogan"
+        :control-type="'textarea'"
+        :rows="3"
+        >Slogan</AppControlInput
+      >
+      <AppButton>Submit</AppButton>
+    </form>
   </div>
 </template>
 
@@ -38,35 +45,64 @@ import AppButton from '@/components/UI/AppButton.vue';
 export default defineComponent({
   name: 'ProfileForm',
   components: { AppControlInput, AppButton },
-  setup() {
-    const isLogin = ref(true);
-    const fname = ref('');
-    const lname = ref('');
-    const email = ref('');
-    const gamertag = ref('');
-    const slogan = ref('');
+  props: {
+    isLogin: Boolean,
+    firstName: {
+      type: String,
+      default: () => {
+        ('');
+      },
+    },
+    lastName: {
+      type: String,
+      default: () => {
+        ('');
+      },
+    },
+    email: {
+      type: String,
+      default: () => {
+        ('');
+      },
+    },
+    gamertag: {
+      type: String,
+      default: () => {
+        ('');
+      },
+    },
+    slogan: {
+      type: String,
+      default: () => {
+        ('');
+      },
+    },
+    avatar: {
+      type: String,
+      default: () => {
+        ('');
+      },
+    },
+  },
+  setup(props) {
     const newPassword = ref('');
     const currentPassword = ref('');
     const store = useStore();
     const onSubmit = (): void => {
       store.dispatch('updateUser', {
-        email: email.value,
+        email: props.email,
         password: newPassword.value,
-        fname: fname.value,
-        lname: lname.value,
-        gamertag: gamertag.value,
-        slogan: slogan.value,
+        firstName: props.firstName,
+        lastName: props.lastName,
+        gamertag: props.gamertag,
+        slogan: props.slogan,
+        avatar: props.avatar,
       });
     };
     return {
-      fname,
-      lname,
-      isLogin,
-      email,
-      currentPassword,
+      props,
       newPassword,
-      gamertag,
-      slogan,
+      currentPassword,
       onSubmit,
     };
   },

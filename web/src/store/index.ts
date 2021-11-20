@@ -59,8 +59,7 @@ export const actions = actionTree(
           //     new Date().getTime() + Number.parseInt(result.expiresIn) * 1000,
           //   ),
           // );
-        })
-        .catch((e: any) => console.log('error', e));
+        });
     },
     // nuxtServerInit(_vuexContext, nuxtContext) {
     //   console.log(nuxtContext)

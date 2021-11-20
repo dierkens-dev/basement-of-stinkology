@@ -3,16 +3,17 @@
     <label class="block font-bold"><slot /></label>
     <input
       v-if="controlType === 'input'"
-      class="block w-auto box-border p-5 border-black border-2 rounded-md"
+      class="box-border p-2 border-black border-2 rounded-md w-full"
       v-bind="$attrs"
       :value="value"
       @input="$emit('input', $event.target.value)"
     />
     <textarea
       v-if="controlType === 'textarea'"
-      class="block w-auto box-border p-5 border-black border-2 rounded-md"
-      rows="10"
+      class="box-border p-2 border-black border-2 rounded-md w-full"
+      :rows="rows"
       :value="value"
+      :maxlength="maxlength"
       @input="$emit('input', $event.target.value)"
     ></textarea>
   </div>
@@ -31,6 +32,14 @@ export default defineComponent({
     value: {
       type: String,
       default: '',
+    },
+    rows: {
+      type: Number,
+      default: 10,
+    },
+    maxlength: {
+      type: Number,
+      default: 30,
     },
   },
   setup(props) {
