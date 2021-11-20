@@ -41,23 +41,35 @@ export class AppController {
     return '';
   }
 
-  @Get('card')
-  getCards() {
+  @Get('user')
+  getUser(id: string) {
+    return {
+      firstName: 'First',
+      lastName: 'LastName',
+      id: '1',
+      slogan: 'Lorem ipsum dolor sitamet...',
+      gamertag: 'Gamertag',
+      avatar: 'drink.png',
+    };
+  }
+
+  @Get('users')
+  getUsers() {
     return [
       {
-        user: { firstName: 'First', lastName: 'LastName' },
+        user: { firstName: 'First', lastName: 'LastName', id: '1' },
         slogan: 'Lorem ipsum dolor sitamet...',
         gamertag: 'Gamertag',
         avatar: 'drink.png',
       },
       {
-        user: { firstName: 'Jacob', lastName: 'Dierkens' },
+        user: { firstName: 'Jacob', lastName: 'Dierkens', id: '2' },
         slogan: "Kill 'em and Grill 'em",
         gamertag: 'Sonofab1rd',
         avatar: 'drink.png',
       },
       {
-        user: { firstName: 'Chris', lastName: 'Dierkens' },
+        user: { firstName: 'Chris', lastName: 'Dierkens', id: '3' },
         slogan: 'RRRRRRRRRRAAWWWWR',
         gamertag: 'dinoRawr',
         avatar: 'drink.png',

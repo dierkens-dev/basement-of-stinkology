@@ -3,6 +3,7 @@ import Cookie from 'js-cookie';
 import { Request } from 'express';
 import { Card } from '~/types/card';
 import { AuthData } from '~/types/auth';
+import { User } from '~/types/user';
 
 // Import all your submodules
 // import * as submodule from '~/store/submodule'
@@ -110,15 +111,14 @@ export const actions = actionTree(
         // localStorage.removeItem('tokenExpiration');
       }
     },
-    weekendOptions(vuexContext, payload): Promise<any> {
-      console.log('payload', payload);
-      return this.$axios
-        .$post('/date-plan', payload)
-        .then()
-        .catch((e: any) => console.log('error', e));
+    weekendOptions(_vuexContext, payload): Promise<any> {
+      return this.$axios.$post('/date-plan', payload);
     },
-    getCardData(): Promise<Card[]> {
-      return this.$axios.$get('/card');
+    getUsers(): Promise<Card[]> {
+      return this.$axios.$get('/users');
+    },
+    getUser(_vuexContext, id: string): Promise<User> {
+      return this.$axios.$get('/user', { params: { id } });
     },
   },
 );

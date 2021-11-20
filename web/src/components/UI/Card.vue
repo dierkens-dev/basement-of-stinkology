@@ -31,7 +31,7 @@ export default defineComponent<Card>({
     card: {
       type: Object,
       default: () => ({
-        name: 'First Lastname',
+        user: { firstName: 'First', lastName: 'Last', id: '1' },
         slogan: 'Lorem ipsum dolor sit amet...',
         gamertag: 'Gamertag',
         avatar: 'drink.png',
