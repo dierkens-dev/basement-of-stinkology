@@ -30,7 +30,7 @@
     "@nestjs/jwt": "7.2.0",
     "@nestjs/passport": "7.1.6",
     "@nestjs/platform-express": "7.6.18",
-    "dotenv": "8.2.0",
+    "dotenv": "8.6.0",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
