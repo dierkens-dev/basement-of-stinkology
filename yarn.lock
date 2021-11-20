@@ -7793,17 +7793,7 @@ eslint-plugin-unicorn@^28.0.2:
     safe-regex "^2.1.1"
     semver "^7.3.4"
 
-eslint-plugin-vue@7.8.0, eslint-plugin-vue@^7.1.0:
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-7.8.0.tgz#cb0e85d65b65fa8d15e783fbb03c049d2c4cfdae"
-  integrity sha512-OGrnPz+PuYL2HmVyBHxm4mRjxW2kfFCQE6Hw9G6qOHs/Pcu0srOlCCW0FMa8SLzIEqxl8WuKoBSPcMnrjUG2vw==
-  dependencies:
-    eslint-utils "^2.1.0"
-    natural-compare "^1.4.0"
-    semver "^7.3.2"
-    vue-eslint-parser "^7.6.0"
-
-eslint-plugin-vue@^7.9.0:
+eslint-plugin-vue@7.20.0, eslint-plugin-vue@^7.9.0:
   version "7.20.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-7.20.0.tgz#98c21885a6bfdf0713c3a92957a5afeaaeed9253"
   integrity sha512-oVNDqzBC9h3GO+NTgWeLMhhGigy6/bQaQbHS+0z7C4YEu/qK/yxHvca/2PTZtGNPsCrHwOTgKMrwu02A9iPBmw==
@@ -7812,6 +7802,16 @@ eslint-plugin-vue@^7.9.0:
     natural-compare "^1.4.0"
     semver "^6.3.0"
     vue-eslint-parser "^7.10.0"
+
+eslint-plugin-vue@^7.1.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-7.8.0.tgz#cb0e85d65b65fa8d15e783fbb03c049d2c4cfdae"
+  integrity sha512-OGrnPz+PuYL2HmVyBHxm4mRjxW2kfFCQE6Hw9G6qOHs/Pcu0srOlCCW0FMa8SLzIEqxl8WuKoBSPcMnrjUG2vw==
+  dependencies:
+    eslint-utils "^2.1.0"
+    natural-compare "^1.4.0"
+    semver "^7.3.2"
+    vue-eslint-parser "^7.6.0"
 
 eslint-scope@^4.0.3:
   version "4.0.3"
