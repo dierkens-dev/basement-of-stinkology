@@ -41,7 +41,7 @@
   "devDependencies": {
     "@jest-mock/express": "1.4.5",
     "@nestjs/cli": "7.6.0",
-    "@nestjs/schematics": "7.3.1",
+    "@nestjs/schematics": "8.0.5",
     "@nestjs/testing": "7.6.18",
     "@types/aws-lambda": "8.10.85",
     "@types/aws-serverless-express": "3.3.5",
