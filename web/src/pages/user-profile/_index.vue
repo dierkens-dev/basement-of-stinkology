@@ -1,6 +1,13 @@
 <template>
   <div v-if="isLoggedInUser">
-    <profile-form />
+    <profile-form
+      :first-name="user.firstName"
+      :last-name="user.lastName"
+      :avatar="user.avatar"
+      :email="user.email"
+      :gamertag="user.gamertag"
+      :slogan="user.slogan"
+    />
   </div>
   <div v-else class="text-center mx-auto">
     <img
