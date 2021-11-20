@@ -21,7 +21,7 @@
     "express": "4.17.1",
     "js-cookie": "3.0.1",
     "nuxt": "2.15.8",
-    "nuxt-typed-vuex": "0.1.22"
+    "nuxt-typed-vuex": "0.2.0"
   },
   "devDependencies": {
     "@nuxt/image": "0.6.0",
