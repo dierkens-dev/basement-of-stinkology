@@ -1,7 +1,15 @@
 <template>
   <div class="mt-4 text-2xl">
     <div
-      class="container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mx-auto mt-4 gap-10"
+      class="
+        container
+        grid grid-cols-1
+        md:grid-cols-2
+        xl:grid-cols-3
+        mx-auto
+        mt-4
+        gap-10
+      "
     >
       <TheCard v-for="card in cards" :key="card.name" :card="card" />
     </div>
