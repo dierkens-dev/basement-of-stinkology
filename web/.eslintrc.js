@@ -10,6 +10,5 @@ module.exports = {
     'plugin:nuxt/recommended',
   ],
   plugins: [],
-  // add your custom rules here
-  rules: {},
+  rules: { 'multi-word-component-names': off }, //nuxt index files cause a lint error
 };
