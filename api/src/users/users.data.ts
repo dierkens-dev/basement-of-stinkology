@@ -14,7 +14,7 @@ export const users: User[] = [
   },
   {
     avatar: 'drink.png',
-    email: 'test@email.com',
+    email: 'tester@email.com',
     firstName: 'Jacob',
     gamertag: 'Sonofab1rd',
     id: '2',
@@ -25,7 +25,7 @@ export const users: User[] = [
   },
   {
     avatar: 'drink.png',
-    email: 'test@email.com',
+    email: 'testee@email.com',
     firstName: 'Chris',
     gamertag: 'dinoRawr',
     id: '3',

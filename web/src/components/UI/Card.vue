@@ -15,7 +15,7 @@
         mt-2
         lg:ml-4
       "
-      :src="`../../assets/${card.avatar}`"
+      :src="require(`../../assets/${card.avatar}`)"
     />
 
     <div class="text-3xl ml-4">{{ card.gamertag }}</div>

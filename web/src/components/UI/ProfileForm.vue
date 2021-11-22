@@ -11,7 +11,7 @@
         </ul>
       </p>
       <AppControlInput type="file">
-        <img class="mx-auto" :src="require(`../../assets/drink.png`)" />Avatar
+        <img class="mx-auto" :src="require(`../../assets/${user.avatar}`)" />Avatar
       </AppControlInput>
       <AppControlInput :value="user.firstName" aria-label="First Name"
         >First Name</AppControlInput
@@ -19,7 +19,7 @@
       <AppControlInput :value="user.lastName" aria-label="Last Name"
         >Last Name</AppControlInput
       >
-      <AppControlInput :value="email" aria-label="Email" type="email"
+      <AppControlInput :value="user.email" aria-label="Email" type="email"
         >Email</AppControlInput
       >
       <AppControlInput :value="currentPassword" type="password"
@@ -28,11 +28,11 @@
       <AppControlInput :value="newPassword" type="password"
         >New Password</AppControlInput
       >
-      <AppControlInput :value="gamertag" aria-label="Gamertag"
+      <AppControlInput :value="user.gamertag" aria-label="Gamertag"
         >Gamertag</AppControlInput
       >
       <AppControlInput
-        :value="slogan"
+        :value="user.slogan"
         aria-label="Slogan"
         :control-type="'textarea'"
         :rows="3"
@@ -72,25 +72,7 @@ export default defineComponent({
       default: () => {
         ('');
       },
-    },
-    gamertag: {
-      type: String,
-      default: () => {
-        ('');
-      },
-    },
-    slogan: {
-      type: String,
-      default: () => {
-        ('');
-      },
-    },
-    avatar: {
-      type: String,
-      default: () => {
-        ('');
-      },
-    },
+    }
   },
   setup(props) {
     const newPassword = ref('');
@@ -101,12 +83,8 @@ export default defineComponent({
       if(false){
 
       }else {store.dispatch('updateUser', {
-        email: props.email,
         password: newPassword.value,
         user: props.user,
-        gamertag: props.gamertag,
-        slogan: props.slogan,
-        avatar: props.avatar,
       });}
 
     };

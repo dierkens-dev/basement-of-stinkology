@@ -110,17 +110,15 @@ export const actions = actionTree(
         // localStorage.removeItem('tokenExpiration');
       }
     },
-    weekendOptions(_vuexContext, payload): Promise<any> {
-      return this.$axios.$post('/date-plan', payload);
-    },
     getUsers(): Promise<Card[]> {
       return this.$axios.$get('/users');
     },
     getUser(_vuexContext, id: string): Promise<User> {
-      return this.$axios.$get('/user', { params: { id } });
+      return this.$axios.$get(`/users/${id}`);
     },
     updateUser(_vuexContext, payload): Promise<any> {
-      return this.$axios.$post('/user', payload);
+      console.log('payload', payload);
+      return this.$axios.$post('/users', payload);
     },
   },
 );
