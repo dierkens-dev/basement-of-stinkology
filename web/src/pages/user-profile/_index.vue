@@ -1,8 +1,7 @@
 <template>
   <div v-if="isLoggedInUser">
     <profile-form
-      :first-name="user.firstName"
-      :last-name="user.lastName"
+      :user="user.user"
       :avatar="user.avatar"
       :email="user.email"
       :gamertag="user.gamertag"
@@ -20,7 +19,9 @@
         <div>{{ stat.name }}</div>
       </div>
     </div>
-    <div class="text-base m-4">{{ user.firstName + ' ' + user.lastName }}</div>
+    <div class="text-base m-4">
+      {{ user.user.firstName + ' ' + user.user.lastName }}
+    </div>
     <div class="text-3xl m-4">{{ user.gamertag }}</div>
     <div class="text-base m-4">{{ user.slogan }}</div>
     <div class="grid grid-cols-5">

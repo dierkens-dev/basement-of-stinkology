@@ -17,10 +17,16 @@ describe('UsersService', () => {
   });
 
   it('should find a known user', async () => {
-    await expect(service.findOne('test@email.com')).resolves.toEqual({
-      userId: '1',
-      username: 'test@email.com',
+    await expect(service.findOne('2')).resolves.toEqual({
+      avatar: 'drink.png',
+      email: 'test@email.com',
+      firstName: 'Jacob',
+      gamertag: 'Sonofab1rd',
+      id: '2',
+      lastName: 'Dierkens',
       password: 'abc123',
+      slogan: "Kill 'em and Grill 'em",
+      username: 'sonofab1rd',
     });
   });
 

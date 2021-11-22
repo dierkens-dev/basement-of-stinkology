@@ -4,13 +4,19 @@
       class="border-white w-96 m-auto p-2 box-border shadow rounded"
       @submit.prevent="onSubmit"
     >
+      <p v-if="errors.length">
+        <b>Please correct the following error(s):</b>
+        <ul>
+          <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
+        </ul>
+      </p>
       <AppControlInput type="file">
         <img class="mx-auto" :src="require(`../../assets/drink.png`)" />Avatar
       </AppControlInput>
-      <AppControlInput :value="firstName" aria-label="First Name"
+      <AppControlInput :value="user.firstName" aria-label="First Name"
         >First Name</AppControlInput
       >
-      <AppControlInput :value="lastName" aria-label="Last Name"
+      <AppControlInput :value="user.lastName" aria-label="Last Name"
         >Last Name</AppControlInput
       >
       <AppControlInput :value="email" aria-label="Email" type="email"
@@ -47,17 +53,19 @@ export default defineComponent({
   components: { AppControlInput, AppButton },
   props: {
     isLogin: Boolean,
-    firstName: {
-      type: String,
-      default: () => {
-        ('');
-      },
-    },
-    lastName: {
-      type: String,
-      default: () => {
-        ('');
-      },
+    user: {
+      type: Object,
+      default: () => ({
+        avatar: 'drink.png',
+        email: 'test@email.com',
+        firstName: 'First',
+        gamertag: 'Gamertag',
+        id: '1',
+        lastName: 'LastName',
+        password: 'abc1234',
+        slogan: 'Lorem ipsum dolor sitamet...',
+        username: 'something',
+      }),
     },
     email: {
       type: String,
@@ -88,21 +96,25 @@ export default defineComponent({
     const newPassword = ref('');
     const currentPassword = ref('');
     const store = useStore();
+    const errors: String[] = ["This is an Error!"];
     const onSubmit = (): void => {
-      store.dispatch('updateUser', {
+      if(false){
+
+      }else {store.dispatch('updateUser', {
         email: props.email,
         password: newPassword.value,
-        firstName: props.firstName,
-        lastName: props.lastName,
+        user: props.user,
         gamertag: props.gamertag,
         slogan: props.slogan,
         avatar: props.avatar,
-      });
+      });}
+
     };
     return {
       props,
       newPassword,
       currentPassword,
+      errors,
       onSubmit,
     };
   },
