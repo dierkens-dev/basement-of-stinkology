@@ -7,7 +7,7 @@ import { AuthService, AuthUser } from './auth/auth.service';
 export class AppController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req: ExpressRequest) {
     if (!req.user) {

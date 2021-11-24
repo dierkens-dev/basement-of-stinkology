@@ -4,8 +4,8 @@ import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 
 export interface AuthUser {
-  userId: string;
   username: string;
+  password: string;
 }
 
 interface JwtPayload {
@@ -18,7 +18,7 @@ interface JwtPayload {
   jti?: string;
 }
 
-export type Payload = JwtPayload & Pick<AuthUser, 'username'>;
+export type Payload = JwtPayload & Pick<AuthUser, 'password'>;
 
 @Injectable()
 export class AuthService {
@@ -40,8 +40,8 @@ export class AuthService {
     return null;
   }
 
-  async login({ username, userId }: AuthUser) {
-    const payload: Payload = { username, sub: userId };
+  async login({ username, password }: AuthUser) {
+    const payload: Payload = { password, sub: username };
 
     return {
       access_token: this.jwtService.sign(payload),
