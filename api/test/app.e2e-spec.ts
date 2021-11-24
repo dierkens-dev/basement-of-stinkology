@@ -16,13 +16,6 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/hello (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/hello')
-      .expect(200)
-      .expect('Hello World!');
-  });
-
   it('/auth/login Unauthorized (POST)', () => {
     return request(app.getHttpServer())
       .post('/auth/login')
@@ -33,7 +26,7 @@ describe('AppController (e2e)', () => {
   it('/auth/login Authorized (POST)', () => {
     return request(app.getHttpServer())
       .post('/auth/login')
-      .send({ username: 'test@email.com', password: 'abc123' })
+      .send({ username: 'test@email.com', password: 'abc1234' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(201)
