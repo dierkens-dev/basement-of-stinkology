@@ -19,9 +19,13 @@
     <div class="text-3xl m-4">{{ user.gamertag }}</div>
     <div class="text-base m-4">{{ user.slogan }}</div>
     <div class="grid grid-cols-5">
-      <div v-for="(badge, index) in badges" :key="index" class="m-4">
-        {{ badge }}
-      </div>
+      <Achievement
+        v-for="(achievement, index) in achievements"
+        :key="index"
+        class="mx-auto mt-4"
+        :iconImage="'drink.png'"
+      >
+      </Achievement>
     </div>
   </div>
 </template>
@@ -29,9 +33,10 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import ProfileForm from '~/components/UI/ProfileForm.vue';
+import Achievement from '~/components/UI/Achievement.vue';
 
 export default defineComponent({
-  components: { ProfileForm },
+  components: { ProfileForm, Achievement },
   async asyncData({ params, store }) {
     const userId = params.index;
     const isLoggedInUser = store.getters.isAuthenticated && userId === '1';
@@ -41,14 +46,14 @@ export default defineComponent({
       { name: 'Kills', count: 200 },
       { name: 'Deaths', count: 90 },
     ];
-    const badges = [
+    const achievements = [
       'Centurion',
       'Crotchmaster',
       'Couch Potato',
       'Rip Van-Winkle',
       'God-Like',
     ];
-    return { user, stats, isLoggedInUser, badges };
+    return { user, stats, isLoggedInUser, achievements };
   },
 });
 </script>
