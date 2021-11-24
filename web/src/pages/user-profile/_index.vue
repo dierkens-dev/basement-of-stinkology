@@ -23,7 +23,10 @@
         v-for="(achievement, index) in achievements"
         :key="index"
         class="mx-auto mt-4"
-        :iconImage="'drink.png'"
+        :iconString="'fa-solid fa-user-secret'"
+        :iconSize="'2xl'"
+        :titleString="'Head of Security'"
+        :bgColor="'bg-yellow-200'"
       >
       </Achievement>
     </div>
