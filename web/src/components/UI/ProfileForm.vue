@@ -4,16 +4,22 @@
       class="border-white w-96 m-auto p-2 box-border shadow rounded"
       @submit.prevent="onSubmit"
     >
+      <p v-if="errors.length">
+        <b>Please correct the following error(s):</b>
+        <ul>
+          <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
+        </ul>
+      </p>
       <AppControlInput type="file">
-        <img class="mx-auto" :src="require(`../../assets/drink.png`)" />Avatar
+        <img class="mx-auto" :src="require(`../../assets/${user.avatar}`)" />Avatar
       </AppControlInput>
-      <AppControlInput :value="firstName" aria-label="First Name"
+      <AppControlInput :value="user.firstName" aria-label="First Name"
         >First Name</AppControlInput
       >
-      <AppControlInput :value="lastName" aria-label="Last Name"
+      <AppControlInput :value="user.lastName" aria-label="Last Name"
         >Last Name</AppControlInput
       >
-      <AppControlInput :value="email" aria-label="Email" type="email"
+      <AppControlInput :value="user.email" aria-label="Email" type="email"
         >Email</AppControlInput
       >
       <AppControlInput :value="currentPassword" type="password"
@@ -22,11 +28,11 @@
       <AppControlInput :value="newPassword" type="password"
         >New Password</AppControlInput
       >
-      <AppControlInput :value="gamertag" aria-label="Gamertag"
+      <AppControlInput :value="user.gamertag" aria-label="Gamertag"
         >Gamertag</AppControlInput
       >
       <AppControlInput
-        :value="slogan"
+        :value="user.slogan"
         aria-label="Slogan"
         :control-type="'textarea'"
         :rows="3"
@@ -47,62 +53,46 @@ export default defineComponent({
   components: { AppControlInput, AppButton },
   props: {
     isLogin: Boolean,
-    firstName: {
-      type: String,
-      default: () => {
-        ('');
-      },
-    },
-    lastName: {
-      type: String,
-      default: () => {
-        ('');
-      },
+    user: {
+      type: Object,
+      default: () => ({
+        avatar: 'drink.png',
+        email: 'test@email.com',
+        firstName: 'First',
+        gamertag: 'Gamertag',
+        id: '1',
+        lastName: 'LastName',
+        password: 'abc1234',
+        slogan: 'Lorem ipsum dolor sitamet...',
+        username: 'something',
+      }),
     },
     email: {
       type: String,
       default: () => {
         ('');
       },
-    },
-    gamertag: {
-      type: String,
-      default: () => {
-        ('');
-      },
-    },
-    slogan: {
-      type: String,
-      default: () => {
-        ('');
-      },
-    },
-    avatar: {
-      type: String,
-      default: () => {
-        ('');
-      },
-    },
+    }
   },
   setup(props) {
     const newPassword = ref('');
     const currentPassword = ref('');
     const store = useStore();
+    const errors: String[] = ["This is an Error!"];
     const onSubmit = (): void => {
-      store.dispatch('updateUser', {
-        email: props.email,
+      if(false){
+
+      }else {store.dispatch('updateUser', {
         password: newPassword.value,
-        firstName: props.firstName,
-        lastName: props.lastName,
-        gamertag: props.gamertag,
-        slogan: props.slogan,
-        avatar: props.avatar,
-      });
+        user: props.user,
+      });}
+
     };
     return {
       props,
       newPassword,
       currentPassword,
+      errors,
       onSubmit,
     };
   },

@@ -1,11 +1,9 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
 import jwtDecode from 'jwt-decode';
 import { UsersModule } from '../users/users.module';
-import { UsersService } from '../users/users.service';
-import { AuthModule } from './auth.module';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
@@ -44,16 +42,22 @@ describe('AuthService', () => {
   describe('validateUser', () => {
     it('should validate a known user', async () => {
       await expect(
-        service.validateUser('test@email.com', 'abc123'),
+        service.validateUser('sonofab1rd', 'abc123'),
       ).resolves.toEqual({
-        userId: '1',
-        username: 'test@email.com',
+        avatar: 'drink.png',
+        email: 'tester@email.com',
+        firstName: 'Jacob',
+        gamertag: 'Sonofab1rd',
+        id: '2',
+        lastName: 'Dierkens',
+        slogan: "Kill 'em and Grill 'em",
+        username: 'sonofab1rd',
       });
     });
 
     it('should not validate a known user with an incorrect password', async () => {
       await expect(
-        service.validateUser('test@email.com', 'wrong-password'),
+        service.validateUser('sonofab1rd', 'wrong-password'),
       ).resolves.toBeNull();
     });
 
@@ -67,12 +71,12 @@ describe('AuthService', () => {
   describe('login', () => {
     it('should login', async () => {
       const result = await service.login({
-        userId: '1',
-        username: 'test@email.com',
+        password: 'abc123',
+        username: 'sonofab1rd',
       });
 
       expect(jwtDecode(result.access_token)).toEqual(
-        expect.objectContaining({ username: 'test@email.com' }),
+        expect.objectContaining({ username: 'sonofab1rd' }),
       );
     });
   });

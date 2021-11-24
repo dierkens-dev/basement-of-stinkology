@@ -1,13 +1,6 @@
 <template>
   <div v-if="isLoggedInUser">
-    <profile-form
-      :first-name="user.firstName"
-      :last-name="user.lastName"
-      :avatar="user.avatar"
-      :email="user.email"
-      :gamertag="user.gamertag"
-      :slogan="user.slogan"
-    />
+    <profile-form :user="user" />
   </div>
   <div v-else class="text-center mx-auto">
     <img
@@ -20,7 +13,9 @@
         <div>{{ stat.name }}</div>
       </div>
     </div>
-    <div class="text-base m-4">{{ user.firstName + ' ' + user.lastName }}</div>
+    <div class="text-base m-4">
+      {{ user.firstName + ' ' + user.lastName }}
+    </div>
     <div class="text-3xl m-4">{{ user.gamertag }}</div>
     <div class="text-base m-4">{{ user.slogan }}</div>
     <div class="grid grid-cols-5">
@@ -40,7 +35,7 @@ export default defineComponent({
   async asyncData({ params, store }) {
     const userId = params.index;
     const isLoggedInUser = store.getters.isAuthenticated && userId === '1';
-    const user = await store.dispatch('getUser', { userId });
+    const user = await store.dispatch('getUser', userId);
     const stats = [
       { name: 'Headshots', count: 165 },
       { name: 'Kills', count: 200 },
