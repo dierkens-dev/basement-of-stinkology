@@ -19,7 +19,7 @@ describe('UsersService', () => {
   it('should find a known user', async () => {
     await expect(service.findOne('2')).resolves.toEqual({
       avatar: 'drink.png',
-      email: 'test@email.com',
+      email: 'tester@email.com',
       firstName: 'Jacob',
       gamertag: 'Sonofab1rd',
       id: '2',

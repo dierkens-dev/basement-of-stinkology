@@ -61,7 +61,9 @@ export default defineComponent({
           email: email.value,
           password: password.value,
         })
-        .then(() => router.push('/user-profile/1'));
+        .then((resp) => {
+          router.push('/user-profile/1');
+        });
     };
     return { isLogin, email, password, onSubmit };
   },

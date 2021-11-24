@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate({ sub, password }: Payload): Promise<AuthUser> {
-    return { username: sub, password };
+  async validate({ username, password }: Payload): Promise<AuthUser> {
+    return { username, password };
   }
 }

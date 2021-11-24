@@ -18,7 +18,7 @@ interface JwtPayload {
   jti?: string;
 }
 
-export type Payload = JwtPayload & Pick<AuthUser, 'password'>;
+export type Payload = JwtPayload & Pick<AuthUser, 'password' | 'username'>;
 
 @Injectable()
 export class AuthService {
@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   async login({ username, password }: AuthUser) {
-    const payload: Payload = { password, sub: username };
+    const payload: Payload = { password, username };
 
     return {
       access_token: this.jwtService.sign(payload),

@@ -37,8 +37,8 @@ describe('AppController', () => {
 
     it('should return the requested user', async () => {
       const user: AuthUser = {
-        userId: '1',
         username: 'sonofab1rd',
+        password: 'abc123',
       };
       const req = getMockReq({
         user,

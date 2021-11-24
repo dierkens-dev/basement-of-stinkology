@@ -45,7 +45,7 @@ describe('AuthService', () => {
         service.validateUser('sonofab1rd', 'abc123'),
       ).resolves.toEqual({
         avatar: 'drink.png',
-        email: 'test@email.com',
+        email: 'tester@email.com',
         firstName: 'Jacob',
         gamertag: 'Sonofab1rd',
         id: '2',
@@ -71,7 +71,7 @@ describe('AuthService', () => {
   describe('login', () => {
     it('should login', async () => {
       const result = await service.login({
-        userId: '1',
+        password: 'abc123',
         username: 'sonofab1rd',
       });
 
