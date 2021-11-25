@@ -26,14 +26,14 @@ describe('AppController (e2e)', () => {
   it('/auth/login Authorized (POST)', () => {
     return request(app.getHttpServer())
       .post('/auth/login')
-      .send({ username: 'test@email.com', password: 'abc1234' })
+      .send({ username: 'sonofab1rd', password: 'abc123' })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(201)
       .expect((res) =>
         expect(jwtDecode(res.body.access_token)).toEqual(
           expect.objectContaining({
-            username: 'test@email.com',
+            username: 'sonofab1rd',
           }),
         ),
       );
