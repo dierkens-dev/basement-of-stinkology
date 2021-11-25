@@ -23,12 +23,15 @@
         v-for="(achievement, index) in achievements"
         :key="index"
         class="mx-auto mt-4"
-        :iconString="'fa-solid fa-user-secret'"
-        :iconSize="'2xl'"
-        :titleString="'Head of Security'"
-        :bgColor="'bg-yellow-200'"
+        :icon-string="achievement.icon"
+        :icon-size="'2xl'"
+        :title-string="achievement.name"
+        :bg-color="achievement.color"
       >
       </Achievement>
+      <p v-for="achievement in achievements" :key="achievement.name">
+        {{ achievement.name }}
+      </p>
     </div>
   </div>
 </template>
@@ -50,11 +53,31 @@ export default defineComponent({
       { name: 'Deaths', count: 90 },
     ];
     const achievements = [
-      'Centurion',
-      'Crotchmaster',
-      'Couch Potato',
-      'Rip Van-Winkle',
-      'God-Like',
+      {
+        name: 'Centurion',
+        icon: 'fa-solid fa-shield',
+        color: 'bg-yellow-500',
+      },
+      {
+        name: 'Crotchmaster',
+        icon: 'fa-solid fa-bullseye',
+        color: 'bg-yellow-700',
+      },
+      {
+        name: 'Couch Potato',
+        icon: 'fa-solid fa-couch',
+        color: 'bg-yellow-500',
+      },
+      {
+        name: 'Rip Van-Winkle',
+        icon: 'fa-solid fa-bed',
+        color: 'bg-yellow-500',
+      },
+      {
+        name: 'God-Like',
+        icon: 'fa-solid fa-book-bible',
+        color: 'bg-gray-400',
+      },
     ];
     return { user, stats, isLoggedInUser, achievements };
   },

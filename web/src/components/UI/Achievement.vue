@@ -6,29 +6,32 @@
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
-/* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core';
-
-/* import specific icons */
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
-
-/* import font awesome icon component */
+import {
+  faBullseye,
+  faShield,
+  faCouch,
+  faBookBible,
+  faBed,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-/* add icons to the library */
-library.add(faUserSecret);
+library.add(faBullseye);
+library.add(faShield);
+library.add(faCouch);
+library.add(faBookBible);
+library.add(faBed);
 
 export default defineComponent({
-  components: { FontAwesomeIcon },
   name: 'TheAchievement',
+  components: { FontAwesomeIcon },
   props: {
     iconString: {
       type: String,
-      default: 'fa-solid fa-user-secret',
+      default: '',
     },
     bgColor: {
       type: String,
-      default: 'bg-blue-500',
+      default: 'bg-yellow-700',
     },
     iconSize: {
       type: String,
@@ -36,7 +39,7 @@ export default defineComponent({
     },
     titleString: {
       type: String,
-      default: 'Head of Security',
+      default: '',
     },
   },
   setup(props) {
