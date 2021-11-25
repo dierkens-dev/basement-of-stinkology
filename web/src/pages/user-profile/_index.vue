@@ -19,9 +19,19 @@
     <div class="text-3xl m-4">{{ user.gamertag }}</div>
     <div class="text-base m-4">{{ user.slogan }}</div>
     <div class="grid grid-cols-5">
-      <div v-for="(badge, index) in badges" :key="index" class="m-4">
-        {{ badge }}
-      </div>
+      <Achievement
+        v-for="(achievement, index) in achievements"
+        :key="index"
+        class="mx-auto mt-4"
+        :icon-string="achievement.icon"
+        :icon-size="'2xl'"
+        :title-string="achievement.name"
+        :bg-color="achievement.color"
+      >
+      </Achievement>
+      <p v-for="achievement in achievements" :key="achievement.name">
+        {{ achievement.name }}
+      </p>
     </div>
   </div>
 </template>
@@ -29,9 +39,10 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api';
 import ProfileForm from '~/components/UI/ProfileForm.vue';
+import Achievement from '~/components/UI/Achievement.vue';
 
 export default defineComponent({
-  components: { ProfileForm },
+  components: { ProfileForm, Achievement },
   async asyncData({ params, store }) {
     const userId = params.index;
     const isLoggedInUser = store.getters.isAuthenticated && userId === '1';
@@ -41,14 +52,34 @@ export default defineComponent({
       { name: 'Kills', count: 200 },
       { name: 'Deaths', count: 90 },
     ];
-    const badges = [
-      'Centurion',
-      'Crotchmaster',
-      'Couch Potato',
-      'Rip Van-Winkle',
-      'God-Like',
+    const achievements = [
+      {
+        name: 'Centurion',
+        icon: 'fa-solid fa-shield',
+        color: 'bg-yellow-500',
+      },
+      {
+        name: 'Crotchmaster',
+        icon: 'fa-solid fa-bullseye',
+        color: 'bg-yellow-700',
+      },
+      {
+        name: 'Couch Potato',
+        icon: 'fa-solid fa-couch',
+        color: 'bg-yellow-500',
+      },
+      {
+        name: 'Rip Van-Winkle',
+        icon: 'fa-solid fa-bed',
+        color: 'bg-yellow-500',
+      },
+      {
+        name: 'God-Like',
+        icon: 'fa-solid fa-book-bible',
+        color: 'bg-gray-400',
+      },
     ];
-    return { user, stats, isLoggedInUser, badges };
+    return { user, stats, isLoggedInUser, achievements };
   },
 });
 </script>
