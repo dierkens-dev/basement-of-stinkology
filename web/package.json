@@ -42,7 +42,7 @@
     "eslint-plugin-nuxt": "3.0.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-vue": "8.1.1",
-    "postcss": "8.4.1",
+    "postcss": "8.4.4",
     "rimraf": "3.0.2",
     "serverless-apigw-binary": "0.4.4",
     "serverless-domain-manager": "5.2.0"
