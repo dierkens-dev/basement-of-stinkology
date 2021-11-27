@@ -1,3 +1,4 @@
+import { Achievement } from '../../achievements/entities/achievement.entity';
 export class User {
   id: string;
   username: string;
@@ -8,4 +9,5 @@ export class User {
   slogan?: string;
   gamertag?: string;
   avatar?: string;
+  achievements?: Achievement[];
 }

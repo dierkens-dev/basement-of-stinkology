@@ -20,7 +20,7 @@
     <div class="text-base m-4">{{ user.slogan }}</div>
     <div class="grid grid-cols-5">
       <Achievement
-        v-for="(achievement, index) in achievements"
+        v-for="(achievement, index) in user.achievements"
         :key="index"
         class="mx-auto mt-4"
         :icon-string="achievement.icon"
@@ -52,33 +52,7 @@ export default defineComponent({
       { name: 'Kills', count: 200 },
       { name: 'Deaths', count: 90 },
     ];
-    const achievements = [
-      {
-        name: 'Centurion',
-        icon: 'fa-solid fa-shield',
-        color: 'bg-yellow-500',
-      },
-      {
-        name: 'Crotchmaster',
-        icon: 'fa-solid fa-bullseye',
-        color: 'bg-yellow-700',
-      },
-      {
-        name: 'Couch Potato',
-        icon: 'fa-solid fa-couch',
-        color: 'bg-yellow-500',
-      },
-      {
-        name: 'Rip Van-Winkle',
-        icon: 'fa-solid fa-bed',
-        color: 'bg-yellow-500',
-      },
-      {
-        name: 'God-Like',
-        icon: 'fa-solid fa-book-bible',
-        color: 'bg-gray-400',
-      },
-    ];
+    const achievements = user.achievements;
     return { user, stats, isLoggedInUser, achievements };
   },
 });

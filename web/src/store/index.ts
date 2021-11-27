@@ -117,7 +117,6 @@ export const actions = actionTree(
       return this.$axios.$get(`/users/${id}`);
     },
     updateUser(_vuexContext, payload): Promise<any> {
-      console.log('payload', payload);
       return this.$axios.$post('/users', payload);
     },
   },

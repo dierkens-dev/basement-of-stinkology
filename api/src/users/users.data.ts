@@ -1,4 +1,5 @@
 import { User } from './entities/user.entity';
+import { achievements } from 'src/achievements/achievements.data';
 
 export const users: User[] = [
   {
@@ -11,6 +12,7 @@ export const users: User[] = [
     password: 'abc1234',
     slogan: 'Lorem ipsum dolor sitamet...',
     username: 'something',
+    achievements: achievements,
   },
   {
     avatar: 'drink.png',
@@ -22,6 +24,7 @@ export const users: User[] = [
     password: 'abc123',
     slogan: "Kill 'em and Grill 'em",
     username: 'sonofab1rd',
+    achievements: achievements,
   },
   {
     avatar: 'drink.png',
