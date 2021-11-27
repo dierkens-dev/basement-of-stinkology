@@ -45,7 +45,7 @@ export default defineComponent({
   components: { ProfileForm, Achievement },
   async asyncData({ params, store }) {
     const userId = params.index;
-    const isLoggedInUser = store.getters.isAuthenticated && userId === '1';
+    const isLoggedInUser = true && userId === '1';
     const user = await store.dispatch('getUser', userId);
     const stats = [
       { name: 'Headshots', count: 165 },

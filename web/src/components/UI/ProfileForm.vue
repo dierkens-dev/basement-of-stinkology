@@ -2,43 +2,61 @@
   <div class="p-5">
     <form
       class="border-white w-96 m-auto p-2 box-border shadow rounded"
-      @submit.prevent="onSubmit"
+      @submit.prevent="checkForm"
     >
-      <p v-if="errors.length">
+      <span v-if="errors.value.length">
         <b>Please correct the following error(s):</b>
+
         <ul>
           <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
         </ul>
-      </p>
+      </span>
       <AppControlInput type="file">
-        <img class="mx-auto" :src="require(`../../assets/${user.avatar}`)" />Avatar
+        <img
+          class="mx-auto"
+          :src="require(`../../assets/${user.avatar}`)"
+        />Avatar
       </AppControlInput>
-      <AppControlInput :value="user.firstName" aria-label="First Name"
+      <AppControlInput
+        v-model="firstName"
+        aria-label="First Name"
+        :value="user.firstName"
         >First Name</AppControlInput
       >
-      <AppControlInput :value="user.lastName" aria-label="Last Name"
+      <AppControlInput
+        v-model="lastName"
+        :value="user.lastName"
+        aria-label="Last Name"
         >Last Name</AppControlInput
       >
-      <AppControlInput :value="user.email" aria-label="Email" type="email"
+      <AppControlInput
+        v-model="emailAddress"
+        :value="user.email"
+        aria-label="Email"
+        type="email"
         >Email</AppControlInput
       >
-      <AppControlInput :value="currentPassword" type="password"
+      <AppControlInput v-model="currentPassword" type="password"
         >Current Password</AppControlInput
       >
-      <AppControlInput :value="newPassword" type="password"
+      <AppControlInput v-model="newPassword" type="password"
         >New Password</AppControlInput
       >
-      <AppControlInput :value="user.gamertag" aria-label="Gamertag"
+      <AppControlInput
+        v-model="gamertag"
+        :value="user.gamertag"
+        aria-label="Gamertag"
         >Gamertag</AppControlInput
       >
       <AppControlInput
+        v-model="slogan"
         :value="user.slogan"
         aria-label="Slogan"
         :control-type="'textarea'"
         :rows="3"
         >Slogan</AppControlInput
       >
-      <AppButton>Submit</AppButton>
+      <AppButton type="submit">Submit</AppButton>
     </form>
   </div>
 </template>
@@ -56,15 +74,15 @@ export default defineComponent({
     user: {
       type: Object,
       default: () => ({
-        avatar: 'drink.png',
-        email: 'test@email.com',
-        firstName: 'First',
-        gamertag: 'Gamertag',
-        id: '1',
-        lastName: 'LastName',
-        password: 'abc1234',
-        slogan: 'Lorem ipsum dolor sitamet...',
-        username: 'something',
+        avatar: '',
+        email: '',
+        firstName: '',
+        gamertag: '',
+        id: '',
+        lastName: '',
+        password: '',
+        slogan: '',
+        username: '',
       }),
     },
     email: {
@@ -72,28 +90,39 @@ export default defineComponent({
       default: () => {
         ('');
       },
-    }
+    },
   },
   setup(props) {
     const newPassword = ref('');
     const currentPassword = ref('');
+    const lastName = ref(props.user.lastName);
+    const firstName = ref(props.user.firstName);
+    const emailAddress = ref(props.user.email);
+    const gamertag = ref(props.user.gamertag);
+    const slogan = ref(props.user.slogan);
     const store = useStore();
-    const errors: String[] = ["This is an Error!"];
-    const onSubmit = (): void => {
-      if(false){
-
-      }else {store.dispatch('updateUser', {
-        password: newPassword.value,
-        user: props.user,
-      });}
-
+    const errors = ref(['']);
+    const checkForm = (): void => {
+      if (newPassword.value === '' && currentPassword.value === '') {
+        errors.value.push('New password cannot be empty');
+      }
+      if (errors.value.length === 0) {
+        store.dispatch('updateUser', {
+          password: newPassword,
+          user: null,
+        });
+      }
     };
     return {
-      props,
+      lastName,
+      firstName,
+      emailAddress,
+      gamertag,
+      slogan,
       newPassword,
       currentPassword,
       errors,
-      onSubmit,
+      checkForm,
     };
   },
 });
