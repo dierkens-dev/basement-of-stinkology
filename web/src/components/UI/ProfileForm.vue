@@ -4,7 +4,7 @@
       class="border-white w-96 m-auto p-2 box-border shadow rounded"
       @submit.prevent="checkForm"
     >
-      <span v-if="errors.value.length">
+      <span v-if="errors.value && errors.value.length">
         <b>Please correct the following error(s):</b>
 
         <ul>
@@ -103,8 +103,8 @@ export default defineComponent({
     const store = useStore();
     const errors = ref(['']);
     const checkForm = (): void => {
-      if (newPassword.value === '' && currentPassword.value === '') {
-        errors.value.push('New password cannot be empty');
+      if (newPassword.value !== '' && currentPassword.value === '') {
+        errors.value.push('Current password cannot be empty!');
       }
       if (errors.value.length === 0) {
         store.dispatch('updateUser', {
