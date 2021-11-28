@@ -31,11 +31,11 @@ export default defineComponent({
     },
     bgColor: {
       type: String,
-      default: 'bg-yellow-700',
+      default: '',
     },
     iconSize: {
       type: String,
-      default: '2xl',
+      default: '',
     },
     titleString: {
       type: String,
@@ -43,12 +43,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const className: String =
-      'rounded-full h-24 w-24 flex items-center justify-center ' +
-      props.bgColor;
+    const className: String = `rounded-full h-24 w-24 flex items-center justify-center ${props.bgColor}`;
     return { className };
   },
 });
 </script>
-
-<style scoped></style>

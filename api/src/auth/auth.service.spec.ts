@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
 import jwtDecode from 'jwt-decode';
+import { achievements } from '../achievements/achievements.data';
 import { UsersModule } from '../users/users.module';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
@@ -52,6 +53,7 @@ describe('AuthService', () => {
         lastName: 'Dierkens',
         slogan: "Kill 'em and Grill 'em",
         username: 'sonofab1rd',
+        achievements: achievements,
       });
     });
 

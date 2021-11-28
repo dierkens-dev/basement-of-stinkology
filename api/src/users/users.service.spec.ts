@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { achievements } from '../achievements/achievements.data';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
@@ -27,6 +28,7 @@ describe('UsersService', () => {
       password: 'abc123',
       slogan: "Kill 'em and Grill 'em",
       username: 'sonofab1rd',
+      achievements: achievements,
     });
   });
 

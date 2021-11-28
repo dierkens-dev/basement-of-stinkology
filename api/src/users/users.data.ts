@@ -1,5 +1,5 @@
 import { User } from './entities/user.entity';
-import { achievements } from 'src/achievements/achievements.data';
+import { achievements } from '../achievements/achievements.data';
 
 export const users: User[] = [
   {
