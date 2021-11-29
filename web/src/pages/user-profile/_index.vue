@@ -22,11 +22,10 @@
       <Achievement
         v-for="(achievement, index) in user.achievements"
         :key="index"
-        class="mx-auto mt-4"
         :icon-string="achievement.icon"
         :icon-size="'2xl'"
         :title-string="achievement.name"
-        :bg-color="achievement.color"
+        :color="achievement.color"
       >
       </Achievement>
       <p v-for="achievement in achievements" :key="achievement.name">

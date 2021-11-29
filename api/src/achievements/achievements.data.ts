@@ -4,26 +4,26 @@ export const achievements: Achievement[] = [
   {
     name: 'Centurion',
     icon: 'fa-solid fa-shield',
-    color: 'bg-gold',
+    color: 'gold',
   },
   {
     name: 'Crotchmaster',
     icon: 'fa-solid fa-bullseye',
-    color: 'bg-bronze',
+    color: 'bronze',
   },
   {
     name: 'Couch Potato',
     icon: 'fa-solid fa-couch',
-    color: 'bg-gold',
+    color: 'silver',
   },
   {
     name: 'Rip Van-Winkle',
     icon: 'fa-solid fa-bed',
-    color: 'bg-gold',
+    color: 'gold',
   },
   {
     name: 'God-Like',
     icon: 'fa-solid fa-book-bible',
-    color: 'bg-silver',
+    color: 'silver',
   },
 ];

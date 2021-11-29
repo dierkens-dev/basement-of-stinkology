@@ -1,6 +1,56 @@
 <template>
-  <div :class="className" :title="titleString">
-    <font-awesome-icon :icon="iconString" :size="iconSize" />
+  <div>
+    <div
+      v-if="color === 'gold'"
+      class="
+        mx-auto
+        mt-4
+        rounded-full
+        h-24
+        w-24
+        flex
+        items-center
+        justify-center
+        bg-gold
+      "
+      :title="titleString"
+    >
+      <font-awesome-icon :icon="iconString" :size="iconSize" />
+    </div>
+    <div
+      v-if="color === 'silver'"
+      class="
+        mx-auto
+        mt-4
+        rounded-full
+        h-24
+        w-24
+        flex
+        items-center
+        justify-center
+        bg-silver
+      "
+      :title="titleString"
+    >
+      <font-awesome-icon :icon="iconString" :size="iconSize" />
+    </div>
+    <div
+      v-if="color === 'bronze'"
+      class="
+        mx-auto
+        mt-4
+        rounded-full
+        h-24
+        w-24
+        flex
+        items-center
+        justify-center
+        bg-bronze
+      "
+      :title="titleString"
+    >
+      <font-awesome-icon :icon="iconString" :size="iconSize" />
+    </div>
   </div>
 </template>
 
@@ -29,7 +79,7 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    bgColor: {
+    color: {
       type: String,
       default: '',
     },
@@ -41,10 +91,6 @@ export default defineComponent({
       type: String,
       default: '',
     },
-  },
-  setup(props) {
-    const className: String = `rounded-full h-24 w-24 flex items-center justify-center ${props.bgColor}`;
-    return { className };
   },
 });
 </script>
