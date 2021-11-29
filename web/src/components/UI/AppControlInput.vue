@@ -6,6 +6,7 @@
       class="box-border p-2 border-black border-2 rounded-md w-full"
       v-bind="$attrs"
       :value="value"
+      :maxlength="maxlength"
       @input="$emit('input', $event.target.value)"
     />
     <textarea
@@ -39,7 +40,7 @@ export default defineComponent({
     },
     maxlength: {
       type: Number,
-      default: 30,
+      default: 100,
     },
   },
   setup(props) {

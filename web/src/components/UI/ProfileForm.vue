@@ -4,13 +4,6 @@
       class="border-white w-96 m-auto p-2 box-border shadow rounded"
       @submit.prevent="checkForm"
     >
-      <span v-if="errors.value && errors.value.length">
-        <b>Please correct the following error(s):</b>
-
-        <ul>
-          <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
-        </ul>
-      </span>
       <AppControlInput type="file">
         <img
           class="mx-auto"
@@ -21,12 +14,14 @@
         v-model="firstName"
         aria-label="First Name"
         :value="user.firstName"
+        :maxlength="25"
         >First Name</AppControlInput
       >
       <AppControlInput
         v-model="lastName"
         :value="user.lastName"
         aria-label="Last Name"
+        :maxlength="50"
         >Last Name</AppControlInput
       >
       <AppControlInput
@@ -46,6 +41,7 @@
         v-model="gamertag"
         :value="user.gamertag"
         aria-label="Gamertag"
+        :maxlength="15"
         >Gamertag</AppControlInput
       >
       <AppControlInput
@@ -57,14 +53,27 @@
         >Slogan</AppControlInput
       >
       <AppButton type="submit">Submit</AppButton>
+      <div v-if="hasErrors" class="text-red-600">
+        <b>Please correct the following error(s):</b>
+
+        <ul>
+          <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
+        </ul>
+      </div>
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useStore } from '@nuxtjs/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  useStore,
+} from '@nuxtjs/composition-api';
 import AppControlInput from '@/components/UI/AppControlInput.vue';
 import AppButton from '@/components/UI/AppButton.vue';
+import { User } from '~/types/user';
 
 export default defineComponent({
   name: 'ProfileForm',
@@ -100,16 +109,26 @@ export default defineComponent({
     const emailAddress = ref(props.user.email);
     const gamertag = ref(props.user.gamertag);
     const slogan = ref(props.user.slogan);
+    const avatar = ref(props.user.avatar);
     const store = useStore();
     const errors = ref(['']);
+    const hasErrors = computed(() => errors.value && errors.value.length > 1);
     const checkForm = (): void => {
+      errors.value = [''];
       if (newPassword.value !== '' && currentPassword.value === '') {
         errors.value.push('Current password cannot be empty!');
-      }
-      if (errors.value.length === 0) {
-        store.dispatch('updateUser', {
-          password: newPassword,
-          user: null,
+      } else {
+        const updatedUser: User = {
+          id: props.user.id,
+          firstName: firstName.value,
+          lastName: lastName.value,
+          authData: props.user.authData,
+          slogan: slogan.value,
+          gamertag: gamertag.value,
+          avatar: avatar.value,
+        };
+        store.dispatch('updateUser', updatedUser).then((resp) => {
+          console.log('resp', resp);
         });
       }
     };
@@ -122,6 +141,7 @@ export default defineComponent({
       newPassword,
       currentPassword,
       errors,
+      hasErrors,
       checkForm,
     };
   },
