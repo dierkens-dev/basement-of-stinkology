@@ -61,9 +61,19 @@ export default {
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config.js',
-    jit: true,
-    exposeConfig: false,
-    config: {},
+    config: {
+      mode: 'jit',
+      darkMode: false, // or 'media' or 'class'
+      theme: {
+        extend: {
+          colors: {
+            gold: '#ffd700',
+            silver: '#c0c0c0',
+            bronze: '#cd7f32',
+          },
+        },
+      },
+    },
   },
 
   // added due to issue with async functions needing extra time
