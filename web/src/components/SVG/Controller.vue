@@ -1,5 +1,6 @@
 <template>
   <svg
+    id="svg2"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -7,7 +8,6 @@
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:svg="http://www.w3.org/2000/svg"
-    id="svg2"
     viewBox="0 0 354.33 350"
     sodipodi:version="0.32"
     version="1.0"
