@@ -1,5 +1,5 @@
 export class Achievement {
-  name: String;
-  icon: String;
-  color: String;
+  name: string;
+  icon: string;
+  color: string;
 }
