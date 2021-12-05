@@ -1,5 +1,6 @@
 <template>
   <svg
+    id="svg4037"
     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +10,6 @@
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:svg="http://www.w3.org/2000/svg"
     xmlns:ns1="http://sozi.baierouge.fr"
-    id="svg4037"
     sodipodi:docname="Documento nuevo 5"
     viewBox="0 0 249.04 249.04"
     version="1.1"

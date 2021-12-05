@@ -5,16 +5,7 @@
     </div>
 
     <img
-      class="
-        row-span-3
-        rounded-full
-        h-20
-        w-20
-        lg:h-40 lg:w-40
-        ml-8
-        mt-2
-        lg:ml-4
-      "
+      class="row-span-3 rounded-full h-20 w-20 lg:h-40 lg:w-40 ml-8 mt-2 lg:ml-4"
       :src="require(`../../assets/${card.avatar}`)"
     />
 
