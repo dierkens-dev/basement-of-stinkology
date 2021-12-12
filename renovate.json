@@ -1,6 +1,17 @@
 {
-  "assignees": ["cdierkens", "sonofab1rd"],
+  "assignees": ["sonofab1rd"],
   "extends": ["config:base"],
   "rebaseWhen": "behind-base-branch",
-  "timezone": "America/New_York"
+  "timezone": "America/New_York",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch", "pin"],
+      "automerge": true
+    }
+  ],
+  "prCreation": "not-pending",
+  "stabilityDays": 30,
+  "schedule": [
+    "every weekend"
+  ]
 }
