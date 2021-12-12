@@ -1,5 +1,6 @@
 {
   "assignees": ["cdierkens", "sonofab1rd"],
   "extends": ["config:base"],
-  "rebaseWhen": "behind-base-branch"
+  "rebaseWhen": "behind-base-branch",
+  "timezone": "America/New_York"
 }
