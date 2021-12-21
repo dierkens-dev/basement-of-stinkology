@@ -1,12 +1,6 @@
 <template>
   <div v-if="isLoggedInUser">
-    <profile-form
-      :user="user.user"
-      :avatar="user.avatar"
-      :email="user.email"
-      :gamertag="user.gamertag"
-      :slogan="user.slogan"
-    />
+    <profile-form :user="user" />
   </div>
   <div v-else>
     <div class="p-5">
@@ -68,7 +62,7 @@ export default defineComponent({
     return { isLogin, email, password, onSubmit };
   },
   async asyncData({ store }) {
-    const user = await store.dispatch('getUser', { userId: 1 });
+    const user = await store.dispatch('getUser', '1');
     const isLoggedInUser = store.getters.isAuthenticated;
     return { isLoggedInUser, user };
   },

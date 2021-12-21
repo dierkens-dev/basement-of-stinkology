@@ -1,14 +1,10 @@
 import { Achievement } from 'src/achievements/entities/achievement.entity';
-import { User } from '../entities/user.entity';
 
-export class CreateUserDto implements Omit<User, 'id'> {
-  username: string;
-  password: string;
+export class GetUserFilterDto {
   email?: string;
   firstName?: string;
   lastName?: string;
   slogan?: string;
   gamertag?: string;
-  avatar?: string;
   achievements?: Achievement[];
 }
