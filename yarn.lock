@@ -2086,10 +2086,10 @@
   resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-1.0.1.tgz#78b62041c7a407db4a90eb140567321602bed18e"
   integrity sha512-NFvofzSinp00j5rzUd4tf+xi9od6383iY0JP7o0Bnu1fuItAUkWBgc4EKuIQ3D+c2QI3i9pG1kDWAeY27EMGtg==
 
-"@nestjs/passport@8.0.1":
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-8.0.1.tgz#f1ed39a19489f794d1fe3fef592b4523bc48da68"
-  integrity sha512-vn/ZJLXQKvSf9D0BvEoNFJLfzl9AVqfGtDyQMfWDLbaNpoEB2FyeaHGxdiX6H71oLSrQV78c/yuhfantzwdjdg==
+"@nestjs/passport@8.2.0":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-8.2.0.tgz#88843a8530495ebff5b6fd0c96d349a2de09277c"
+  integrity sha512-MCDmL3gDMqbokAxbqZMc8Wi6nF9CcEfMbCUBBO5fQNljQzfuvj3/tFYt97cu/RsFbf0waVyxm8Qr6T8lXJ3SkA==
 
 "@nestjs/platform-express@8.2.3":
   version "8.2.3"
