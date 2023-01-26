@@ -1,0 +1,5 @@
+secretsprovider: gcpkms://projects/basement-of-stinkology/locations/us-east5/keyRings/bos-key-ring/cryptoKeys/bos-key
+encryptedkey: CiQAXFLC2pKkcYMv/T/OCqUBjK1Ml0D5wPsGxB0oz8A1exOB53kSSQCSr65jT9LvlavVO/PR/3ura5+nkB1TQ0DKBsqJxynkWOTIylH8JlR7fWwo9hhs/FldGagSDgZGkGj8f/ME/s/E/fCvXEXmFZY=
+config:
+  gcp:project: basement-of-stinkology
+  gcp:region: us-east5
