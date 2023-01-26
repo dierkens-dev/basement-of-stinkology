@@ -3,12 +3,13 @@ import * as docker from "@pulumi/docker";
 import * as pulumi from "@pulumi/pulumi";
 import { enableCloudRun } from "./enable-cloud-run";
 
-const location = gcp.config.region || "us-east5";
+const location = gcp.config.region || "us-central1";
 
 const remixImage = new docker.Image("bos-remix-image", {
   imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-remix`,
   build: {
     context: "../",
+    extraOptions: ["--platform", "linux/amd64"],
   },
 });
 

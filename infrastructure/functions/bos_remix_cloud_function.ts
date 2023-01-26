@@ -13,7 +13,7 @@ export const bos_remix_cloud_function: gcp.cloudfunctions.Function =
       name: `bos-remix-cloud-function`,
       description: "Remix served via cloud function",
       runtime: "nodejs16",
-      region: "us-east1",
+      region: "us-central1",
       entryPoint: "app",
       sourceArchiveBucket: bos_remix_source_bucket.name,
       sourceArchiveObject: bos_remix_dist_zip_bucket_object.name,
