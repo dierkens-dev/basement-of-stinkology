@@ -1,17 +1,33 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { Form, useCatch } from "@remix-run/react";
+import { Form, Link, useCatch } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 
 import { authenticator } from "~/services/auth.server";
 
 function Layout({ children }: PropsWithChildren) {
-  return <div>{children}</div>;
+  return (
+    <div>
+      <h1>Sign In</h1>
+
+      {children}
+
+      <p>
+        <Link to="/sign-up">Sign Up</Link>
+      </p>
+      <p>
+        <Link to="/password-reset">Reset Password</Link>
+      </p>
+    </div>
+  );
 }
 
-function LoginForm() {
+function SignInForm() {
   return (
     <Form method="post" noValidate>
+      <label htmlFor="email">Email</label>
       <input type="email" name="email" required />
+
+      <label htmlFor="password">Password</label>
       <input
         type="password"
         name="password"
@@ -28,7 +44,7 @@ export function CatchBoundary() {
 
   return (
     <Layout>
-      <LoginForm />
+      <SignInForm />
       {caught.data.message}
     </Layout>
   );
@@ -37,7 +53,7 @@ export function CatchBoundary() {
 export default function Screen() {
   return (
     <Layout>
-      <LoginForm />
+      <SignInForm />
     </Layout>
   );
 }
