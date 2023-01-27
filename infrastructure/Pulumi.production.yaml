@@ -1,5 +1,11 @@
 secretsprovider: gcpkms://projects/basement-of-stinkology/locations/us-east5/keyRings/bos-key-ring/cryptoKeys/bos-key
 encryptedkey: CiQAXFLC2pKkcYMv/T/OCqUBjK1Ml0D5wPsGxB0oz8A1exOB53kSSQCSr65jT9LvlavVO/PR/3ura5+nkB1TQ0DKBsqJxynkWOTIylH8JlR7fWwo9hhs/FldGagSDgZGkGj8f/ME/s/E/fCvXEXmFZY=
 config:
+  basement-of-stinkology:BOS_FIREBASE_API_KEY:
+    secure: v1:R/6IpKDDMSGkVPaE:zxqA0K9U742pBSMuXxGfqemMwfa+Q65jRhXLZQaK7+aZHOQ6Ip5ZnuYyKcdwO4RUsw91+LNLQw==
+  basement-of-stinkology:BOS_FIREBASE_AUTH_DOMAIN:
+    secure: v1:NSQeGfNRxTeAakH+:vWPug8PEbJeRM4SNXThvHEdu1Zly2vLkMWZ1E5I5wozNfsfL8LGSkQwk5UNcFCWqE8vZy0nb
+  basement-of-stinkology:BOS_SESSION_STORAGE_SECRET:
+    secure: v1:JGjKqeSuKyN8al/g:HKjVty5ouOuSyhgnidS9aCL68BiC8KVbI70=
   gcp:project: basement-of-stinkology
   gcp:region: us-central1
