@@ -1,7 +1,7 @@
 import * as gcp from "@pulumi/gcp";
 import * as docker from "@pulumi/docker";
 import * as pulumi from "@pulumi/pulumi";
-import { enableCloudRun } from "./enable-cloud-run";
+import { enableCloudRun } from "../apis/enable-cloud-run";
 
 const location = gcp.config.region || "us-central1";
 
