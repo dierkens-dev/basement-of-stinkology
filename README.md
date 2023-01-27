@@ -2,6 +2,18 @@
 
 - [Remix Docs](https://remix.run/docs)
 
+## Setup
+
+- https://cloud.google.com/sdk/docs/install
+- https://www.pulumi.com/docs/get-started/install/
+- https://docs.volta.sh/guide/getting-started
+
+```sh
+gcloud auth application-default login
+gcloud config set project basement-of-stinkology
+yarn pulumi login gs://bos-pulumi-state-bucket
+```
+
 ## Development
 
 Start the Remix development asset server and the Express server by running:
