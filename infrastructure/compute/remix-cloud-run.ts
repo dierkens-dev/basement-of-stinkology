@@ -11,6 +11,8 @@ const BOS_FIREBASE_AUTH_DOMAIN = config.getSecret("BOS_FIREBASE_AUTH_DOMAIN");
 const BOS_SESSION_STORAGE_SECRET = config.getSecret(
   "BOS_SESSION_STORAGE_SECRET"
 );
+const BOS_POSTGRES_PASSWORD = config.getSecret("BOS_POSTGRES_PASSWORD");
+const BOS_POSTGRES_USER = config.getSecret("BOS_POSTGRES_USER");
 
 const remixImage = new docker.Image("bos-remix-image", {
   imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-remix`,
@@ -41,6 +43,14 @@ export const remixService = new gcp.cloudrun.Service(
               {
                 name: "BOS_SESSION_STORAGE_SECRET",
                 value: BOS_SESSION_STORAGE_SECRET,
+              },
+              {
+                name: "BOS_POSTGRES_USER",
+                value: BOS_POSTGRES_USER,
+              },
+              {
+                name: "BOS_POSTGRES_PASSWORD",
+                value: BOS_POSTGRES_PASSWORD,
               },
             ],
           },
