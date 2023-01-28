@@ -1,5 +1,4 @@
 import { FirebaseError } from "firebase/app";
-import type { User } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Authenticator } from "remix-auth";
 import { FormStrategy } from "remix-auth-form";
@@ -7,6 +6,8 @@ import { auth } from "~/lib/firebase";
 import { getErrorMessage } from "~/lib/firebase-errors";
 import { sessionStorage } from "~/services/session.server";
 import { invariant } from "~/utils/invariant";
+import { prisma } from "~/services/prisma.server";
+import type { User } from "@prisma/client";
 
 export let authenticator = new Authenticator<User>(sessionStorage);
 
@@ -14,8 +15,6 @@ authenticator.use(
   new FormStrategy(async ({ form }) => {
     const email = form.get("email");
     const password = form.get("password");
-
-    console.log({ email, password });
 
     invariant(
       typeof email === "string" && email.length,
@@ -33,8 +32,18 @@ authenticator.use(
         password
       );
 
-      // TODO: Find or create in mongo
-      return userCredential.user;
+      invariant(
+        typeof userCredential.user.email === "string",
+        "Email not found on user credential!"
+      );
+
+      const user = await prisma.user.upsert({
+        where: { email: userCredential.user.email },
+        update: {},
+        create: { email: userCredential.user.email },
+      });
+
+      return user;
     } catch (error) {
       if (error instanceof FirebaseError) {
         throw new Error(getErrorMessage(error.code));
