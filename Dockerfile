@@ -4,6 +4,7 @@ WORKDIR /dependencies
 
 COPY package.json ./
 COPY yarn.lock ./
+COPY prisma/schema.prisma ./prisma/schema.prisma
 
 RUN yarn install --production --frozen-lockfile --prefer-offline
 
