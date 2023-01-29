@@ -1,5 +1,5 @@
-import * as gcp from "@pulumi/gcp";
 import * as docker from "@pulumi/docker";
+import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import { enableCloudRun } from "../apis/enable-cloud-run";
 import {

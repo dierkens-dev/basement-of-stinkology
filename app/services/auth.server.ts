@@ -1,13 +1,13 @@
+import type { User } from "@prisma/client";
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Authenticator } from "remix-auth";
 import { FormStrategy } from "remix-auth-form";
 import { auth } from "~/lib/firebase";
 import { getErrorMessage } from "~/lib/firebase-errors";
+import { prisma } from "~/services/prisma.server";
 import { sessionStorage } from "~/services/session.server";
 import { invariant } from "~/utils/invariant";
-import { prisma } from "~/services/prisma.server";
-import type { User } from "@prisma/client";
 
 export let authenticator = new Authenticator<User>(sessionStorage);
 

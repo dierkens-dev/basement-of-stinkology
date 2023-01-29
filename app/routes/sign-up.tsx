@@ -1,6 +1,6 @@
-import { Form, Link } from "@remix-run/react";
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
+import { Form, Link } from "@remix-run/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";

@@ -1,10 +1,9 @@
-import { Form, useLoaderData } from "@remix-run/react";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { Form, useLoaderData } from "@remix-run/react";
 import { confirmPasswordReset } from "firebase/auth";
-import { invariant } from "~/utils/invariant";
 import { auth } from "~/lib/firebase";
+import { invariant } from "~/utils/invariant";
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
