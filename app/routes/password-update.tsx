@@ -2,6 +2,7 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { confirmPasswordReset } from "firebase/auth";
+import { TextField } from "~/components/text-field";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
 
@@ -32,8 +33,7 @@ export default function PasswordConfirm() {
   return (
     <div>
       <Form method="post" noValidate>
-        <label htmlFor="password">New Password</label>
-        <input type="password" name="password" />
+        <TextField name="password" type="password" label="New Password" />
 
         <input type="hidden" name="code" value={code} />
 

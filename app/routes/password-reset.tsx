@@ -2,6 +2,7 @@ import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { TextField } from "~/components/text-field";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
 
@@ -26,9 +27,8 @@ export default function Login() {
       <div>
         <h1>Password Reset</h1>
       </div>
-      <Form method="post">
-        <label htmlFor="email">Email</label>
-        <input type="email" name="email" required />
+      <Form method="post" noValidate>
+        <TextField name="email" type="email" label="Email" />
 
         <button type="submit">Reset Password</button>
       </Form>

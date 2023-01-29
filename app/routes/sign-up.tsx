@@ -2,6 +2,7 @@ import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { TextField } from "~/components/text-field";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
 
@@ -23,12 +24,11 @@ export default function SignUp() {
   return (
     <div>
       <h1>Sign Up</h1>
-      <Form noValidate method="post">
-        <label htmlFor="email">Email</label>
-        <input type="email" name="email" />
 
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" />
+      <Form method="post" noValidate>
+        <TextField name="email" type="email" label="Email" />
+
+        <TextField name="password" type="password" label="Password" />
 
         <button type="submit">Sign Up</button>
       </Form>
