@@ -9,7 +9,7 @@ import { prisma } from "~/services/prisma.server";
 import { sessionStorage } from "~/services/session.server";
 import { invariant } from "~/utils/invariant";
 
-export let authenticator = new Authenticator<User>(sessionStorage);
+export const authenticator = new Authenticator<User>(sessionStorage);
 
 authenticator.use(
   new FormStrategy(async ({ form }) => {

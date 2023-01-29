@@ -1,5 +1,5 @@
 export function invariant(
-  condition: any,
+  condition: unknown,
   error: Error | string
 ): asserts condition {
   if (condition) {

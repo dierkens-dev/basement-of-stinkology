@@ -6,9 +6,9 @@ import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
 
 export async function action({ request }: ActionArgs) {
-  let formData = await request.formData();
+  const formData = await request.formData();
 
-  let email = formData.get("email");
+  const email = formData.get("email");
 
   invariant(typeof email === "string", "Email should be a string.");
 

@@ -6,7 +6,7 @@ invariant(
   new Error("BOS_SESSION_STORAGE_SECRET should be set")
 );
 
-export let sessionStorage = createCookieSessionStorage({
+export const sessionStorage = createCookieSessionStorage({
   cookie: {
     name: "bos_session",
     sameSite: "lax",
