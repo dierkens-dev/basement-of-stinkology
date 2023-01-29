@@ -1,7 +1,8 @@
 import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { Button } from "~/components/button";
 import { TextField } from "~/components/text-field";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
@@ -20,20 +21,22 @@ export async function action({ request }: ActionArgs) {
   });
 }
 
-export default function Login() {
-  const data = useActionData<typeof action>();
+export default function PasswordReset() {
   return (
-    <div>
-      <div>
-        <h1>Password Reset</h1>
+    <div className="card w-full max-w-lg m-auto bg-base-100 shadow-xl">
+      <div className="card-body">
+        <Form method="post" noValidate>
+          <h1 className="card-title mb-3">Reset Password</h1>
+
+          <TextField name="email" type="email" label="Email" />
+
+          <div className="card-actions mb-3">
+            <Button className="btn-primary" type="submit">
+              Reset Password
+            </Button>
+          </div>
+        </Form>
       </div>
-      <Form method="post" noValidate>
-        <TextField name="email" type="email" label="Email" />
-
-        <button type="submit">Reset Password</button>
-      </Form>
-
-      {data ? data.message : null}
     </div>
   );
 }

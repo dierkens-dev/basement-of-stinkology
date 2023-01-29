@@ -2,6 +2,7 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { confirmPasswordReset } from "firebase/auth";
+import { Button } from "~/components/button";
 import { TextField } from "~/components/text-field";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
@@ -28,17 +29,25 @@ export async function loader({ request }: LoaderArgs) {
   return json({ code });
 }
 
-export default function PasswordConfirm() {
+export default function PasswordUpdate() {
   const { code } = useLoaderData<typeof loader>();
   return (
-    <div>
-      <Form method="post" noValidate>
-        <TextField name="password" type="password" label="New Password" />
+    <div className="card w-full max-w-lg m-auto bg-base-100 shadow-xl">
+      <div className="card-body">
+        <Form method="post" noValidate>
+          <h1 className="card-title mb-3">Update Password</h1>
 
-        <input type="hidden" name="code" value={code} />
+          <TextField name="password" type="password" label="New Password" />
 
-        <button>Update Password</button>
-      </Form>
+          <input type="hidden" name="code" value={code} />
+
+          <div className="card-actions mb-3">
+            <Button className="btn-primary" type="submit">
+              Update Password
+            </Button>
+          </div>
+        </Form>
+      </div>
     </div>
   );
 }
