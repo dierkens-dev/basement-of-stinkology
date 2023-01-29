@@ -118,3 +118,14 @@ new gcp.cloudrun.IamMember("bos-remix-service-iam-member", {
   role: "roles/run.invoker",
   member: "allUsers",
 });
+
+new gcp.cloudrun.DomainMapping("box-remix-domain-mapping", {
+  location,
+  name: "basementofstinkology.app",
+  metadata: {
+    namespace: gcp.config.project,
+  },
+  spec: {
+    routeName: remixService.name,
+  },
+});
