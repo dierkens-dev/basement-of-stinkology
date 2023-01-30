@@ -1,6 +1,6 @@
 import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, Link, useTransition } from "@remix-run/react";
+import { Form, Link, useActionData, useTransition } from "@remix-run/react";
 import { clsx } from "clsx";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { Button } from "~/components/button";
@@ -24,6 +24,27 @@ export async function action({ request }: ActionArgs) {
 
 export default function PasswordReset() {
   const { submission } = useTransition();
+  const data = useActionData<typeof action>();
+
+  if (data) {
+    return (
+      <div className="card w-full max-w-lg m-auto bg-base-100 shadow-xl">
+        <div className="card-body">
+          <p className="alert alert-info shadow-lg mb-3">{data.message}</p>
+
+          <div className="flex justify-end gap-1">
+            <Link className="link hover:link-primary" to="/sign-in">
+              Sign In
+            </Link>
+            or
+            <Link className="link hover:link-primary" to="/sign-up">
+              Sign Up
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="card w-full max-w-lg m-auto bg-base-100 shadow-xl">
