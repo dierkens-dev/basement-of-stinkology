@@ -33,7 +33,7 @@ export default function SignUp() {
 
           <div className="card-actions mb-3">
             <Button className="btn-primary" type="submit">
-              Log In
+              Sign Up
             </Button>
 
             <span className="flex gap-1">

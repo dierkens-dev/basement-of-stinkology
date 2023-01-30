@@ -17,7 +17,7 @@ function Layout({ message }: { message?: string }) {
 
           <div className="card-actions mb-3">
             <Button className="btn-primary" type="submit">
-              Log In
+              Sign In
             </Button>
 
             <span className="flex gap-1">

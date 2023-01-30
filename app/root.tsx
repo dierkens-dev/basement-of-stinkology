@@ -40,19 +40,31 @@ export default function App() {
           <Meta />
           <Links />
         </head>
-        <body className="bg-slate-100">
-          <header className="mb-6 bg-white border-b-slate-300 shadow-md">
-            <nav className="navbar">
+        <body className="bg-base-200">
+          <header className="mb-6 bg-base-100 border-b-base-200 shadow-md">
+            <nav className="navbar nav">
               <div className="flex-1">
-                <a href="/" className="link">
+                <a href="/" className="link hover:link-primary">
                   Basement of Stinkology
                 </a>
               </div>
               <div className="flex-none">
-                <ul className="menu menu-horizontal px-1">
-                  <li>
-                    {user ? user.email : <Link to="/sign-in">Sign In</Link>}
-                  </li>
+                <ul className="menu menu-horizontal">
+                  {user && (
+                    <>
+                      <li>
+                        <Link to="/profile">{user.email}</Link>
+                      </li>
+                      <li>
+                        <Link to="/sign-out">Sign Out</Link>
+                      </li>
+                    </>
+                  )}
+                  {!user && (
+                    <li>
+                      <Link to="/sign-in">Sign In</Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </nav>
@@ -60,7 +72,7 @@ export default function App() {
           <main className="container mx-auto">
             <Outlet />
           </main>
-          <footer className="footer footer-center p-4 bg-base-300 text-base-content">
+          <footer className="footer footer-center p-4 bg-base-100 text-base-content">
             <div>
               <p>Copyright © 2023 - All right reserved Dierkens Development</p>
             </div>
