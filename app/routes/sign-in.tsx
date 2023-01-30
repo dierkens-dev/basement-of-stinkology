@@ -1,11 +1,13 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { Form, Link, useCatch } from "@remix-run/react";
+import { Form, Link, useCatch, useTransition } from "@remix-run/react";
+import { clsx } from "clsx";
 import { Button } from "~/components/button";
 import { TextField } from "~/components/text-field";
-
 import { authenticator } from "~/services/auth.server";
 
 function Layout({ message }: { message?: string }) {
+  const { submission } = useTransition();
+
   return (
     <div className="card w-full max-w-lg m-auto bg-base-100 shadow-xl">
       <div className="card-body">
@@ -15,9 +17,16 @@ function Layout({ message }: { message?: string }) {
           <TextField name="email" type="email" label="Email" />
           <TextField name="password" type="password" label="Password" />
 
-          <div className="card-actions mb-3">
-            <Button className="btn-primary" type="submit">
-              Sign In
+          <div className="card-actions mb-3 justify-between">
+            <Button
+              className={clsx("btn-primary", {
+                "btn-disabled": Boolean(submission),
+                loading: Boolean(submission),
+              })}
+              disabled={Boolean(submission)}
+              type="submit"
+            >
+              {submission ? "Signing In..." : "Sign In"}
             </Button>
 
             <span className="flex gap-1">

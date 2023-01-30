@@ -1,6 +1,7 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData, useTransition } from "@remix-run/react";
+import { clsx } from "clsx";
 import { confirmPasswordReset } from "firebase/auth";
 import { Button } from "~/components/button";
 import { TextField } from "~/components/text-field";
@@ -31,6 +32,8 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function PasswordUpdate() {
   const { code } = useLoaderData<typeof loader>();
+  const { submission } = useTransition();
+
   return (
     <div className="card w-full max-w-lg m-auto bg-base-100 shadow-xl">
       <div className="card-body">
@@ -41,9 +44,16 @@ export default function PasswordUpdate() {
 
           <input type="hidden" name="code" value={code} />
 
-          <div className="card-actions mb-3">
-            <Button className="btn-primary" type="submit">
-              Update Password
+          <div className="card-actions mb-3 justify-between">
+            <Button
+              className={clsx("btn-primary", {
+                "btn-disabled": Boolean(submission),
+                loading: Boolean(submission),
+              })}
+              disabled={Boolean(submission)}
+              type="submit"
+            >
+              {submission ? "Updating Password..." : "Update Password"}
             </Button>
           </div>
         </Form>

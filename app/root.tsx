@@ -44,7 +44,7 @@ export default function App() {
           <header className="mb-6 bg-base-100 border-b-base-200 shadow-md">
             <nav className="navbar nav">
               <div className="flex-1">
-                <a href="/" className="link hover:link-primary">
+                <a href="/" className="btn btn-link">
                   Basement of Stinkology
                 </a>
               </div>
