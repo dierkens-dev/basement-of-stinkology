@@ -26,6 +26,14 @@ export const bosPostgresDatabase = new gcp.sql.Database(
   }
 );
 
+export const bosPostgresShadowDatabase = new gcp.sql.Database(
+  "bos-postgres-shadow-database",
+  {
+    instance: bosPostgresInstance.name,
+    deletionPolicy: "ABANDON",
+  }
+);
+
 export const bosPostgresUser = new gcp.sql.User("bos-postgres-user", {
   instance: bosPostgresInstance.name,
   name: BOS_POSTGRES_USER,

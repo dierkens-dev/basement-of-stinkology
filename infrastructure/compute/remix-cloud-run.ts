@@ -5,6 +5,7 @@ import { enableCloudRun } from "../apis/enable-cloud-run";
 import {
   bosPostgresDatabase,
   bosPostgresInstance,
+  bosPostgresShadowDatabase,
   bosPostgresUser,
 } from "../database/bos-postgresql";
 
@@ -25,6 +26,8 @@ const BOS_POSTGRES_PASSWORD = config.getSecret("BOS_POSTGRES_PASSWORD");
 const BOS_POSTGRES_USER = config.getSecret("BOS_POSTGRES_USER");
 
 const BOS_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstance.publicIpAddress}:5432/${bosPostgresDatabase.name}?host=/cloudsql/${bosPostgresInstance.connectionName}`;
+
+const BOS_SHADOW_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstance.publicIpAddress}:5432/${bosPostgresShadowDatabase.name}?host=/cloudsql/${bosPostgresInstance.connectionName}`;
 
 const remixImage = new docker.Image("bos-remix-image", {
   imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-remix`,
@@ -88,6 +91,10 @@ export const remixService = new gcp.cloudrun.Service(
               {
                 name: "BOS_DATABASE_URL",
                 value: BOS_DATABASE_URL,
+              },
+              {
+                name: "BOS_SHADOW_DATABASE_URL",
+                value: BOS_SHADOW_DATABASE_URL,
               },
             ],
           },

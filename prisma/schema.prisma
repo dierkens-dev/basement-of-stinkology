@@ -6,12 +6,20 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("BOS_DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("BOS_DATABASE_URL")
+  shadowDatabaseUrl = env("BOS_SHADOW_DATABASE_URL")
 }
 
 model User {
-  id      String   @id @default(uuid()) @db.Uuid
-  email   String   @unique
-  name    String?
+  id    String  @id @default(uuid()) @db.Uuid
+  email String  @unique
+  name  String?
+}
+
+model Event {
+  id   String    @id @default(uuid()) @db.Uuid
+  slug String    @unique
+  name String
+  date DateTime?
 }
