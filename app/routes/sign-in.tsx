@@ -25,7 +25,8 @@ const validator = withZod(
 );
 
 export async function action({ request }: ActionArgs) {
-  const formData = await request.formData();
+  const clone = request.clone();
+  const formData = await clone.formData();
 
   const result = await validator.validate(formData);
 
