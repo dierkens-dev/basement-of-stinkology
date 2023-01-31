@@ -1,9 +1,14 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { Form, Link, useCatch, useTransition } from "@remix-run/react";
-import { clsx } from "clsx";
-import { Button } from "~/components/button";
+import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
-import { AuthCard } from "~/features/auth";
+import {
+  AuthCard,
+  AuthCardActions,
+  AuthCardBody,
+  AuthCardLinks,
+  AuthCardTitle,
+} from "~/features/auth";
 import { authenticator } from "~/services/auth.server";
 
 function Layout({ message }: { message?: string }) {
@@ -11,26 +16,22 @@ function Layout({ message }: { message?: string }) {
 
   return (
     <AuthCard>
-      <div className="card-body">
+      <AuthCardBody>
         <Form method="post" noValidate>
-          <h1 className="card-title mb-3">Sign In</h1>
+          <AuthCardTitle>Sign In</AuthCardTitle>
 
           <TextField name="email" type="email" label="Email" />
           <TextField name="password" type="password" label="Password" />
 
-          <div className="card-actions mb-3 justify-between">
-            <Button
-              className={clsx("btn-primary", {
-                "btn-disabled": Boolean(submission),
-                loading: Boolean(submission),
-              })}
+          <AuthCardActions>
+            <SubmitButton
+              isLoading={Boolean(submission)}
               disabled={Boolean(submission)}
-              type="submit"
             >
               {submission ? "Signing In..." : "Sign In"}
-            </Button>
+            </SubmitButton>
 
-            <span className="flex gap-1">
+            <AuthCardLinks>
               <Link className="link hover:link-primary" to="/sign-up">
                 Sign Up
               </Link>
@@ -38,14 +39,14 @@ function Layout({ message }: { message?: string }) {
               <Link className="link hover:link-primary" to="/password-reset">
                 Reset Password
               </Link>
-            </span>
-          </div>
+            </AuthCardLinks>
+          </AuthCardActions>
 
           {message ? (
             <p className="alert alert-warning shadow-lg mb-3">{message}</p>
           ) : null}
         </Form>
-      </div>
+      </AuthCardBody>
     </AuthCard>
   );
 }

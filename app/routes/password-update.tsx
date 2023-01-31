@@ -1,11 +1,15 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData, useTransition } from "@remix-run/react";
-import { clsx } from "clsx";
 import { confirmPasswordReset } from "firebase/auth";
-import { Button } from "~/components/button";
+import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
-import { AuthCard } from "~/features/auth";
+import {
+  AuthCard,
+  AuthCardActions,
+  AuthCardBody,
+  AuthCardTitle,
+} from "~/features/auth";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
 
@@ -37,28 +41,24 @@ export default function PasswordUpdate() {
 
   return (
     <AuthCard>
-      <div className="card-body">
+      <AuthCardBody>
         <Form method="post" noValidate>
-          <h1 className="card-title mb-3">Update Password</h1>
+          <AuthCardTitle>Update Password</AuthCardTitle>
 
           <TextField name="password" type="password" label="New Password" />
 
           <input type="hidden" name="code" value={code} />
 
-          <div className="card-actions mb-3 justify-between">
-            <Button
-              className={clsx("btn-primary", {
-                "btn-disabled": Boolean(submission),
-                loading: Boolean(submission),
-              })}
+          <AuthCardActions>
+            <SubmitButton
+              isLoading={Boolean(submission)}
               disabled={Boolean(submission)}
-              type="submit"
             >
               {submission ? "Updating Password..." : "Update Password"}
-            </Button>
-          </div>
+            </SubmitButton>
+          </AuthCardActions>
         </Form>
-      </div>
+      </AuthCardBody>
     </AuthCard>
   );
 }

@@ -1,11 +1,16 @@
 import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link, useActionData, useTransition } from "@remix-run/react";
-import { clsx } from "clsx";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { Button } from "~/components/button";
+import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
-import { AuthCard } from "~/features/auth";
+import {
+  AuthCard,
+  AuthCardActions,
+  AuthCardBody,
+  AuthCardLinks,
+  AuthCardTitle,
+} from "~/features/auth";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
 
@@ -30,7 +35,7 @@ export default function PasswordReset() {
   if (data) {
     return (
       <AuthCard>
-        <div className="card-body">
+        <AuthCardBody>
           <p className="alert alert-info shadow-lg mb-3">{data.message}</p>
 
           <div className="flex justify-end gap-1">
@@ -42,32 +47,28 @@ export default function PasswordReset() {
               Sign Up
             </Link>
           </div>
-        </div>
+        </AuthCardBody>
       </AuthCard>
     );
   }
 
   return (
     <AuthCard>
-      <div className="card-body">
+      <AuthCardBody>
         <Form method="post" noValidate>
-          <h1 className="card-title mb-3">Reset Password</h1>
+          <AuthCardTitle>Reset Password</AuthCardTitle>
 
           <TextField name="email" type="email" label="Email" />
 
-          <div className="card-actions mb-3 justify-between">
-            <Button
-              className={clsx("btn-primary", {
-                "btn-disabled": Boolean(submission),
-                loading: Boolean(submission),
-              })}
+          <AuthCardActions>
+            <SubmitButton
+              isLoading={Boolean(submission)}
               disabled={Boolean(submission)}
-              type="submit"
             >
               {submission ? "Sending Reset Email..." : "Reset Password"}
-            </Button>
+            </SubmitButton>
 
-            <span className="flex gap-1">
+            <AuthCardLinks>
               <Link className="link hover:link-primary" to="/sign-in">
                 Sign In
               </Link>
@@ -75,10 +76,10 @@ export default function PasswordReset() {
               <Link className="link hover:link-primary" to="/sign-up">
                 Sign Up
               </Link>
-            </span>
-          </div>
+            </AuthCardLinks>
+          </AuthCardActions>
         </Form>
-      </div>
+      </AuthCardBody>
     </AuthCard>
   );
 }

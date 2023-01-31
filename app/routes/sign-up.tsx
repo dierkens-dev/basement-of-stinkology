@@ -1,11 +1,16 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Form, Link, useTransition } from "@remix-run/react";
-import { clsx } from "clsx";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Button } from "~/components/button";
+import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
-import { AuthCard } from "~/features/auth";
+import {
+  AuthCard,
+  AuthCardActions,
+  AuthCardBody,
+  AuthCardLinks,
+  AuthCardTitle,
+} from "~/features/auth";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
 
@@ -28,26 +33,22 @@ export default function SignUp() {
 
   return (
     <AuthCard>
-      <div className="card-body">
+      <AuthCardBody>
         <Form method="post" noValidate>
-          <h1 className="card-title mb-3">Sign Up</h1>
+          <AuthCardTitle>Sign Up</AuthCardTitle>
 
           <TextField name="email" type="email" label="Email" />
           <TextField name="password" type="password" label="Password" />
 
-          <div className="card-actions mb-3 justify-between">
-            <Button
-              className={clsx("btn-primary", {
-                "btn-disabled": Boolean(submission),
-                loading: Boolean(submission),
-              })}
+          <AuthCardActions>
+            <SubmitButton
+              isLoading={Boolean(submission)}
               disabled={Boolean(submission)}
-              type="submit"
             >
               {submission ? "Signing Up..." : "Sign Up"}
-            </Button>
+            </SubmitButton>
 
-            <span className="flex gap-1">
+            <AuthCardLinks>
               <Link className="link hover:link-primary" to="/sign-in">
                 Sign In
               </Link>
@@ -55,10 +56,10 @@ export default function SignUp() {
               <Link className="link hover:link-primary" to="/password-reset">
                 Reset Password
               </Link>
-            </span>
-          </div>
+            </AuthCardLinks>
+          </AuthCardActions>
         </Form>
-      </div>
+      </AuthCardBody>
     </AuthCard>
   );
 }
