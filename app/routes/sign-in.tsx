@@ -3,13 +3,14 @@ import { Form, Link, useCatch, useTransition } from "@remix-run/react";
 import { clsx } from "clsx";
 import { Button } from "~/components/button";
 import { TextField } from "~/components/text-field";
+import { AuthCard } from "~/features/auth";
 import { authenticator } from "~/services/auth.server";
 
 function Layout({ message }: { message?: string }) {
   const { submission } = useTransition();
 
   return (
-    <div className="card w-full max-w-lg m-auto bg-base-100 shadow-xl">
+    <AuthCard>
       <div className="card-body">
         <Form method="post" noValidate>
           <h1 className="card-title mb-3">Sign In</h1>
@@ -45,7 +46,7 @@ function Layout({ message }: { message?: string }) {
           ) : null}
         </Form>
       </div>
-    </div>
+    </AuthCard>
   );
 }
 

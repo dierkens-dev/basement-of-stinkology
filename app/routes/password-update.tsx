@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import { confirmPasswordReset } from "firebase/auth";
 import { Button } from "~/components/button";
 import { TextField } from "~/components/text-field";
+import { AuthCard } from "~/features/auth";
 import { auth } from "~/lib/firebase";
 import { invariant } from "~/utils/invariant";
 
@@ -35,7 +36,7 @@ export default function PasswordUpdate() {
   const { submission } = useTransition();
 
   return (
-    <div className="card w-full max-w-lg m-auto bg-base-100 shadow-xl">
+    <AuthCard>
       <div className="card-body">
         <Form method="post" noValidate>
           <h1 className="card-title mb-3">Update Password</h1>
@@ -58,6 +59,6 @@ export default function PasswordUpdate() {
           </div>
         </Form>
       </div>
-    </div>
+    </AuthCard>
   );
 }
