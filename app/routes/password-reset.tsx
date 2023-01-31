@@ -1,7 +1,10 @@
 import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, Link, useActionData, useTransition } from "@remix-run/react";
+import { Link, useActionData, useTransition } from "@remix-run/react";
+import { withZod } from "@remix-validated-form/with-zod";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { ValidatedForm, validationError } from "remix-validated-form";
+import { z } from "zod";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
 import {
@@ -12,19 +15,30 @@ import {
   AuthCardTitle,
 } from "~/features/auth";
 import { auth } from "~/lib/firebase";
-import { invariant } from "~/utils/invariant";
+
+const validator = withZod(
+  z.object({
+    email: z
+      .string()
+      .min(1, { message: "Email is required." })
+      .email("Must be a valid email."),
+  })
+);
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
+  const result = await validator.validate(formData);
 
-  const email = formData.get("email");
+  if (result.error) {
+    return validationError(result.error);
+  }
 
-  invariant(typeof email === "string", "Email should be a string.");
+  const { email } = result.data;
 
   await sendPasswordResetEmail(auth, email);
 
   return json({
-    message: "Please check your email for a reset password link.",
+    successMessage: "Please check your email for a reset password link.",
   });
 }
 
@@ -32,11 +46,13 @@ export default function PasswordReset() {
   const { submission } = useTransition();
   const data = useActionData<typeof action>();
 
-  if (data) {
+  if (data && "successMessage" in data) {
     return (
       <AuthCard>
         <AuthCardBody>
-          <p className="alert alert-info shadow-lg mb-3">{data.message}</p>
+          <p className="alert alert-info shadow-lg mb-3">
+            {data.successMessage}
+          </p>
 
           <div className="flex justify-end gap-1">
             <Link className="link hover:link-primary" to="/sign-in">
@@ -55,7 +71,7 @@ export default function PasswordReset() {
   return (
     <AuthCard>
       <AuthCardBody>
-        <Form method="post" noValidate>
+        <ValidatedForm validator={validator} method="post">
           <AuthCardTitle>Reset Password</AuthCardTitle>
 
           <TextField name="email" type="email" label="Email" />
@@ -78,7 +94,7 @@ export default function PasswordReset() {
               </Link>
             </AuthCardLinks>
           </AuthCardActions>
-        </Form>
+        </ValidatedForm>
       </AuthCardBody>
     </AuthCard>
   );

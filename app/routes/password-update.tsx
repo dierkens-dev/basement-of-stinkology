@@ -1,7 +1,11 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useLoaderData, useTransition } from "@remix-run/react";
+import { useActionData, useLoaderData, useTransition } from "@remix-run/react";
+import { withZod } from "@remix-validated-form/with-zod";
+import { FirebaseError } from "firebase/app";
 import { confirmPasswordReset } from "firebase/auth";
+import { ValidatedForm, validationError } from "remix-validated-form";
+import { z } from "zod";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
 import {
@@ -11,17 +15,41 @@ import {
   AuthCardTitle,
 } from "~/features/auth";
 import { auth } from "~/lib/firebase";
-import { invariant } from "~/utils/invariant";
+import { getErrorMessage } from "~/lib/firebase-errors";
+
+const validator = withZod(
+  z.object({
+    code: z.string().min(1, { message: "Reset code is required." }),
+    password: z.string().min(1, "Password is required."),
+  })
+);
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
-  const code = formData.get("code");
-  const password = formData.get("password");
 
-  invariant(typeof code === "string", "Code should be a string");
-  invariant(typeof password === "string", "Password should be a string");
+  const result = await validator.validate(formData);
 
-  await confirmPasswordReset(auth, code, password);
+  if (result.error) {
+    return validationError(result.error);
+  }
+
+  const { code, password } = result.data;
+
+  try {
+    await confirmPasswordReset(auth, code, password);
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      return json(
+        {
+          errorMessage: getErrorMessage(error.code),
+        },
+        {
+          status: 400,
+          statusText: "Bad Request",
+        }
+      );
+    }
+  }
 
   return redirect("/sign-in");
 }
@@ -30,24 +58,42 @@ export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url);
   const code = url.searchParams.get("oobCode");
 
-  invariant(typeof code === "string", "Reset code missing.");
+  if (!code) {
+    return json(
+      { errorMessage: "Reset code is required." },
+      { status: 400, statusText: "Bad Request" }
+    );
+  }
 
   return json({ code });
 }
 
 export default function PasswordUpdate() {
-  const { code } = useLoaderData<typeof loader>();
+  const data = useActionData<typeof action>();
+  const loaderData = useLoaderData<typeof loader>();
   const { submission } = useTransition();
 
   return (
     <AuthCard>
       <AuthCardBody>
-        <Form method="post" noValidate>
+        <ValidatedForm validator={validator} method="post">
           <AuthCardTitle>Update Password</AuthCardTitle>
 
           <TextField name="password" type="password" label="New Password" />
 
-          <input type="hidden" name="code" value={code} />
+          {loaderData && "errorMessage" in loaderData ? (
+            <p className="alert alert-error shadow-lg mb-3">
+              {loaderData.errorMessage}
+            </p>
+          ) : (
+            <input type="hidden" name="code" value={loaderData.code} />
+          )}
+
+          {data && "errorMessage" in data ? (
+            <p className="alert alert-error shadow-lg mb-3">
+              {data.errorMessage}
+            </p>
+          ) : null}
 
           <AuthCardActions>
             <SubmitButton
@@ -57,7 +103,7 @@ export default function PasswordUpdate() {
               {submission ? "Updating Password..." : "Update Password"}
             </SubmitButton>
           </AuthCardActions>
-        </Form>
+        </ValidatedForm>
       </AuthCardBody>
     </AuthCard>
   );

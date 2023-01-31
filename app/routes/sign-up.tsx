@@ -1,7 +1,10 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, Link, useTransition } from "@remix-run/react";
+import { Link, useTransition } from "@remix-run/react";
+import { withZod } from "@remix-validated-form/with-zod";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { ValidatedForm, validationError } from "remix-validated-form";
+import { z } from "zod";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
 import {
@@ -12,16 +15,27 @@ import {
   AuthCardTitle,
 } from "~/features/auth";
 import { auth } from "~/lib/firebase";
-import { invariant } from "~/utils/invariant";
+
+const validator = withZod(
+  z.object({
+    email: z
+      .string()
+      .min(1, { message: "Email is required." })
+      .email("Must be a valid email."),
+    password: z.string().min(1, "Password is required."),
+  })
+);
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
 
-  const email = formData.get("email");
-  const password = formData.get("password");
+  const result = await validator.validate(formData);
 
-  invariant(typeof email === "string", "Email should be a string");
-  invariant(typeof password === "string", "Password should be a string");
+  if (result.error) {
+    return validationError(result.error);
+  }
+
+  const { email, password } = result.data;
 
   await createUserWithEmailAndPassword(auth, email, password);
 
@@ -34,7 +48,7 @@ export default function SignUp() {
   return (
     <AuthCard>
       <AuthCardBody>
-        <Form method="post" noValidate>
+        <ValidatedForm validator={validator} method="post">
           <AuthCardTitle>Sign Up</AuthCardTitle>
 
           <TextField name="email" type="email" label="Email" />
@@ -58,7 +72,7 @@ export default function SignUp() {
               </Link>
             </AuthCardLinks>
           </AuthCardActions>
-        </Form>
+        </ValidatedForm>
       </AuthCardBody>
     </AuthCard>
   );

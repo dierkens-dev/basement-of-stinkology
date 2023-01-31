@@ -1,31 +1,50 @@
 import React from "react";
 import type { AriaTextFieldOptions } from "react-aria";
 import { useTextField } from "react-aria";
+import { useField } from "remix-validated-form";
 import { FormControl } from "./form-control";
 import { Input } from "./input";
 import { Label } from "./label";
 
-export function TextField(props: AriaTextFieldOptions<"input">) {
-  const { label } = props;
+type TextFieldProps = Omit<AriaTextFieldOptions<"input">, "name" | "label"> &
+  Required<Pick<AriaTextFieldOptions<"input">, "name" | "label">>;
+
+export function TextField(props: TextFieldProps) {
+  const { label, name } = props;
 
   const ref = React.useRef<HTMLInputElement | null>(null);
 
+  const { error, getInputProps } = useField(name);
   const { labelProps, inputProps, descriptionProps, errorMessageProps } =
-    useTextField(props, ref);
+    useTextField(
+      {
+        ...props,
+        errorMessage: error,
+        validationState: error ? "invalid" : "valid",
+      },
+      ref
+    );
 
   return (
-    <FormControl>
-      <Label {...labelProps}>{label}</Label>
-      <Input {...inputProps} ref={ref} />
+    <FormControl className="relative">
+      <Label {...labelProps} suppressHydrationWarning>
+        {label}
+      </Label>
+
+      <Input
+        {...getInputProps({ ...inputProps, suppressHydrationWarning: true })}
+        ref={ref}
+      />
 
       {props.description && (
         <div {...descriptionProps} className="text-sm">
           {props.description}
         </div>
       )}
-      {props.errorMessage && (
-        <div {...errorMessageProps} className="text-sm text-error">
-          {props.errorMessage}
+
+      {error && (
+        <div {...errorMessageProps} className="text-sm text-error py-2">
+          {error}
         </div>
       )}
     </FormControl>

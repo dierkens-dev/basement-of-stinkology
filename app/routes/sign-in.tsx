@@ -1,5 +1,8 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { Form, Link, useCatch, useTransition } from "@remix-run/react";
+import { Link, useTransition } from "@remix-run/react";
+import { withZod } from "@remix-validated-form/with-zod";
+import { ValidatedForm, validationError } from "remix-validated-form";
+import { z } from "zod";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
 import {
@@ -11,13 +14,43 @@ import {
 } from "~/features/auth";
 import { authenticator } from "~/services/auth.server";
 
-function Layout({ message }: { message?: string }) {
+const validator = withZod(
+  z.object({
+    email: z
+      .string()
+      .min(1, { message: "Email is required." })
+      .email("Must be a valid email."),
+    password: z.string().min(1, "Password is required."),
+  })
+);
+
+export async function action({ request }: ActionArgs) {
+  const formData = await request.formData();
+
+  const result = await validator.validate(formData);
+
+  if (result.error) {
+    return validationError(result.error);
+  }
+
+  return await authenticator.authenticate("user-pass", request, {
+    successRedirect: "/",
+  });
+}
+
+export async function loader({ request }: LoaderArgs) {
+  return await authenticator.isAuthenticated(request, {
+    successRedirect: "/",
+  });
+}
+
+export default function SignIn() {
   const { submission } = useTransition();
 
   return (
     <AuthCard>
       <AuthCardBody>
-        <Form method="post" noValidate>
+        <ValidatedForm validator={validator} method="post">
           <AuthCardTitle>Sign In</AuthCardTitle>
 
           <TextField name="email" type="email" label="Email" />
@@ -41,34 +74,8 @@ function Layout({ message }: { message?: string }) {
               </Link>
             </AuthCardLinks>
           </AuthCardActions>
-
-          {message ? (
-            <p className="alert alert-warning shadow-lg mb-3">{message}</p>
-          ) : null}
-        </Form>
+        </ValidatedForm>
       </AuthCardBody>
     </AuthCard>
   );
-}
-
-export function CatchBoundary() {
-  const caught = useCatch();
-
-  return <Layout message={caught.data.message} />;
-}
-
-export default function Screen() {
-  return <Layout />;
-}
-
-export async function action({ request }: ActionArgs) {
-  return await authenticator.authenticate("user-pass", request, {
-    successRedirect: "/",
-  });
-}
-
-export async function loader({ request }: LoaderArgs) {
-  return await authenticator.isAuthenticated(request, {
-    successRedirect: "/",
-  });
 }

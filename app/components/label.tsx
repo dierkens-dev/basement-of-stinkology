@@ -1,11 +1,11 @@
 import { clsx } from "clsx";
-import type { ComponentProps, PropsWithChildren } from "react";
+import type { LabelHTMLAttributes, PropsWithChildren } from "react";
 
 export function Label({
   children,
   className,
   ...props
-}: PropsWithChildren<ComponentProps<"label">>) {
+}: PropsWithChildren<LabelHTMLAttributes<HTMLLabelElement>>) {
   return (
     <label className={clsx("label", className)} {...props}>
       <span className="label-text">{children}</span>
