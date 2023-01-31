@@ -1,5 +1,5 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { Link, useTransition } from "@remix-run/react";
+import { Link, useCatch, useTransition } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
@@ -45,7 +45,13 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export default function SignIn() {
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  return <SignIn message={caught.data.message} />;
+}
+
+export default function SignIn({ message }: { message?: string }) {
   const { submission } = useTransition();
 
   return (
@@ -56,6 +62,10 @@ export default function SignIn() {
 
           <TextField name="email" type="email" label="Email" />
           <TextField name="password" type="password" label="Password" />
+
+          {message ? (
+            <p className="alert alert-error shadow-lg mb-3">{message}</p>
+          ) : null}
 
           <AuthCardActions>
             <SubmitButton

@@ -34,7 +34,7 @@ authenticator.use(
 
       invariant(
         typeof userCredential.user.email === "string",
-        "Email not found on user credential!"
+        "Email not found on user credential."
       );
 
       const user = await prisma.user.upsert({
