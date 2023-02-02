@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+import { useActionData, useTransition } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
@@ -51,6 +51,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Add() {
   const data = useActionData<typeof action>();
+  const transition = useTransition();
 
   return (
     <ValidatedForm method="post" validator={validator}>
@@ -62,7 +63,12 @@ export default function Add() {
         <p className="alert alert-success shadow-lg mb-3">{data.message}</p>
       ) : null}
 
-      <SubmitButton>Add Event</SubmitButton>
+      <SubmitButton
+        isDisabled={Boolean(transition.submission)}
+        isLoading={Boolean(transition.submission)}
+      >
+        Add Event
+      </SubmitButton>
     </ValidatedForm>
   );
 }

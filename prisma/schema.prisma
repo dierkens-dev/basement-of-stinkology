@@ -60,7 +60,7 @@ model MovieView {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  view DateTime
+  viewDateTime DateTime
 
   event   Event  @relation(fields: [eventId], references: [id])
   eventId String @db.Uuid

@@ -32,7 +32,9 @@ export function TextField(props: TextFieldProps) {
       </Label>
 
       <Input
-        {...getInputProps({ ...inputProps, suppressHydrationWarning: true })}
+        {...inputProps}
+        {...getInputProps()}
+        suppressHydrationWarning
         ref={ref}
       />
 

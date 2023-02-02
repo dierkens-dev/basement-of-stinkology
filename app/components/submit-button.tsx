@@ -10,14 +10,19 @@ interface SubmitButtonProps extends ButtonProps {
 export function SubmitButton({
   children,
   disabled,
+  className,
   isLoading,
 }: PropsWithChildren<SubmitButtonProps>) {
   return (
     <Button
-      className={clsx("btn-primary", {
-        "btn-disabled": disabled,
-        loading: isLoading,
-      })}
+      className={clsx(
+        "btn-primary",
+        {
+          "btn-disabled": disabled,
+          loading: isLoading,
+        },
+        className
+      )}
       disabled={disabled}
       type="submit"
     >
