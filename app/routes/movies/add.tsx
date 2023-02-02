@@ -1,6 +1,7 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Form, useFetcher, useTransition } from "@remix-run/react";
+import type { MovieResultsResponse } from "moviedb-promise";
 import React from "react";
 import type { AriaTextFieldOptions } from "react-aria";
 import { useTextField } from "react-aria";
@@ -8,7 +9,6 @@ import { FormControl } from "~/components/form-control";
 import { Input } from "~/components/input";
 import { Label } from "~/components/label";
 import { SubmitButton } from "~/components/submit-button";
-import type { Movies } from "~/features/movies";
 import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
 import { invariant } from "~/utils/invariant";
@@ -50,7 +50,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Add() {
-  const fetcher = useFetcher<Movies>();
+  const fetcher = useFetcher<MovieResultsResponse>();
   const { submission } = useTransition();
 
   return (
@@ -67,7 +67,7 @@ export default function Add() {
       </fetcher.Form>
 
       <div>
-        {fetcher.data
+        {fetcher.data?.results
           ? fetcher.data.results.map(
               ({ id, title, overview, poster_path, release_date }) => {
                 return (
@@ -78,7 +78,7 @@ export default function Add() {
                     <figure className="w-48">
                       <img
                         className="object-contain"
-                        src={`https://www.themoviedb.org/t/p/w188_and_h282_bestv2/${poster_path}`}
+                        src={`https://www.themoviedb.org/t/p/w185/${poster_path}`}
                         alt="Movie"
                       />
                     </figure>
