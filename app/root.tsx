@@ -35,12 +35,12 @@ export default function App() {
 
   return (
     <SSRProvider>
-      <html lang="en">
+      <html lang="en" className="bg-base-200">
         <head>
           <Meta />
           <Links />
         </head>
-        <body className="bg-base-200">
+        <body>
           <header className="mb-6 bg-base-100 border-b-base-200 shadow-md">
             <nav className="navbar nav">
               <div className="flex-1">

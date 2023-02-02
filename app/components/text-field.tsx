@@ -26,7 +26,7 @@ export function TextField(props: TextFieldProps) {
     );
 
   return (
-    <FormControl className="relative">
+    <FormControl>
       <Label {...labelProps} suppressHydrationWarning>
         {label}
       </Label>
