@@ -1,4 +1,4 @@
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { useNavigate, useParams, useTransition } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
@@ -11,6 +11,7 @@ import { Button } from "~/components/button";
 import { Modal } from "~/components/modal";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
+import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
 
 const validator = withZod(
@@ -41,6 +42,12 @@ export async function action({ request }: ActionArgs) {
   });
 
   return redirect(`/movies/${movieView.movieId}`);
+}
+
+export async function loader({ request }: LoaderArgs) {
+  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+
+  return null;
 }
 
 export default function AddMovieViewRoute() {

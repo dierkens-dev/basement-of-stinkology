@@ -11,6 +11,7 @@ import { Button } from "~/components/button";
 import { Modal } from "~/components/modal";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
+import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
 
 const validator = withZod(
@@ -21,6 +22,8 @@ const validator = withZod(
 );
 
 export async function loader({ request }: LoaderArgs) {
+  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+
   const url = new URL(request.url);
   const id = url.searchParams.get("movieViewId");
 
@@ -38,6 +41,8 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export async function action({ request }: ActionArgs) {
+  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+
   const formData = await request.formData();
 
   const result = await validator.validate(formData);

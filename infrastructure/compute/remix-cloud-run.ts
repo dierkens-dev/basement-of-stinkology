@@ -21,6 +21,7 @@ const BOS_FIREBASE_AUTH_DOMAIN = config.getSecret("BOS_FIREBASE_AUTH_DOMAIN");
 const BOS_SESSION_STORAGE_SECRET = config.getSecret(
   "BOS_SESSION_STORAGE_SECRET"
 );
+const BOS_THE_MOVIE_DB_API_KEY = config.getSecret("BOS_THE_MOVIE_DB_API_KEY");
 
 const BOS_POSTGRES_PASSWORD = config.getSecret("BOS_POSTGRES_PASSWORD");
 const BOS_POSTGRES_USER = config.getSecret("BOS_POSTGRES_USER");
@@ -95,6 +96,10 @@ export const remixService = new gcp.cloudrun.Service(
               {
                 name: "BOS_SHADOW_DATABASE_URL",
                 value: BOS_SHADOW_DATABASE_URL,
+              },
+              {
+                name: "BOS_THE_MOVIE_DB_API_KEY",
+                value: BOS_THE_MOVIE_DB_API_KEY,
               },
             ],
           },

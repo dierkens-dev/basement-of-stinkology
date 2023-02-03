@@ -31,26 +31,33 @@ export default function MoviesIndexRoute() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex gap-4">
-      {data &&
-        data.map(({ movie, movieDbDate: { poster_path } }) => {
-          return (
-            <div
-              key={movie.id}
-              className="card w-38 bg-base-100 shadow-xl hover:scale-110 transition-transform"
-            >
-              <figure>
-                <Link to={`/movies/${movie.id}`}>
-                  <img
-                    className="object-contain"
-                    src={`https://www.themoviedb.org/t/p/w154/${poster_path}`}
-                    alt="Movie"
-                  />
-                </Link>
-              </figure>
-            </div>
-          );
-        })}
-    </div>
+    <>
+      <div className="flex gap-4">
+        {data &&
+          data.map(({ movie, movieDbDate: { poster_path } }) => {
+            return (
+              <div
+                key={movie.id}
+                className="card w-38 bg-base-100 shadow-xl hover:scale-110 transition-transform"
+              >
+                <figure>
+                  <Link to={`/movies/${movie.id}`}>
+                    <img
+                      className="object-contain"
+                      src={`https://www.themoviedb.org/t/p/w154/${poster_path}`}
+                      alt="Movie"
+                    />
+                  </Link>
+                </figure>
+              </div>
+            );
+          })}
+      </div>
+      <div className="flex py-3">
+        <Link className="btn btn-primary" to="add">
+          Add Movie
+        </Link>
+      </div>
+    </>
   );
 }

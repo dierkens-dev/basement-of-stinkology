@@ -17,6 +17,8 @@ type TextFieldProps = Omit<AriaTextFieldOptions<"input">, "name" | "label"> &
   Required<Pick<AriaTextFieldOptions<"input">, "name" | "label">>;
 
 export async function loader({ request }: LoaderArgs) {
+  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+
   const url = new URL(request.url);
   const query = url.searchParams.get("query");
   const page = url.searchParams.get("page");
