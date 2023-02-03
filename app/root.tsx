@@ -69,7 +69,7 @@ export default function App() {
               </div>
             </nav>
           </header>
-          <main className="container mx-auto">
+          <main className="container mx-auto px-3">
             <Outlet />
           </main>
           <footer className="footer footer-center p-4 bg-base-100 text-base-content">

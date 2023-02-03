@@ -2,7 +2,7 @@ import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { format } from "date-fns";
-import { TiEdit } from "react-icons/ti";
+import { TiDelete, TiEdit } from "react-icons/ti";
 import { MovieDbClient } from "~/services/moviedb.server";
 import { prisma } from "~/services/prisma.server";
 
@@ -80,10 +80,23 @@ export default function MovieIdRoute() {
                         pathname: "edit-movie-view",
                         search: `movieViewId=${id}`,
                       }}
+                      preventScrollReset
                       className="btn-circle btn-sm btn-outline text-warning p-1"
                     >
                       <span className="sr-only">Edit</span>
                       <TiEdit className="w-full h-full" />
+                    </Link>
+
+                    <Link
+                      to={{
+                        pathname: "delete-movie-view",
+                        search: `movieViewId=${id}`,
+                      }}
+                      preventScrollReset
+                      className="btn-circle btn-sm btn-outline text-error p-1"
+                    >
+                      <span className="sr-only">Edit</span>
+                      <TiDelete className="w-full h-full" />
                     </Link>
                   </td>
                 </tr>

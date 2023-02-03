@@ -60,6 +60,7 @@ export default function AddMovieViewRoute() {
   ) => {
     setViewDateTime(new Date(event.currentTarget.value));
   };
+
   return (
     <Modal state={state}>
       <h2 className="text-3xl font-bold">Add View</h2>
