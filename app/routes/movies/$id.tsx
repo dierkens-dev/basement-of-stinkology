@@ -13,30 +13,33 @@ export async function loader({ params }: LoaderArgs) {
     throw new Response(null, { status: 404, statusText: "Not Found" });
   }
 
-  const movie = await prisma.movie.findFirst({ where: { id } });
+  const movie = await prisma.movie.findFirst({
+    where: { id },
+    include: {
+      MovieViews: {
+        include: {
+          event: true,
+        },
+      },
+    },
+  });
 
   if (!movie) {
     throw new Response(null, { status: 404, statusText: "Not Found" });
   }
 
   const movieDbData = await MovieDbClient.movieInfo(movie.themoviedbId);
-  const movieViews = await prisma.movieView.findMany({
-    where: {
-      movieId: movie.id,
-    },
-  });
 
   return json({
     movieDbData,
     movie,
-    movieViews,
   });
 }
 
 export default function MovieIdRoute() {
   const {
     movieDbData: { poster_path, title, tagline },
-    movieViews,
+    movie,
   } = useLoaderData<typeof loader>();
 
   return (
@@ -68,11 +71,11 @@ export default function MovieIdRoute() {
             </tr>
           </thead>
           <tbody>
-            {movieViews.map((movieView) => {
-              const { id, viewDateTime, eventId } = movieView;
+            {movie.MovieViews.map((movieView) => {
+              const { id, viewDateTime, event } = movieView;
               return (
                 <tr key={id}>
-                  <th>{eventId}</th>
+                  <th>{event.name}</th>
                   <td>{format(new Date(viewDateTime), "PP pp")}</td>
                   <td className="flex gap-2">
                     <Link

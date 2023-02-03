@@ -27,6 +27,7 @@ model Event {
   name String
   date DateTime?
 
+  // TODO Lowercase this
   MovieViews MovieView[]
 }
 
@@ -35,6 +36,7 @@ model Movie {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // TODO Lowercase this
   MovieViews MovieView[]
 
   // TODO: Store data from themoviedb instead of fetching
