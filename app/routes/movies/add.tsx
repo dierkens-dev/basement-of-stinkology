@@ -1,7 +1,6 @@
-import type { ActionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { Form, useFetcher, useTransition } from "@remix-run/react";
-import type { MovieResultsResponse } from "moviedb-promise";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { Form, useLoaderData, useTransition } from "@remix-run/react";
 import React from "react";
 import type { AriaTextFieldOptions } from "react-aria";
 import { useTextField } from "react-aria";
@@ -10,14 +9,33 @@ import { Input } from "~/components/input";
 import { Label } from "~/components/label";
 import { SubmitButton } from "~/components/submit-button";
 import { authenticator } from "~/services/auth.server";
+import { MovieDbClient } from "~/services/moviedb.server";
 import { prisma } from "~/services/prisma.server";
 import { invariant } from "~/utils/invariant";
 
 type TextFieldProps = Omit<AriaTextFieldOptions<"input">, "name" | "label"> &
   Required<Pick<AriaTextFieldOptions<"input">, "name" | "label">>;
 
-export function TextField(props: TextFieldProps) {
+export async function loader({ request }: LoaderArgs) {
+  const url = new URL(request.url);
+  const query = url.searchParams.get("query");
+  const page = url.searchParams.get("page");
+
+  if (!query) {
+    return json(null);
+  }
+
+  const movieResultsResponse = await MovieDbClient.searchMovie({
+    query,
+    page: page ? parseInt(page, 10) : 1,
+  });
+
+  return json(movieResultsResponse);
+}
+
+function SearchField(props: TextFieldProps) {
   const { label } = props;
+  const { submission } = useTransition();
 
   const ref = React.useRef<HTMLInputElement | null>(null);
 
@@ -25,11 +43,25 @@ export function TextField(props: TextFieldProps) {
 
   return (
     <FormControl>
-      <Label {...labelProps} suppressHydrationWarning>
+      <Label className="sr-only" {...labelProps} suppressHydrationWarning>
         {label}
       </Label>
 
-      <Input {...inputProps} suppressHydrationWarning ref={ref} />
+      <div className="input-group">
+        <Input
+          className="w-full"
+          {...inputProps}
+          suppressHydrationWarning
+          ref={ref}
+        />
+
+        <SubmitButton
+          isDisabled={Boolean(submission)}
+          isLoading={Boolean(submission)}
+        >
+          Search
+        </SubmitButton>
+      </div>
     </FormControl>
   );
 }
@@ -50,25 +82,18 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Add() {
-  const fetcher = useFetcher<MovieResultsResponse>();
+  const data = useLoaderData<typeof loader>();
   const { submission } = useTransition();
 
   return (
     <div>
-      <fetcher.Form method="get" action="/movies/search">
-        <TextField name="query" label="Search" />
-
-        <SubmitButton
-          isDisabled={Boolean(submission)}
-          isLoading={Boolean(submission)}
-        >
-          Search
-        </SubmitButton>
-      </fetcher.Form>
+      <Form method="get">
+        <SearchField name="query" label="Search" />
+      </Form>
 
       <div>
-        {fetcher.data?.results
-          ? fetcher.data.results.map(
+        {data && "results" in data
+          ? data.results?.map(
               ({ id, title, overview, poster_path, release_date }) => {
                 return (
                   <div

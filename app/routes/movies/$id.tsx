@@ -1,17 +1,17 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useActionData, useLoaderData, useTransition } from "@remix-run/react";
-import { withZod } from "@remix-validated-form/with-zod";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { format } from "date-fns";
-import { ValidatedForm, validationError } from "remix-validated-form";
-import { z } from "zod";
-import { SubmitButton } from "~/components/submit-button";
-import { TextField } from "~/components/text-field";
+import { TiEdit } from "react-icons/ti";
 import { MovieDbClient } from "~/services/moviedb.server";
 import { prisma } from "~/services/prisma.server";
 
 export async function loader({ params }: LoaderArgs) {
   const id = params.id;
+
+  if (!id) {
+    throw new Response(null, { status: 404, statusText: "Not Found" });
+  }
 
   const movie = await prisma.movie.findFirst({ where: { id } });
 
@@ -33,52 +33,11 @@ export async function loader({ params }: LoaderArgs) {
   });
 }
 
-const validator = withZod(
-  z.object({
-    viewDateTime: z.string(),
-    timezoneOffset: z.string(),
-    movieId: z.string().uuid(),
-    eventId: z.string().uuid(),
-  })
-);
-
-export async function action({ request }: ActionArgs) {
-  const formData = await request.formData();
-
-  const result = await validator.validate(formData);
-
-  if (result.error) {
-    return validationError(result.error);
-  }
-
-  const { viewDateTime, movieId, eventId, timezoneOffset } = result.data;
-
-  const view = new Date(`${viewDateTime}:00.000${timezoneOffset}`);
-
-  const movieView = await prisma.movieView.create({
-    data: {
-      movieId,
-      eventId,
-      viewDateTime: view,
-    },
-  });
-
-  return json({ addedMovieView: movieView });
-}
-
 export default function MovieIdRoute() {
   const {
-    movie,
     movieDbData: { poster_path, title, tagline },
     movieViews,
   } = useLoaderData<typeof loader>();
-  const transition = useTransition();
-  const data = useActionData<typeof action>();
-
-  const views =
-    data && "addedMovieView" in data
-      ? [...movieViews, data.addedMovieView]
-      : movieViews;
 
   return (
     <div>
@@ -105,54 +64,41 @@ export default function MovieIdRoute() {
             <tr>
               <th>Event</th>
               <th>View Time</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {views.map(({ id, viewDateTime, eventId }) => {
+            {movieViews.map((movieView) => {
+              const { id, viewDateTime, eventId } = movieView;
               return (
                 <tr key={id}>
                   <th>{eventId}</th>
                   <td>{format(new Date(viewDateTime), "PP pp")}</td>
+                  <td className="flex gap-2">
+                    <Link
+                      to={{
+                        pathname: "edit-movie-view",
+                        search: `movieViewId=${id}`,
+                      }}
+                      className="btn-circle btn-sm btn-outline text-warning p-1"
+                    >
+                      <span className="sr-only">Edit</span>
+                      <TiEdit className="w-full h-full" />
+                    </Link>
+                  </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
 
-        <ValidatedForm
-          validator={validator}
-          method="post"
-          className="flex items-end"
-        >
-          <TextField
-            label="View Time"
-            name="viewDateTime"
-            type="datetime-local"
-            defaultValue={format(new Date(), "yyyy-MM-dd'T'hh:ss")}
-          />
+        <div className="flex justify-end p-2">
+          <Link className="btn btn-primary" to="add-movie-view">
+            Add Movie View
+          </Link>
+        </div>
 
-          <input
-            type="hidden"
-            name="timezoneOffset"
-            defaultValue={format(new Date(), "xxx")}
-          />
-
-          <input
-            type="hidden"
-            value="ea2497fa-e7b1-4472-b213-76c45356e50d"
-            name="eventId"
-          />
-
-          <input type="hidden" value={movie.id} name="movieId" />
-
-          <SubmitButton
-            isDisabled={Boolean(transition.submission)}
-            isLoading={Boolean(transition.submission)}
-            className="m-3"
-          >
-            Add View
-          </SubmitButton>
-        </ValidatedForm>
+        <Outlet />
       </section>
     </div>
   );
