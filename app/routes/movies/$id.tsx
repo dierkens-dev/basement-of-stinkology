@@ -62,7 +62,7 @@ export default function MovieIdRoute() {
       <section>
         <h2 className="text-4xl font-bold">Views</h2>
 
-        <table className="table border border-base-300 w-full">
+        <table className="table table-normal border border-base-300 w-full">
           <thead>
             <tr>
               <th>Event</th>

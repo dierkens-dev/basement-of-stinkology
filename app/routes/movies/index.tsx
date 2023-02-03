@@ -35,7 +35,10 @@ export default function MoviesIndexRoute() {
       {data &&
         data.map(({ movie, movieDbDate: { poster_path } }) => {
           return (
-            <div key={movie.id} className="card w-38 bg-base-100 shadow-xl">
+            <div
+              key={movie.id}
+              className="card w-38 bg-base-100 shadow-xl hover:scale-110 transition-transform"
+            >
               <figure>
                 <Link to={`/movies/${movie.id}`}>
                   <img
