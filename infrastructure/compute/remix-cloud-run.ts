@@ -70,6 +70,8 @@ export const remixService = new gcp.cloudrun.Service(
   "bos-remix-service",
   {
     location,
+    // https://github.com/hashicorp/terraform-provider-google/issues/5898
+    autogenerateRevisionName: true,
     template: {
       spec: {
         serviceAccountName: bos_remix_service_account.email,

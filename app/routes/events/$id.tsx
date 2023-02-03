@@ -60,20 +60,20 @@ export default function MoviesIndexRoute() {
 
       <h2 className="text-2xl font-bold mt-3 mb-1">Movies</h2>
 
-      <div className="flex gap-4">
+      <div className="grid gap-4 grid-cols-4 md:grid-cols-6">
         {data &&
           data.movies.map(
             ({ movieView: { movie }, movieDbData: { poster_path } }) => {
               return (
                 <div
                   key={movie.id}
-                  className="card w-38 bg-base-100 shadow-xl hover:scale-110 transition-transform"
+                  className="shadow-xl hover:scale-110 transition-transform"
                 >
                   <figure>
                     <Link to={`/movies/${movie.id}`}>
                       <img
-                        className="object-contain"
-                        src={`https://www.themoviedb.org/t/p/w154/${poster_path}`}
+                        className="object-contain w-full"
+                        src={`https://www.themoviedb.org/t/p/w342/${poster_path}`}
                         alt="Movie"
                       />
                     </Link>

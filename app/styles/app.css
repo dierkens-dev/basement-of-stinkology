@@ -3043,6 +3043,14 @@ html {
   grid-auto-flow: column;
 }
 
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-cols-6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -3117,6 +3125,11 @@ html {
   object-fit: contain;
 }
 
+.object-fill {
+  -o-object-fit: fill;
+  object-fit: fill;
+}
+
 .p-2 {
   padding: 0.5rem;
 }
@@ -3127,10 +3140,6 @@ html {
 
 .p-4 {
   padding: 1rem;
-}
-
-.p-3 {
-  padding: 0.75rem;
 }
 
 .px-3 {
@@ -3294,6 +3303,18 @@ main {
 .hover\:link-primary:hover:hover {
   --tw-text-opacity: 1;
   color: hsl(var(--pf, var(--p)) / var(--tw-text-opacity));
+}
+
+@media (min-width: 640px) {
+  .sm\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 1024px) {

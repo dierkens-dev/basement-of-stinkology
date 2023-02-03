@@ -10,7 +10,7 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { SSRProvider } from "react-aria";
-import { Footer, Header } from "./features/layout";
+import { Header } from "./features/layout";
 import { authenticator } from "./services/auth.server";
 import styles from "./styles/app.css";
 
@@ -47,7 +47,7 @@ export default function App() {
             </main>
           </Header>
 
-          <Footer />
+          {/* <Footer /> */}
 
           <ScrollRestoration />
           <Scripts />

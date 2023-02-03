@@ -14,12 +14,12 @@ export async function loader() {
   );
 
   const response = movies.map((movie) => {
-    const movieDbDate = moviesData.find(({ id }) => id === movie.themoviedbId);
+    const movieDbData = moviesData.find(({ id }) => id === movie.themoviedbId);
 
-    invariant(movieDbDate, "Unable to map movieDbDate.");
+    invariant(movieDbData, "Unable to map movieDbDate.");
 
     return {
-      movieDbDate,
+      movieDbData,
       movie,
     };
   });
@@ -32,19 +32,19 @@ export default function MoviesIndexRoute() {
 
   return (
     <>
-      <div className="flex gap-4">
+      <div className="grid gap-4 grid-cols-4 md:grid-cols-6">
         {data &&
-          data.map(({ movie, movieDbDate: { poster_path } }) => {
+          data.map(({ movie, movieDbData: { poster_path } }) => {
             return (
               <div
                 key={movie.id}
-                className="card w-38 bg-base-100 shadow-xl hover:scale-110 transition-transform"
+                className="shadow-xl hover:scale-110 transition-transform"
               >
                 <figure>
                   <Link to={`/movies/${movie.id}`}>
                     <img
-                      className="object-contain"
-                      src={`https://www.themoviedb.org/t/p/w154/${poster_path}`}
+                      className="object-contain w-full"
+                      src={`https://www.themoviedb.org/t/p/w342/${poster_path}`}
                       alt="Movie"
                     />
                   </Link>
