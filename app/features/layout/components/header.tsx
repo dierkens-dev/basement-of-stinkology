@@ -47,6 +47,9 @@ export function Header({ user, children }: PropsWithChildren<HeaderProps>) {
                     <Link to="/movies">Movies</Link>
                   </li>
                   <li>
+                    <Link to="/events">Events</Link>
+                  </li>
+                  <li>
                     <Link to="/profile">{user.email}</Link>
                   </li>
                   <li>
@@ -76,6 +79,9 @@ export function Header({ user, children }: PropsWithChildren<HeaderProps>) {
               </li>
               <li>
                 <Link to="/movies">Movies</Link>
+              </li>
+              <li>
+                <Link to="/events">Events</Link>
               </li>
               <li>
                 <Link to="/sign-out">Sign Out</Link>
