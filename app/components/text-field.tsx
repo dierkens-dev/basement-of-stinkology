@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from "react";
 import React from "react";
 import type { AriaTextFieldOptions } from "react-aria";
 import { useTextField } from "react-aria";
@@ -9,8 +10,8 @@ import { Label } from "./label";
 type TextFieldProps = Omit<AriaTextFieldOptions<"input">, "name" | "label"> &
   Required<Pick<AriaTextFieldOptions<"input">, "name" | "label">>;
 
-export function TextField(props: TextFieldProps) {
-  const { label, name } = props;
+export function TextField(props: PropsWithChildren<TextFieldProps>) {
+  const { label, name, children } = props;
 
   const ref = React.useRef<HTMLInputElement | null>(null);
 
@@ -49,6 +50,8 @@ export function TextField(props: TextFieldProps) {
           {error}
         </div>
       )}
+
+      {children}
     </FormControl>
   );
 }

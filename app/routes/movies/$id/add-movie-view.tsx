@@ -1,8 +1,9 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { useNavigate, useTransition } from "@remix-run/react";
+import { useNavigate, useParams, useTransition } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { format } from "date-fns";
+import { useState } from "react";
 import { useOverlayTriggerState } from "react-stately";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
@@ -14,8 +15,7 @@ import { prisma } from "~/services/prisma.server";
 
 const validator = withZod(
   z.object({
-    viewDateTime: z.string(),
-    timezoneOffset: z.string(),
+    viewDateTime: z.string().datetime(),
     movieId: z.string().uuid(),
     eventId: z.string().uuid(),
   })
@@ -30,15 +30,13 @@ export async function action({ request }: ActionArgs) {
     return validationError(result.error);
   }
 
-  const { viewDateTime, movieId, eventId, timezoneOffset } = result.data;
-
-  const view = new Date(`${viewDateTime}:00.000${timezoneOffset}`);
+  const { viewDateTime, movieId, eventId } = result.data;
 
   const movieView = await prisma.movieView.create({
     data: {
       movieId,
       eventId,
-      viewDateTime: view,
+      viewDateTime: new Date(viewDateTime),
     },
   });
 
@@ -47,6 +45,7 @@ export async function action({ request }: ActionArgs) {
 
 export default function AddMovieViewRoute() {
   const navigate = useNavigate();
+  const { id: movieId } = useParams();
 
   const state = useOverlayTriggerState({
     isOpen: true,
@@ -54,7 +53,13 @@ export default function AddMovieViewRoute() {
   });
 
   const transition = useTransition();
+  const [viewDateTime, setViewDateTime] = useState(new Date());
 
+  const handleViewDateTimeChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    setViewDateTime(new Date(event.currentTarget.value));
+  };
   return (
     <Modal state={state}>
       <h2 className="text-3xl font-bold">Add View</h2>
@@ -62,16 +67,17 @@ export default function AddMovieViewRoute() {
       <ValidatedForm validator={validator} method="post">
         <TextField
           label="View Time"
-          name="viewDateTime"
-          type="datetime-local"
-          defaultValue={format(new Date(), "yyyy-MM-dd'T'hh:ss")}
-        />
-
-        <input
           type="hidden"
-          name="timezoneOffset"
-          defaultValue={format(new Date(), "xxx")}
-        />
+          name="viewDateTime"
+          value={viewDateTime.toISOString()}
+        >
+          <input
+            className="input input-bordered"
+            type="datetime-local"
+            value={format(viewDateTime, "yyyy-MM-dd'T'HH:mm")}
+            onChange={handleViewDateTimeChange}
+          />
+        </TextField>
 
         <input
           type="hidden"
@@ -79,7 +85,7 @@ export default function AddMovieViewRoute() {
           name="eventId"
         />
 
-        {/* <input type="hidden" value={movie.id} name="movieId" /> */}
+        <input type="hidden" value={movieId} name="movieId" />
 
         <div className="modal-action flex gap-3 justify-end">
           <Button className="btn-secondary" onPress={state.close}>
