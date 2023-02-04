@@ -1,7 +1,7 @@
 import type { User } from "@prisma/client";
 import { Link } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
-import { useId } from "react";
+import { useId, useState } from "react";
 
 interface HeaderProps {
   user: User | null;
@@ -9,9 +9,21 @@ interface HeaderProps {
 
 export function Header({ user, children }: PropsWithChildren<HeaderProps>) {
   const id = useId();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const closeDrawer = () => setIsDrawerOpen(false);
+
   return (
     <header className="drawer">
-      <input id={id} type="checkbox" className="drawer-toggle" />
+      <input
+        id={id}
+        type="checkbox"
+        checked={isDrawerOpen}
+        onChange={(event) => {
+          setIsDrawerOpen(event.currentTarget.checked);
+        }}
+        className="drawer-toggle"
+      />
 
       <div className="drawer-content bg-base-200 flex flex-col">
         <nav className="navbar w-full mb-6 bg-base-100 border-b-base-200 shadow-md">
@@ -75,22 +87,32 @@ export function Header({ user, children }: PropsWithChildren<HeaderProps>) {
           {user && (
             <>
               <li>
-                <Link to="/profile">{user.email}</Link>
+                <Link onClick={closeDrawer} to="/profile">
+                  {user.email}
+                </Link>
               </li>
               <li>
-                <Link to="/movies">Movies</Link>
+                <Link onClick={closeDrawer} to="/movies">
+                  Movies
+                </Link>
               </li>
               <li>
-                <Link to="/events">Events</Link>
+                <Link onClick={closeDrawer} to="/events">
+                  Events
+                </Link>
               </li>
               <li>
-                <Link to="/sign-out">Sign Out</Link>
+                <Link onClick={closeDrawer} to="/sign-out">
+                  Sign Out
+                </Link>
               </li>
             </>
           )}
           {!user && (
             <li>
-              <Link to="/sign-in">Sign In</Link>
+              <Link onClick={closeDrawer} to="/sign-in">
+                Sign In
+              </Link>
             </li>
           )}
         </ul>

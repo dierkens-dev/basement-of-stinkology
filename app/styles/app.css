@@ -3047,10 +3047,6 @@ html {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.grid-cols-6 {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -3123,11 +3119,6 @@ html {
 .object-contain {
   -o-object-fit: contain;
   object-fit: contain;
-}
-
-.object-fill {
-  -o-object-fit: fill;
-  object-fit: fill;
 }
 
 .p-2 {
@@ -3303,12 +3294,6 @@ main {
 .hover\:link-primary:hover:hover {
   --tw-text-opacity: 1;
   color: hsl(var(--pf, var(--p)) / var(--tw-text-opacity));
-}
-
-@media (min-width: 640px) {
-  .sm\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 
 @media (min-width: 768px) {
