@@ -26,7 +26,7 @@ export function Header({ user, children }: PropsWithChildren<HeaderProps>) {
       />
 
       <div className="drawer-content bg-base-200 flex flex-col">
-        <nav className="navbar w-full mb-6 bg-base-100 border-b-base-200 shadow-md">
+        <nav className="navbar w-full bg-base-100 border-b-base-200 shadow-md">
           <div className="flex-none lg:hidden">
             <label htmlFor={id} className="btn btn-square btn-ghost">
               <svg

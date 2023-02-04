@@ -8,7 +8,9 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useTransition,
 } from "@remix-run/react";
+import clsx from "clsx";
 import { SSRProvider } from "react-aria";
 import { Header } from "./features/layout";
 import { authenticator } from "./services/auth.server";
@@ -32,6 +34,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function App() {
   const { user } = useLoaderData<typeof loader>();
+  const transition = useTransition();
 
   return (
     <SSRProvider>
@@ -42,7 +45,13 @@ export default function App() {
         </head>
         <body>
           <Header user={user}>
-            <main className="container mx-auto px-3">
+            <progress
+              className={clsx("progress progress-primary block flex-shrink-0", {
+                invisible: transition.state === "idle",
+              })}
+            ></progress>
+
+            <main className="container mx-auto px-3 mt-3 flex-auto">
               <Outlet />
             </main>
           </Header>
