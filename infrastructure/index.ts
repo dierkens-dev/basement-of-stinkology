@@ -3,10 +3,10 @@ import { remixService } from "./compute/remix-cloud-run";
 import {
   bosPostgresDatabase,
   bosPostgresInstance,
+  bosPostgresShadowDatabase,
 } from "./database/bos-postgresql";
 
-export const bosRemixCloudRunRevisionName =
-  remixService.autogenerateRevisionName;
+export const remixServiceName = remixService.name;
 export const bosPostgresInstancePublicIp = bosPostgresInstance.publicIpAddress;
-
 export const bosPostgresDatabaseName = bosPostgresDatabase.name;
+export const bosPostgresShadowDatabaseName = bosPostgresShadowDatabase.name;

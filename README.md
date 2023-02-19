@@ -10,6 +10,8 @@
 
 ```sh
 gcloud auth application-default login
+gcloud auth login
+gcloud auth configure-docker
 gcloud config set project basement-of-stinkology
 yarn pulumi login gs://bos-pulumi-state-bucket
 ```

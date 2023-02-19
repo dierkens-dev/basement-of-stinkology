@@ -11,10 +11,17 @@ datasource db {
   shadowDatabaseUrl = env("BOS_SHADOW_DATABASE_URL")
 }
 
+enum Role {
+  VIEWER
+  EDITOR
+  ADMIN
+}
+
 model User {
   id    String  @id @default(uuid()) @db.Uuid
   email String  @unique
   name  String?
+  role  Role    @default(VIEWER)
 }
 
 model Event {
