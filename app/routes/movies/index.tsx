@@ -1,10 +1,14 @@
+import { Role } from "@prisma/client";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import { H1 } from "~/components/typeography/h1";
+import { authenticator } from "~/services/auth.server";
 import { MovieDbClient } from "~/services/moviedb.server";
 import { prisma } from "~/services/prisma.server";
 import { invariant } from "~/utils/invariant";
 
-export async function loader() {
+export async function loader({ request }: LoaderArgs) {
   const movies = await prisma.movie.findMany({
     orderBy: { createdAt: "desc" },
   });
@@ -24,17 +28,20 @@ export async function loader() {
     };
   });
 
-  return json(response);
+  const user = await authenticator.isAuthenticated(request);
+
+  return json({ movies: response, user });
 }
 
 export default function MoviesIndexRoute() {
-  const data = useLoaderData<typeof loader>();
+  const { movies, user } = useLoaderData<typeof loader>();
 
   return (
     <>
+      <H1>Movies</H1>
       <div className="grid gap-4 grid-cols-4 md:grid-cols-6">
-        {data &&
-          data.map(({ movie, movieDbData: { poster_path } }) => {
+        {movies &&
+          movies.map(({ movie, movieDbData: { poster_path } }) => {
             return (
               <div
                 key={movie.id}
@@ -53,11 +60,14 @@ export default function MoviesIndexRoute() {
             );
           })}
       </div>
-      <div className="flex py-3">
-        <Link className="btn btn-primary" to="add">
-          Add Movie
-        </Link>
-      </div>
+
+      {user?.role === Role.ADMIN || user?.role === Role.EDITOR ? (
+        <div className="flex py-3">
+          <Link className="btn btn-primary" to="add">
+            Add Movie
+          </Link>
+        </div>
+      ) : null}
     </>
   );
 }

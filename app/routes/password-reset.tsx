@@ -7,6 +7,7 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
+import { P } from "~/components/typeography/p";
 import {
   AuthCard,
   AuthCardActions,
@@ -50,9 +51,9 @@ export default function PasswordReset() {
     return (
       <AuthCard>
         <AuthCardBody>
-          <p className="alert alert-info shadow-lg mb-3">
+          <P className="alert alert-info shadow-lg mb-3">
             {data.successMessage}
-          </p>
+          </P>
 
           <div className="flex justify-end gap-1">
             <Link className="link hover:link-primary" to="/sign-in">

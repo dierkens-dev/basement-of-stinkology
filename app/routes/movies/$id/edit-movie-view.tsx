@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData, useNavigate, useTransition } from "@remix-run/react";
@@ -11,6 +12,7 @@ import { Button } from "~/components/button";
 import { Modal } from "~/components/modal";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
+import { H2 } from "~/components/typeography/h2";
 import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
 
@@ -22,7 +24,13 @@ const validator = withZod(
 );
 
 export async function loader({ request }: LoaderArgs) {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/sign-in",
+  });
+
+  if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {
+    throw new Response(null, { status: 401, statusText: "Unauthorized" });
+  }
 
   const url = new URL(request.url);
   const id = url.searchParams.get("movieViewId");
@@ -41,7 +49,13 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export async function action({ request }: ActionArgs) {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/sign-in",
+  });
+
+  if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {
+    throw new Response(null, { status: 401, statusText: "Unauthorized" });
+  }
 
   const formData = await request.formData();
 
@@ -87,7 +101,7 @@ export default function EditMovieViewRoute() {
 
   return (
     <Modal state={state}>
-      <h2 className="text-3xl font-bold">Edit View</h2>
+      <H2>Edit View</H2>
 
       <ValidatedForm validator={validator} method="post">
         <TextField

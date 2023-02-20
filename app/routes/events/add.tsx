@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useActionData, useTransition } from "@remix-run/react";
@@ -6,6 +7,7 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
+import { P } from "~/components/typeography/p";
 import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
 
@@ -21,7 +23,13 @@ const validator = withZod(
 );
 
 export async function action({ request }: ActionArgs) {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/sign-in",
+  });
+
+  if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {
+    throw new Response(null, { status: 401, statusText: "Unauthorized" });
+  }
 
   const formData = await request.formData();
 
@@ -44,7 +52,13 @@ export async function action({ request }: ActionArgs) {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/sign-in",
+  });
+
+  if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {
+    throw new Response(null, { status: 401, statusText: "Unauthorized" });
+  }
 
   return null;
 }
@@ -60,7 +74,7 @@ export default function Add() {
       <TextField name="date" label="Date" type="date" />
 
       {data && "message" in data ? (
-        <p className="alert alert-success shadow-lg mb-3">{data.message}</p>
+        <P className="alert alert-success shadow-lg mb-3">{data.message}</P>
       ) : null}
 
       <SubmitButton

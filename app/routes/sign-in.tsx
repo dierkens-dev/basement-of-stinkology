@@ -5,6 +5,7 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
+import { P } from "~/components/typeography/p";
 import {
   AuthCard,
   AuthCardActions,
@@ -64,7 +65,7 @@ export default function SignIn({ message }: { message?: string }) {
           <TextField name="password" type="password" label="Password" />
 
           {message ? (
-            <p className="alert alert-error shadow-lg mb-3">{message}</p>
+            <P className="alert alert-error shadow-lg mb-3">{message}</P>
           ) : null}
 
           <AuthCardActions>

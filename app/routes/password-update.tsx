@@ -8,6 +8,7 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
+import { P } from "~/components/typeography/p";
 import {
   AuthCard,
   AuthCardActions,
@@ -82,17 +83,17 @@ export default function PasswordUpdate() {
           <TextField name="password" type="password" label="New Password" />
 
           {loaderData && "errorMessage" in loaderData ? (
-            <p className="alert alert-error shadow-lg mb-3">
+            <P className="alert alert-error shadow-lg mb-3">
               {loaderData.errorMessage}
-            </p>
+            </P>
           ) : (
             <input type="hidden" name="code" value={loaderData.code} />
           )}
 
           {data && "errorMessage" in data ? (
-            <p className="alert alert-error shadow-lg mb-3">
+            <P className="alert alert-error shadow-lg mb-3">
               {data.errorMessage}
-            </p>
+            </P>
           ) : null}
 
           <AuthCardActions>

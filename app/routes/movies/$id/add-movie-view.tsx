@@ -11,6 +11,7 @@ import { Button } from "~/components/button";
 import { Modal } from "~/components/modal";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
+import { H2 } from "~/components/typeography/h2";
 import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
 
@@ -70,7 +71,7 @@ export default function AddMovieViewRoute() {
 
   return (
     <Modal state={state}>
-      <h2 className="text-3xl font-bold">Add View</h2>
+      <H2>Add View</H2>
 
       <ValidatedForm validator={validator} method="post">
         <TextField

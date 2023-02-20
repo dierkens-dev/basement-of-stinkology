@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData, useTransition } from "@remix-run/react";
@@ -8,6 +9,8 @@ import { FormControl } from "~/components/form-control";
 import { Input } from "~/components/input";
 import { Label } from "~/components/label";
 import { SubmitButton } from "~/components/submit-button";
+import { H2 } from "~/components/typeography/h2";
+import { P } from "~/components/typeography/p";
 import { authenticator } from "~/services/auth.server";
 import { MovieDbClient } from "~/services/moviedb.server";
 import { prisma } from "~/services/prisma.server";
@@ -17,7 +20,13 @@ type TextFieldProps = Omit<AriaTextFieldOptions<"input">, "name" | "label"> &
   Required<Pick<AriaTextFieldOptions<"input">, "name" | "label">>;
 
 export async function loader({ request }: LoaderArgs) {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/sign-in",
+  });
+
+  if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {
+    throw new Response(null, { status: 401, statusText: "Unauthorized" });
+  }
 
   const url = new URL(request.url);
   const query = url.searchParams.get("query");
@@ -69,7 +78,13 @@ function SearchField(props: TextFieldProps) {
 }
 
 export async function action({ request }: ActionArgs) {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/sign-in",
+  });
+
+  if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {
+    throw new Response(null, { status: 401, statusText: "Unauthorized" });
+  }
 
   const formData = await request.formData();
   const themoviedbId = await formData.get("themoviedbId");
@@ -110,18 +125,19 @@ export default function Add() {
                       />
                     </figure>
                     <div className="card-body w-full">
-                      <h2 className="card-title">
+                      <H2 className="card-title">
                         {title}
                         <span className="text-sm">({release_date})</span>
-                      </h2>
+                      </H2>
 
-                      <p title={overview} className="line-clamp">
+                      <P title={overview} className="line-clamp">
                         {overview}
-                      </p>
+                      </P>
 
                       <div className="card-actions justify-end">
                         <Form method="post" noValidate>
                           <input type="hidden" value={id} name="themoviedbId" />
+
                           <SubmitButton
                             isDisabled={Boolean(submission)}
                             isLoading={Boolean(submission)}

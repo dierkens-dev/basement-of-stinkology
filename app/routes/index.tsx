@@ -8,6 +8,8 @@ import {
   differenceInSeconds,
 } from "date-fns";
 import React, { useEffect, useReducer } from "react";
+import { H1 } from "~/components/typeography/h1";
+import { P } from "~/components/typeography/p";
 import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
 
@@ -68,7 +70,7 @@ function CountDown({ date, title }: CountDownProps) {
 
   return (
     <div>
-      <p className="mb-1">Countdown to '{title}'</p>
+      <P className="mb-1">Countdown to '{title}'</P>
       <div className="grid grid-flow-col gap-5 text-center justify-center auto-cols-max">
         <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
           <span className="countdown font-mono text-5xl">
@@ -106,16 +108,14 @@ export default function Index() {
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <div className="hero bg-base-100">
         <div className="hero-content text-center">
-          <div className="max-w-md">
-            <h1 className="text-4xl font-bold mb-6">Basement of Stinkology</h1>
+          <H1>Basement of Stinkology</H1>
 
-            {data.event && data.event.date ? (
-              <CountDown
-                title={data.event.name}
-                date={new Date(data.event.date)}
-              />
-            ) : null}
-          </div>
+          {data.event && data.event.date ? (
+            <CountDown
+              title={data.event.name}
+              date={new Date(data.event.date)}
+            />
+          ) : null}
         </div>
       </div>
     </div>

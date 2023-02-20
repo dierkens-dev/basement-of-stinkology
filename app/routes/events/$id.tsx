@@ -2,6 +2,9 @@ import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { format } from "date-fns";
+import { H1 } from "~/components/typeography/h1";
+import { H2 } from "~/components/typeography/h2";
+import { P } from "~/components/typeography/p";
 import { MovieDbClient } from "~/services/moviedb.server";
 import { prisma } from "~/services/prisma.server";
 import { invariant } from "~/utils/invariant";
@@ -52,13 +55,13 @@ export default function MoviesIndexRoute() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">{data.event.name}</h1>
+      <H1>{data.event.name}</H1>
 
       {data.event.date ? (
-        <p>{format(new Date(data.event.date), "PP")}</p>
+        <P>{format(new Date(data.event.date), "PP")}</P>
       ) : null}
 
-      <h2 className="text-2xl font-bold mt-3 mb-1">Movies</h2>
+      <H2>Movies</H2>
 
       <div className="grid gap-4 grid-cols-4 md:grid-cols-6">
         {data &&
