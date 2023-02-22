@@ -1,6 +1,11 @@
 import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useActionData, useTransition } from "@remix-run/react";
+import {
+  Link,
+  useActionData,
+  useLocation,
+  useTransition,
+} from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { ValidatedForm, validationError } from "remix-validated-form";
@@ -14,6 +19,7 @@ import {
   AuthCardBody,
   AuthCardLinks,
   AuthCardTitle,
+  getRedirectURL,
 } from "~/features/auth";
 import { auth } from "~/lib/firebase";
 
@@ -46,6 +52,7 @@ export async function action({ request }: ActionArgs) {
 export default function PasswordReset() {
   const { submission } = useTransition();
   const data = useActionData<typeof action>();
+  const location = useLocation();
 
   if (data && "successMessage" in data) {
     return (
@@ -56,11 +63,17 @@ export default function PasswordReset() {
           </P>
 
           <div className="flex justify-end gap-1">
-            <Link className="link hover:link-primary" to="/sign-in">
+            <Link
+              className="link hover:link-primary"
+              to={getRedirectURL({ location })}
+            >
               Sign In
             </Link>
             or
-            <Link className="link hover:link-primary" to="/sign-up">
+            <Link
+              className="link hover:link-primary"
+              to={getRedirectURL({ location })}
+            >
               Sign Up
             </Link>
           </div>

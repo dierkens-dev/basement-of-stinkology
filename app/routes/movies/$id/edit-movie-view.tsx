@@ -13,6 +13,7 @@ import { Modal } from "~/components/modal";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
 import { H2 } from "~/components/typeography/h2";
+import { getRedirectURL } from "~/features/auth";
 import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
 
@@ -25,7 +26,7 @@ const validator = withZod(
 
 export async function loader({ request }: LoaderArgs) {
   const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/sign-in",
+    failureRedirect: getRedirectURL({ request }),
   });
 
   if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {
@@ -50,7 +51,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export async function action({ request }: ActionArgs) {
   const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/sign-in",
+    failureRedirect: getRedirectURL({ request }),
   });
 
   if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {

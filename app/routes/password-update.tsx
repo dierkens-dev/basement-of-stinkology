@@ -14,6 +14,7 @@ import {
   AuthCardActions,
   AuthCardBody,
   AuthCardTitle,
+  getRedirectURL,
 } from "~/features/auth";
 import { auth } from "~/lib/firebase";
 import { getErrorMessage } from "~/lib/firebase-errors";
@@ -52,7 +53,7 @@ export async function action({ request }: ActionArgs) {
     }
   }
 
-  return redirect("/sign-in");
+  return redirect(getRedirectURL({ request }));
 }
 
 export async function loader({ request }: LoaderArgs) {

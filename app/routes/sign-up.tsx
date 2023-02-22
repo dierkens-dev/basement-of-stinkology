@@ -1,6 +1,6 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Link, useTransition } from "@remix-run/react";
+import { Link, useLocation, useTransition } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ValidatedForm, validationError } from "remix-validated-form";
@@ -13,6 +13,7 @@ import {
   AuthCardBody,
   AuthCardLinks,
   AuthCardTitle,
+  getRedirectURL,
 } from "~/features/auth";
 import { auth } from "~/lib/firebase";
 
@@ -39,11 +40,12 @@ export async function action({ request }: ActionArgs) {
 
   await createUserWithEmailAndPassword(auth, email, password);
 
-  return redirect("/sign-in");
+  return redirect(getRedirectURL({ request }));
 }
 
 export default function SignUp() {
   const { submission } = useTransition();
+  const location = useLocation();
 
   return (
     <AuthCard>
@@ -63,7 +65,10 @@ export default function SignUp() {
             </SubmitButton>
 
             <AuthCardLinks>
-              <Link className="link hover:link-primary" to="/sign-in">
+              <Link
+                className="link hover:link-primary"
+                to={getRedirectURL({ location })}
+              >
                 Sign In
               </Link>
               or

@@ -25,7 +25,7 @@ const validator = withZod(
   })
 );
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request, params }: ActionArgs) {
   const clone = request.clone();
   const formData = await clone.formData();
 
@@ -35,14 +35,20 @@ export async function action({ request }: ActionArgs) {
     return validationError(result.error);
   }
 
+  const url = new URL(request.url);
+  const redirectTo = url.searchParams.get("redirectTo");
+
   return await authenticator.authenticate("user-pass", request, {
-    successRedirect: "/",
+    successRedirect: redirectTo || "/",
   });
 }
 
 export async function loader({ request }: LoaderArgs) {
+  const url = new URL(request.url);
+  const redirectTo = url.searchParams.get("redirectTo");
+
   return await authenticator.isAuthenticated(request, {
-    successRedirect: "/",
+    successRedirect: redirectTo || "/",
   });
 }
 

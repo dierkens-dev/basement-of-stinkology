@@ -12,6 +12,7 @@ import { Modal } from "~/components/modal";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
 import { H2 } from "~/components/typeography/h2";
+import { getRedirectURL } from "~/features/auth";
 import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
 
@@ -46,7 +47,9 @@ export async function action({ request }: ActionArgs) {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/sign-in" });
+  await authenticator.isAuthenticated(request, {
+    failureRedirect: getRedirectURL({ request }),
+  });
 
   return null;
 }

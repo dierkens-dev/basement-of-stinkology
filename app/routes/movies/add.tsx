@@ -11,6 +11,7 @@ import { Label } from "~/components/label";
 import { SubmitButton } from "~/components/submit-button";
 import { H2 } from "~/components/typeography/h2";
 import { P } from "~/components/typeography/p";
+import { getRedirectURL } from "~/features/auth";
 import { authenticator } from "~/services/auth.server";
 import { MovieDbClient } from "~/services/moviedb.server";
 import { prisma } from "~/services/prisma.server";
@@ -21,7 +22,7 @@ type TextFieldProps = Omit<AriaTextFieldOptions<"input">, "name" | "label"> &
 
 export async function loader({ request }: LoaderArgs) {
   const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/sign-in",
+    failureRedirect: getRedirectURL({ request }),
   });
 
   if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {
@@ -79,7 +80,7 @@ function SearchField(props: TextFieldProps) {
 
 export async function action({ request }: ActionArgs) {
   const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/sign-in",
+    failureRedirect: getRedirectURL({ request }),
   });
 
   if (user.role !== Role.ADMIN && user.role !== Role.EDITOR) {

@@ -7,6 +7,7 @@ import { TiDelete, TiEdit } from "react-icons/ti";
 import { H1 } from "~/components/typeography/h1";
 import { H2 } from "~/components/typeography/h2";
 import { P } from "~/components/typeography/p";
+import { getRedirectURL } from "~/features/auth";
 import { authenticator } from "~/services/auth.server";
 import { MovieDbClient } from "~/services/moviedb.server";
 import { prisma } from "~/services/prisma.server";
@@ -35,7 +36,7 @@ export async function loader({ params, request }: LoaderArgs) {
 
   const movieDbData = await MovieDbClient.movieInfo(movie.themoviedbId);
   const user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/sign-in",
+    failureRedirect: getRedirectURL({ request }),
   });
 
   return json({
