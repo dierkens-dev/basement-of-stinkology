@@ -20,7 +20,7 @@ const validator = withZod(
       .string()
       .regex(/[0-9]{4}-[0-9]{2}-[0-9]{2}/, "Enter a valid date.")
       .optional(),
-  })
+  }),
 );
 
 export async function action({ request }: ActionArgs) {

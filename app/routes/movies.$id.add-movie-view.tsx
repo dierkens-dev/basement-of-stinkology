@@ -21,7 +21,7 @@ const validator = withZod(
     viewDateTime: z.string().datetime(),
     movieId: z.string().uuid(),
     eventId: z.string().uuid(),
-  })
+  }),
 );
 
 export async function action({ request }: ActionArgs) {
@@ -67,7 +67,7 @@ export default function AddMovieViewRoute() {
   const [viewDateTime, setViewDateTime] = useState(new Date());
 
   const handleViewDateTimeChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event
+    event,
   ) => {
     setViewDateTime(new Date(event.currentTarget.value));
   };

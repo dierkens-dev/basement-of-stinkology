@@ -19,7 +19,7 @@ import { prisma } from "~/services/prisma.server";
 const validator = withZod(
   z.object({
     movieViewId: z.string().uuid(),
-  })
+  }),
 );
 
 export async function loader({ request }: LoaderArgs) {

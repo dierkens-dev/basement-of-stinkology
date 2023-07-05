@@ -14,7 +14,7 @@ export async function loader({ request }: LoaderArgs) {
   });
 
   const moviesData = await Promise.all(
-    movies.map(({ themoviedbId }) => MovieDbClient.movieInfo(themoviedbId))
+    movies.map(({ themoviedbId }) => MovieDbClient.movieInfo(themoviedbId)),
   );
 
   const response = movies.map((movie) => {

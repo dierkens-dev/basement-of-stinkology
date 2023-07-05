@@ -11,16 +11,26 @@ import {
   useTransition,
 } from "@remix-run/react";
 import clsx from "clsx";
-import { SSRProvider } from "react-aria";
 import { Header } from "./features/layout";
 import { authenticator } from "./services/auth.server";
 import styles from "./styles/app.css";
+import type { V2_ServerRuntimeMetaFunction } from "@remix-run/server-runtime";
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Basement of Stinkology",
-  viewport: "width=device-width,initial-scale=1",
-});
+export const meta: V2_ServerRuntimeMetaFunction = () => {
+  return [
+    {
+      title: "Basement of Stinkology",
+    },
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1",
+    },
+    {
+      name: "charset",
+      content: "utf-8",
+    },
+  ];
+};
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
@@ -37,32 +47,30 @@ export default function App() {
   const transition = useTransition();
 
   return (
-    <SSRProvider>
-      <html lang="en" className="bg-base-200">
-        <head>
-          <Meta />
-          <Links />
-        </head>
-        <body>
-          <Header user={user}>
-            <progress
-              className={clsx("progress progress-primary block flex-shrink-0", {
-                invisible: transition.state === "idle",
-              })}
-            ></progress>
+    <html lang="en" className="bg-base-200">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Header user={user}>
+          <progress
+            className={clsx("progress progress-primary block flex-shrink-0", {
+              invisible: transition.state === "idle",
+            })}
+          ></progress>
 
-            <main className="container mx-auto px-3 mt-3 flex-auto">
-              <Outlet />
-            </main>
-          </Header>
+          <main className="container mx-auto px-3 mt-3 flex-auto">
+            <Outlet />
+          </main>
+        </Header>
 
-          {/* <Footer /> */}
+        {/* <Footer /> */}
 
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
-        </body>
-      </html>
-    </SSRProvider>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
   );
 }

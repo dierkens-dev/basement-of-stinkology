@@ -30,13 +30,13 @@ export async function loader({ params }: LoaderArgs) {
 
   const moviesData = await Promise.all(
     event.MovieViews.map(({ movie }) =>
-      MovieDbClient.movieInfo(movie.themoviedbId)
-    )
+      MovieDbClient.movieInfo(movie.themoviedbId),
+    ),
   );
 
   const movies = event.MovieViews.map((movieView) => {
     const movieDbData = moviesData.find(
-      ({ id }) => id === movieView.movie.themoviedbId
+      ({ id }) => id === movieView.movie.themoviedbId,
     );
 
     invariant(movieDbData, "Unable to map movieDbDate.");
@@ -83,7 +83,7 @@ export default function MoviesIndexRoute() {
                   </figure>
                 </div>
               );
-            }
+            },
           )}
       </div>
     </>

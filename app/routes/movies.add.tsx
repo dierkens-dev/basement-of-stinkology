@@ -150,7 +150,7 @@ export default function Add() {
                     </div>
                   </div>
                 );
-              }
+              },
             )
           : null}
       </div>
