@@ -1,4 +1,4 @@
-import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -8,13 +8,13 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-  useTransition,
+  useNavigation,
 } from "@remix-run/react";
+import type { V2_ServerRuntimeMetaFunction } from "@remix-run/server-runtime";
 import clsx from "clsx";
 import { Header } from "./features/layout";
 import { authenticator } from "./services/auth.server";
 import styles from "./styles/app.css";
-import type { V2_ServerRuntimeMetaFunction } from "@remix-run/server-runtime";
 
 export const meta: V2_ServerRuntimeMetaFunction = () => {
   return [
@@ -44,7 +44,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function App() {
   const { user } = useLoaderData<typeof loader>();
-  const transition = useTransition();
+  const navigation = useNavigation();
 
   return (
     <html lang="en" className="bg-base-200">
@@ -56,7 +56,7 @@ export default function App() {
         <Header user={user}>
           <progress
             className={clsx("progress progress-primary block flex-shrink-0", {
-              invisible: transition.state === "idle",
+              invisible: navigation.state === "idle",
             })}
           ></progress>
 

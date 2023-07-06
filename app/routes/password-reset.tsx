@@ -4,7 +4,7 @@ import {
   Link,
   useActionData,
   useLocation,
-  useTransition,
+  useNavigation,
 } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -50,7 +50,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function PasswordReset() {
-  const { submission } = useTransition();
+  const navigation = useNavigation();
   const data = useActionData<typeof action>();
   const location = useLocation();
 
@@ -92,10 +92,12 @@ export default function PasswordReset() {
 
           <AuthCardActions>
             <SubmitButton
-              isLoading={Boolean(submission)}
-              disabled={Boolean(submission)}
+              isLoading={navigation.state !== "idle"}
+              disabled={navigation.state !== "idle"}
             >
-              {submission ? "Sending Reset Email..." : "Reset Password"}
+              {navigation.state === "submitting"
+                ? "Sending Reset Email..."
+                : "Reset Password"}
             </SubmitButton>
 
             <AuthCardLinks>

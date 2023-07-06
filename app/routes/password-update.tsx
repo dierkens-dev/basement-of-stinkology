@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useActionData, useLoaderData, useTransition } from "@remix-run/react";
+import { useActionData, useLoaderData, useNavigation } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { FirebaseError } from "firebase/app";
 import { confirmPasswordReset } from "firebase/auth";
@@ -73,7 +73,7 @@ export async function loader({ request }: LoaderArgs) {
 export default function PasswordUpdate() {
   const data = useActionData<typeof action>();
   const loaderData = useLoaderData<typeof loader>();
-  const { submission } = useTransition();
+  const navigation = useNavigation();
 
   return (
     <AuthCard>
@@ -99,10 +99,12 @@ export default function PasswordUpdate() {
 
           <AuthCardActions>
             <SubmitButton
-              isLoading={Boolean(submission)}
-              disabled={Boolean(submission)}
+              isLoading={navigation.state !== "idle"}
+              disabled={navigation.state !== "idle"}
             >
-              {submission ? "Updating Password..." : "Update Password"}
+              {navigation.state === "submitting"
+                ? "Updating Password..."
+                : "Update Password"}
             </SubmitButton>
           </AuthCardActions>
         </ValidatedForm>

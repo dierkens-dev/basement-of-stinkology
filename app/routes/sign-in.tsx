@@ -1,5 +1,10 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { Link, useCatch, useTransition } from "@remix-run/react";
+import {
+  Link,
+  isRouteErrorResponse,
+  useNavigation,
+  useRouteError,
+} from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
@@ -52,14 +57,18 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-  return <SignIn message={caught.data.message} />;
+  if (isRouteErrorResponse(error)) {
+    return <SignIn message={error.data.message} />;
+  }
+
+  return null;
 }
 
 export default function SignIn({ message }: { message?: string }) {
-  const { submission } = useTransition();
+  const navigation = useNavigation();
 
   return (
     <AuthCard>
@@ -76,10 +85,10 @@ export default function SignIn({ message }: { message?: string }) {
 
           <AuthCardActions>
             <SubmitButton
-              isLoading={Boolean(submission)}
-              disabled={Boolean(submission)}
+              isLoading={navigation.state !== "idle"}
+              disabled={navigation.state !== "idle"}
             >
-              {submission ? "Signing In..." : "Sign In"}
+              {navigation.state === "submitting" ? "Signing In..." : "Sign In"}
             </SubmitButton>
 
             <AuthCardLinks>

@@ -1,7 +1,7 @@
 import { Role } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useLoaderData, useNavigate, useTransition } from "@remix-run/react";
+import { useLoaderData, useNavigate, useNavigation } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { format } from "date-fns";
 import { useOverlayTriggerState } from "react-stately";
@@ -19,7 +19,7 @@ import { prisma } from "~/services/prisma.server";
 const validator = withZod(
   z.object({
     movieViewId: z.string().uuid(),
-  }),
+  })
 );
 
 export async function loader({ request }: LoaderArgs) {
@@ -83,7 +83,7 @@ export default function EditMovieViewRoute() {
     defaultOpen: true,
   });
 
-  const transition = useTransition();
+  const navigation = useNavigation();
 
   return (
     <Modal state={state}>
@@ -107,8 +107,8 @@ export default function EditMovieViewRoute() {
           </Button>
 
           <SubmitButton
-            isDisabled={Boolean(transition.submission)}
-            isLoading={Boolean(transition.submission)}
+            isDisabled={navigation.state !== "idle"}
+            isLoading={navigation.state !== "idle"}
             className="btn-error"
           >
             Delete

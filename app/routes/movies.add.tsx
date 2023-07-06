@@ -1,7 +1,7 @@
 import { Role } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useLoaderData, useTransition } from "@remix-run/react";
+import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import React from "react";
 import type { AriaTextFieldOptions } from "react-aria";
 import { useTextField } from "react-aria";
@@ -47,7 +47,7 @@ export async function loader({ request }: LoaderArgs) {
 
 function SearchField(props: TextFieldProps) {
   const { label } = props;
-  const { submission } = useTransition();
+  const navigation = useNavigation();
 
   const ref = React.useRef<HTMLInputElement | null>(null);
 
@@ -68,8 +68,8 @@ function SearchField(props: TextFieldProps) {
         />
 
         <SubmitButton
-          isDisabled={Boolean(submission)}
-          isLoading={Boolean(submission)}
+          isDisabled={navigation.state !== "idle"}
+          isLoading={navigation.state !== "idle"}
         >
           Search
         </SubmitButton>
@@ -101,7 +101,7 @@ export async function action({ request }: ActionArgs) {
 
 export default function Add() {
   const data = useLoaderData<typeof loader>();
-  const { submission } = useTransition();
+  const navigation = useNavigation();
 
   return (
     <div>
@@ -140,8 +140,8 @@ export default function Add() {
                           <input type="hidden" value={id} name="themoviedbId" />
 
                           <SubmitButton
-                            isDisabled={Boolean(submission)}
-                            isLoading={Boolean(submission)}
+                            isDisabled={navigation.state !== "idle"}
+                            isLoading={navigation.state !== "idle"}
                           >
                             Add Movie
                           </SubmitButton>
@@ -150,7 +150,7 @@ export default function Add() {
                     </div>
                   </div>
                 );
-              },
+              }
             )
           : null}
       </div>

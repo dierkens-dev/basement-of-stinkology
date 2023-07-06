@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { useNavigate, useParams, useTransition } from "@remix-run/react";
+import { useNavigate, useNavigation, useParams } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -21,7 +21,7 @@ const validator = withZod(
     viewDateTime: z.string().datetime(),
     movieId: z.string().uuid(),
     eventId: z.string().uuid(),
-  }),
+  })
 );
 
 export async function action({ request }: ActionArgs) {
@@ -63,11 +63,11 @@ export default function AddMovieViewRoute() {
     onOpenChange: () => navigate(".."),
   });
 
-  const transition = useTransition();
+  const navigation = useNavigation();
   const [viewDateTime, setViewDateTime] = useState(new Date());
 
   const handleViewDateTimeChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event,
+    event
   ) => {
     setViewDateTime(new Date(event.currentTarget.value));
   };
@@ -105,8 +105,8 @@ export default function AddMovieViewRoute() {
           </Button>
 
           <SubmitButton
-            isDisabled={Boolean(transition.submission)}
-            isLoading={Boolean(transition.submission)}
+            isDisabled={navigation.state !== "idle"}
+            isLoading={navigation.state !== "idle"}
           >
             Add View
           </SubmitButton>

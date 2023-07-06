@@ -1,7 +1,7 @@
 import { Role } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useLoaderData, useNavigate, useTransition } from "@remix-run/react";
+import { useLoaderData, useNavigate, useNavigation } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -21,7 +21,7 @@ const validator = withZod(
   z.object({
     viewDateTime: z.string().datetime(),
     movieViewId: z.string().uuid(),
-  }),
+  })
 );
 
 export async function loader({ request }: LoaderArgs) {
@@ -88,14 +88,14 @@ export default function EditMovieViewRoute() {
     defaultOpen: true,
   });
 
-  const transition = useTransition();
+  const navigation = useNavigation();
 
   const [viewDateTime, setViewDateTime] = useState(
-    new Date(loaderData.movieView.viewDateTime),
+    new Date(loaderData.movieView.viewDateTime)
   );
 
   const handleViewDateTimeChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event,
+    event
   ) => {
     setViewDateTime(new Date(event.currentTarget.value));
   };
@@ -131,8 +131,8 @@ export default function EditMovieViewRoute() {
           </Button>
 
           <SubmitButton
-            isDisabled={Boolean(transition.submission)}
-            isLoading={Boolean(transition.submission)}
+            isDisabled={navigation.state !== "idle"}
+            isLoading={navigation.state !== "idle"}
           >
             Update
           </SubmitButton>

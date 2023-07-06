@@ -34,7 +34,7 @@ const remixImage = new docker.Image("bos-remix-image", {
   imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-remix`,
   build: {
     context: "../",
-    extraOptions: ["--platform", "linux/amd64"],
+    platform: "linux/amd64",
   },
 });
 

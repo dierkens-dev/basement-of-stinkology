@@ -1,7 +1,7 @@
 import { Role } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useActionData, useTransition } from "@remix-run/react";
+import { useActionData, useNavigation } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
@@ -20,7 +20,7 @@ const validator = withZod(
       .string()
       .regex(/[0-9]{4}-[0-9]{2}-[0-9]{2}/, "Enter a valid date.")
       .optional(),
-  }),
+  })
 );
 
 export async function action({ request }: ActionArgs) {
@@ -66,7 +66,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Add() {
   const data = useActionData<typeof action>();
-  const transition = useTransition();
+  const navigation = useNavigation();
 
   return (
     <ValidatedForm method="post" validator={validator}>
@@ -79,8 +79,8 @@ export default function Add() {
       ) : null}
 
       <SubmitButton
-        isDisabled={Boolean(transition.submission)}
-        isLoading={Boolean(transition.submission)}
+        isDisabled={navigation.state !== "idle"}
+        isLoading={navigation.state !== "idle"}
       >
         Add Event
       </SubmitButton>

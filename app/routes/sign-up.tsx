@@ -1,6 +1,6 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Link, useLocation, useTransition } from "@remix-run/react";
+import { Link, useLocation, useNavigation } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ValidatedForm, validationError } from "remix-validated-form";
@@ -44,7 +44,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function SignUp() {
-  const { submission } = useTransition();
+  const navigation = useNavigation();
   const location = useLocation();
 
   return (
@@ -58,10 +58,10 @@ export default function SignUp() {
 
           <AuthCardActions>
             <SubmitButton
-              isLoading={Boolean(submission)}
-              disabled={Boolean(submission)}
+              isLoading={navigation.state !== "idle"}
+              disabled={navigation.state !== "idle"}
             >
-              {submission ? "Signing Up..." : "Sign Up"}
+              {navigation.state === "submitting" ? "Signing Up..." : "Sign Up"}
             </SubmitButton>
 
             <AuthCardLinks>
