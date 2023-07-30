@@ -1,65 +1,63 @@
-# Welcome to Remix!
+# Nuxt 3 Minimal Starter
 
-- [Remix Docs](https://remix.run/docs)
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
 
-- https://cloud.google.com/sdk/docs/install
-- https://www.pulumi.com/docs/get-started/install/
-- https://docs.volta.sh/guide/getting-started
+Make sure to install the dependencies:
 
-```sh
-gcloud auth application-default login
-gcloud auth login
-gcloud auth configure-docker
-gcloud config set project basement-of-stinkology
-yarn pulumi login gs://bos-pulumi-state-bucket
+```bash
+# npm
+npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
 ```
 
-## Development
+## Development Server
 
-Start the Remix development asset server and the Express server by running:
+Start the development server on `http://localhost:3000`:
 
-```sh
+```bash
+# npm
 npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
 ```
 
-This starts your app in development mode, which will purge the server require cache when Remix rebuilds assets so you don't need a process manager restarting the express server.
+## Production
 
-## Deployment
+Build the application for production:
 
-First, build your app for production:
-
-```sh
+```bash
+# npm
 npm run build
+
+# pnpm
+pnpm run build
+
+# yarn
+yarn build
 ```
 
-Then run the app in production mode:
+Locally preview production build:
 
-```sh
-npm start
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm run preview
+
+# yarn
+yarn preview
 ```
 
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying express applications you should be right at home just make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
-
-### Using a Template
-
-When you ran `npx create-remix@latest` there were a few choices for hosting. You can run that again to create a new project, then copy over your `app/` folder to the new project that's pre-configured for your target server.
-
-```sh
-cd ..
-# create a new project, and pick a pre-configured host
-npx create-remix@latest
-cd my-new-remix-app
-# remove the new project's app (not the old one!)
-rm -rf app
-# copy your app over
-cp -R ../my-old-remix-app/app app
-```
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
