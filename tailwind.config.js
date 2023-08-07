@@ -1,6 +1,20 @@
 /** @type {import('tailwindcss').Config} */
+const srcDir = "./src";
+
 module.exports = {
-  content: ["./app/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    `${srcDir}/components/**/*.{vue,js,ts,tsx}`,
+    `${srcDir}/layouts/**/*.vue`,
+    `${srcDir}/pages/**/*.vue`,
+    `${srcDir}/composables/**/*.{js,ts,tsx}`,
+    `${srcDir}/plugins/**/*.{js,ts,tsx}`,
+    `${srcDir}/utils/**/*.{js,ts,tsx}`,
+    `${srcDir}/App.{js,ts,tsx,vue}`,
+    `${srcDir}/app.{js,ts,tsx,vue}`,
+    `${srcDir}/Error.{js,ts,tsx,vue}`,
+    `${srcDir}/error.{js,ts,tsx,vue}`,
+    `${srcDir}/app.config.{js,ts,tsx}`,
+  ],
   theme: {
     extend: {},
   },

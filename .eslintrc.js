@@ -6,7 +6,7 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "@remix-run/eslint-config",
+    "@nuxt/eslint-config",
     "plugin:@typescript-eslint/recommended",
     "prettier",
   ],
@@ -18,17 +18,11 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {
-    "react/react-in-jsx-scope": "off",
     "no-restricted-imports": [
       "error",
       {
         patterns: ["~/features/*/*"],
       },
     ],
-  },
-  settings: {
-    react: {
-      version: "detect",
-    },
   },
 };

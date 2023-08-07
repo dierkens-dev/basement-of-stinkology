@@ -1,17 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  build: {
-    // @ts-expect-error
-    postcss: {
-      postcssOptions: {
-        plugins: {
-          tailwindcss: {},
-          autoprefixer: {},
-        },
-      },
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
     },
-  },
-  css: ["@/assets/css/main.css"],
+  ],
   devtools: { enabled: true },
+  modules: ["@nuxtjs/tailwindcss"],
   srcDir: "./src",
 });
