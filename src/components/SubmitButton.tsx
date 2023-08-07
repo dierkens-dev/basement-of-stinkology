@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { ButtonHTMLAttributes } from "vue";
+import Button from "./Button";
 
 export default defineComponent({
   props: {
@@ -11,21 +11,28 @@ export default defineComponent({
       type: Boolean,
       default: undefined,
     },
-    onClick: {
-      type: Function as PropType<ButtonHTMLAttributes["onClick"]>,
-      default: undefined,
-    },
-    type: {
-      type: String as PropType<ButtonHTMLAttributes["type"]>,
+    isLoading: {
+      type: Boolean,
       default: undefined,
     },
   },
   setup(props, context) {
     return () => {
       return (
-        <button {...props} class={clsx("btn", props.class)}>
+        <Button
+          class={clsx(
+            "btn-primary",
+            {
+              "btn-disabled": props.disabled,
+              loading: props.isLoading,
+            },
+            props.class,
+          )}
+          disabled={props.disabled}
+          type="submit"
+        >
           {context.slots.default && context.slots.default()}
-        </button>
+        </Button>
       );
     };
   },
