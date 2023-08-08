@@ -31,5 +31,6 @@
       quis feugiat felis. Pellentesque at sem in ipsum efficitur volutpat.</P
     >
     <Button class="btn-primary">Click me</Button>
+    <Label class="lbl-primary" for="myBunghole">Poop</Label>
   </div>
 </template>

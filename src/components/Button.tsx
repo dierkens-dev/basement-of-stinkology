@@ -22,8 +22,9 @@ export default defineComponent({
   },
   setup(props, context) {
     return () => {
+      const { class: className, ...rest } = props;
       return (
-        <button {...props} class={clsx("btn", props.class)}>
+        <button {...rest} class={clsx("btn", className)}>
           {context.slots.default && context.slots.default()}
         </button>
       );
