@@ -8,10 +8,10 @@ type InputFProps = {
   value: string;
 };
 
-function InputF(props: InputFProps, context: SetupContext) {
+const InputF = (props: InputFProps, context: SetupContext) => {
   const { class: className, ...rest } = props;
   return <input class={clsx("input input-bordered", className)} {...rest} />;
-}
+};
 
 InputF.props = {
   class: {
@@ -27,3 +27,5 @@ InputF.props = {
     default: undefined,
   },
 };
+
+export default InputF;
