@@ -32,6 +32,6 @@
     >
     <Button class="btn-primary">Click me</Button>
     <Label class="lbl-primary" for="myBunghole">Poop</Label>
-    <InputF id="myBunghole" class="input-primary" />
+    <Input id="myBunghole" class="input-primary" />
   </div>
 </template>
