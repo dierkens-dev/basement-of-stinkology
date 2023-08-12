@@ -1,8 +1,9 @@
 import clsx from "clsx";
+import { defaultProps } from "../../lib/html-attributes.lib";
 
 export default defineComponent({
   props: {
-    class: String,
+    ...defaultProps,
   },
   setup(props, context) {
     return () => {

@@ -10,7 +10,14 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "prettier",
   ],
-  overrides: [],
+  overrides: [
+    {
+      files: ["src/components/**/*.tsx"],
+      rules: {
+        "vue/prop-name-casing": "off",
+      },
+    },
+  ],
   parser: "vue-eslint-parser",
   parserOptions: {
     parser: "@typescript-eslint/parser",

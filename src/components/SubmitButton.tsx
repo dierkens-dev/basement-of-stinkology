@@ -1,12 +1,10 @@
 import { clsx } from "clsx";
 import Button from "./Button";
+import { defaultProps } from "../lib/html-attributes.lib";
 
 export default defineComponent({
   props: {
-    class: {
-      type: String,
-      default: undefined,
-    },
+    ...defaultProps,
     disabled: {
       type: Boolean,
       default: undefined,
