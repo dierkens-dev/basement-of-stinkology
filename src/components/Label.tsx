@@ -1,12 +1,10 @@
 import { clsx } from "clsx";
+import { defaultProps } from "lib/html-attributes.lib";
 import type { LabelHTMLAttributes } from "vue";
 
 export default defineComponent({
   props: {
-    class: {
-      type: String,
-      default: undefined,
-    },
+    ...defaultProps,
     for: {
       type: String as PropType<LabelHTMLAttributes["for"]>,
       default: undefined,
