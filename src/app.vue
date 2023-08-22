@@ -33,5 +33,32 @@
     <Button class="btn-primary">Click me</Button>
     <Label class="lbl-primary" for="myBunghole">Poop</Label>
     <Input id="myBunghole" class="input-primary" />
+
+    <FormControl>
+      <TextField
+        id="email"
+        type="email"
+        value="chris@dierkens.dev"
+        error="error!"
+        label="Email"
+      />
+    </FormControl>
+
+    <Button class="m-4 btn-secondary btn-outline" @click="open = true"
+      >Open Modal</Button
+    >
+    <Modal :open="open" @on-close="open = false">
+      <h3 class="font-bold text-lg">Hello!</h3>
+      <p class="py-4">Press ESC key or click the button below to close</p>
+
+      <div class="modal-action">
+        <button class="btn btn-primary" autofocus>Close</button>
+      </div>
+    </Modal>
   </div>
 </template>
+<script setup>
+import { ref } from "vue";
+
+const open = ref(false);
+</script>

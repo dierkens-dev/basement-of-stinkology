@@ -2,17 +2,21 @@ import { clsx } from "clsx";
 import { defaultProps } from "lib/html-attributes.lib";
 import type { InputHTMLAttributes } from "vue";
 
+export const inputProps = {
+  type: {
+    type: String as PropType<InputHTMLAttributes["type"]>,
+    default: undefined,
+  },
+  value: {
+    type: String as PropType<InputHTMLAttributes["value"]>,
+    default: undefined,
+  },
+};
+
 export default defineComponent({
   props: {
     ...defaultProps,
-    type: {
-      type: String as PropType<InputHTMLAttributes["type"]>,
-      default: undefined,
-    },
-    value: {
-      type: String as PropType<InputHTMLAttributes["value"]>,
-      default: undefined,
-    },
+    ...inputProps,
   },
   setup(props) {
     return () => {
