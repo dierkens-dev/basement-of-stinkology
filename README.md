@@ -1,63 +1,83 @@
-# Nuxt 3 Minimal Starter
+# Basement of Stinkology
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Web app for the Basement of Stinkology.
 
-## Setup
+## Contributing
 
-Make sure to install the dependencies:
+### Software
 
-```bash
-# npm
-npm install
+Install the following software
 
-# pnpm
-pnpm install
+- [Yarn Classic](https://classic.yarnpkg.com/lang/en/docs/install/)
 
-# yarn
+### Application Development
+
+#### Setup
+
+```
 yarn install
 ```
 
-## Development Server
+##### Create a `.env` file
+
+```
+BOS_FIREBASE_API_KEY=<bos-firebase-api-key>
+BOS_FIREBASE_AUTH_DOMAIN=<bos-firebase-auth-domain>
+BOS_POSTGRES_PASSWORD=<bos-postgres-password>
+BOS_POSTGRES_USER=<bos-postgres-user>
+BOS_SESSION_STORAGE_SECRET=<bos-session-storage-secret>
+BOS_THE_MOVIE_DB_API_KEY=<bos-the-movie-db-api-key>
+```
+
+> Note: You can pull these from the pulumi config if you have that setup with `pulumi config get KEY`
+
+#### Commands
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
 yarn dev
 ```
 
-## Production
+### Infrastructure Development
 
-Build the application for production:
+#### Software
 
-```bash
-# npm
-npm run build
+Install the following software
 
-# pnpm
-pnpm run build
+- [Google Cloud CLI](https://cloud.google.com/sdk/docs/install)
+- [Pulumi](https://www.pulumi.com/docs/install/)
 
-# yarn
-yarn build
+#### Setup
+
+##### Google Cloud
+
+```
+gcloud config configurations create bos
+gcloud config set project basement-of-stinkology
+gcloud config set account <username@dierkens.dev>
+gcloud auth login
+gcloud config set compute/region us-east5
+gcloud auth application-default login
 ```
 
-Locally preview production build:
+##### Pulumi
 
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
+```
+pulumi login gs://bos-pulumi-state-bucket
+yarn pulumi stack select production
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+#### Commands
+
+##### Deploy
+
+```
+yarn pulumi up
+```
+
+##### Tear Down
+
+```
+yarn pulumi down
+```
