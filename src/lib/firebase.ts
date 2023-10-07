@@ -4,12 +4,12 @@ import { invariant } from "~/utils/invariant";
 
 invariant(
   process.env.BOS_FIREBASE_API_KEY,
-  "BOS_SESSION_STORAGE_SECRET should be set",
+  "BOS_FIREBASE_API_KEY should be set",
 );
 
 invariant(
   process.env.BOS_FIREBASE_AUTH_DOMAIN,
-  "BOS_SESSION_STORAGE_SECRET should be set",
+  "BOS_FIREBASE_AUTH_DOMAIN should be set",
 );
 
 const app = initializeApp({

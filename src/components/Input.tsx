@@ -11,6 +11,10 @@ export const inputProps = {
     type: String as PropType<InputHTMLAttributes["value"]>,
     default: undefined,
   },
+  onInput: {
+    type: Function as PropType<InputHTMLAttributes["onInput"]>,
+    default: undefined,
+  },
 };
 
 export default defineComponent({

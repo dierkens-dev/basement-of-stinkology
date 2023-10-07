@@ -3,6 +3,9 @@ import path from "node:path";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  auth: {
+    origin: process.env.BOS_FIREBASE_AUTH_DOMAIN,
+  },
   components: [
     {
       path: "~/components",

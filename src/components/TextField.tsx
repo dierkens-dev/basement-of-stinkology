@@ -21,26 +21,45 @@ export default defineComponent({
     },
     ...inputProps,
   },
+  emits: ["input"],
   setup(props, context) {
-    return () => (
-      <FormControl>
-        <Label for={props.id}>{props.label}</Label>
+    return () => {
+      console.log({ props, attrs: context.attrs });
+      return (
+        <FormControl>
+          <Label for={props.id}>{props.label}</Label>
 
-        <Input
-          class={clsx({ "input-error": props.error })}
-          id={props.id}
-          type={props.type}
-          value={props.value}
-        />
+          <Input
+            class={clsx({ "input-error": props.error })}
+            id={props.id}
+            type={props.type}
+            value={context.attrs.modelValue}
+            onInput={(event) =>
+              (context.attrs["onUpdate:modelValue"] as any)(
+                (event.currentTarget as any).value,
+              )
+            }
+          />
 
-        {props.description && <div class="text-sm">{props.description}</div>}
+          {props.description && <div class="text-sm">{props.description}</div>}
 
-        {props.error && (
-          <div class="text-sm text-error py-2">{props.error}</div>
-        )}
+          {props.error && (
+            <div class="text-sm text-error py-2">{props.error}</div>
+          )}
 
-        {context.slots.default && context.slots.default()}
-      </FormControl>
-    );
+          {context.slots.default && context.slots.default()}
+        </FormControl>
+      );
+    };
+  },
+  computed: {
+    inputValue: {
+      get() {
+        return this.value;
+      },
+      set(value: string) {
+        this.$emit("input", value);
+      },
+    },
   },
 });
