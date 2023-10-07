@@ -1,5 +1,5 @@
-<script setup>
-import { useField, useForm } from "vee-validate";
+<script setup lang="ts">
+import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 
@@ -13,44 +13,65 @@ const validationSchema = toTypedSchema(
   }),
 );
 
-const { handleSubmit, errors } = useForm({
+const {
+  handleSubmit,
+  errors,
+  isSubmitting,
+  setFieldValue,
+  values,
+  isFieldTouched,
+} = useForm({
   validationSchema,
 });
 
-const { value: email } = useField("email");
-const { value: password } = useField("password");
-
 const { signIn } = useAuth();
+const route = useRoute();
 
 const onSubmit = handleSubmit((values) => {
-  signIn("credentials", { ...values, callbackUrl: "/" });
+  signIn("credentials", {
+    ...values,
+    callbackUrl:
+      typeof route.query.redirectTo === "string" ? route.query.redirectTo : "/",
+  });
 });
+
+function handleOnInput(field: keyof typeof values, event: Event) {
+  setFieldValue(
+    field,
+    (event.currentTarget as HTMLInputElement).value,
+    isFieldTouched(field),
+  );
+}
 </script>
 
 <template>
   <AuthCard>
     <AuthCardBody>
-      <form @submit="onSubmit">
+      <form novalidate @submit="onSubmit">
         <AuthCardTitle>Sign In</AuthCardTitle>
 
         <TextField
-          v-model="email"
+          :error="isFieldTouched('email') ? errors.email : undefined"
+          :on-input="(event) => handleOnInput('email', event)"
+          :value="values.email"
+          label="Email"
           name="email"
           type="email"
-          label="Email"
-          :error="errors.email"
         />
 
         <TextField
-          v-model="password"
+          :error="isFieldTouched('password') ? errors.password : undefined"
+          :on-input="(event) => handleOnInput('password', event)"
+          :value="values.password"
+          label="Password"
           name="password"
           type="password"
-          label="Password"
-          :error="errors.password"
         />
 
         <AuthCardActions>
-          <SubmitButton> Sign In </SubmitButton>
+          <SubmitButton :is-loading="isSubmitting" :disabled="isSubmitting">
+            Sign In
+          </SubmitButton>
 
           <AuthCardLinks>
             <NuxtLink class="link hover:link-primary" to="/sign-up">

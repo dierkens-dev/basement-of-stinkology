@@ -33,12 +33,8 @@ export default defineComponent({
             class={clsx({ "input-error": props.error })}
             id={props.id}
             type={props.type}
-            value={context.attrs.modelValue}
-            onInput={(event) =>
-              (context.attrs["onUpdate:modelValue"] as any)(
-                (event.currentTarget as any).value,
-              )
-            }
+            value={props.value}
+            onInput={props.onInput}
           />
 
           {props.description && <div class="text-sm">{props.description}</div>}
