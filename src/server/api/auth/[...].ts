@@ -4,12 +4,14 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../lib/firebase";
 import { prisma } from "../../../services/prisma.server";
 import { FirebaseError } from "firebase/app";
-import { getErrorMessage } from "../../../lib/firebase-errors";
 import { invariant } from "../../../utils/invariant";
 import { Session } from "next-auth";
 
 export default NuxtAuthHandler({
   secret: process.env.BOS_SESSION_STORAGE_SECRET,
+  pages: {
+    signIn: "/sign-in",
+  },
   callbacks: {
     jwt: async ({ token, user }) => {
       token.user = user || token.user;
@@ -49,10 +51,7 @@ export default NuxtAuthHandler({
           return user;
         } catch (error) {
           if (error instanceof FirebaseError) {
-            throw createError({
-              status: 403,
-              message: getErrorMessage(error.message),
-            });
+            return null;
           }
 
           throw error;

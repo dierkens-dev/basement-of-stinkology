@@ -24,7 +24,6 @@ export default defineComponent({
   emits: ["input"],
   setup(props, context) {
     return () => {
-      console.log({ props, attrs: context.attrs });
       return (
         <FormControl>
           <Label for={props.id}>{props.label}</Label>

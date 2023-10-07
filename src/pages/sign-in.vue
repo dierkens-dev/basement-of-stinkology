@@ -19,7 +19,7 @@ const {
   isSubmitting,
   setFieldValue,
   values,
-  isFieldTouched,
+  submitCount,
 } = useForm({
   validationSchema,
 });
@@ -27,11 +27,13 @@ const {
 const { signIn } = useAuth();
 const route = useRoute();
 
-const onSubmit = handleSubmit((values) => {
-  signIn("credentials", {
+const onSubmit = handleSubmit(async (values) => {
+  await signIn("credentials", {
     ...values,
     callbackUrl:
-      typeof route.query.redirectTo === "string" ? route.query.redirectTo : "/",
+      typeof route.query.callbackUrl === "string"
+        ? route.query.callbackUrl
+        : "/",
   });
 });
 
@@ -39,7 +41,7 @@ function handleOnInput(field: keyof typeof values, event: Event) {
   setFieldValue(
     field,
     (event.currentTarget as HTMLInputElement).value,
-    isFieldTouched(field),
+    submitCount.value > 0,
   );
 }
 </script>
@@ -51,7 +53,7 @@ function handleOnInput(field: keyof typeof values, event: Event) {
         <AuthCardTitle>Sign In</AuthCardTitle>
 
         <TextField
-          :error="isFieldTouched('email') ? errors.email : undefined"
+          :error="submitCount > 0 ? errors.email : undefined"
           :on-input="(event) => handleOnInput('email', event)"
           :value="values.email"
           label="Email"
@@ -60,13 +62,19 @@ function handleOnInput(field: keyof typeof values, event: Event) {
         />
 
         <TextField
-          :error="isFieldTouched('password') ? errors.password : undefined"
+          :error="submitCount > 0 ? errors.password : undefined"
           :on-input="(event) => handleOnInput('password', event)"
           :value="values.password"
           label="Password"
           name="password"
           type="password"
         />
+
+        <P
+          v-if="route.query.error === 'CredentialsSignin'"
+          class="alert alert-error shadow-lg mb-3"
+          >Incorrect sign in credentials.</P
+        >
 
         <AuthCardActions>
           <SubmitButton :is-loading="isSubmitting" :disabled="isSubmitting">
