@@ -1,4 +1,10 @@
 <script setup lang="ts">
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: true,
+  },
+});
+
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -24,16 +30,14 @@ const {
   validationSchema,
 });
 
-const { signIn } = useAuth();
-const route = useRoute();
+const { signIn, data: user } = useAuth();
+const { query } = useRoute();
 
 const onSubmit = handleSubmit(async (values) => {
   await signIn("credentials", {
     ...values,
     callbackUrl:
-      typeof route.query.callbackUrl === "string"
-        ? route.query.callbackUrl
-        : "/",
+      typeof query.callbackUrl === "string" ? query.callbackUrl : "/",
   });
 });
 
@@ -71,7 +75,7 @@ function handleOnInput(field: keyof typeof values, event: Event) {
         />
 
         <P
-          v-if="route.query.error === 'CredentialsSignin'"
+          v-if="query.error === 'CredentialsSignin'"
           class="alert alert-error shadow-lg mb-3"
           >Incorrect sign in credentials.</P
         >

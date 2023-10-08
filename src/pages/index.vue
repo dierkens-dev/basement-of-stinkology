@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container mx-auto">
     <H1>One</H1>
     <H2>Two</H2>
     <H3>Three</H3>
@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-definePageMeta({ auth: false });
 import { ref } from "vue";
+
 const open = ref(false);
 </script>
