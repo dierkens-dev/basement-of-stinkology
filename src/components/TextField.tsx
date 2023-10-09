@@ -31,6 +31,7 @@ export default defineComponent({
           <Input
             class={clsx({ "input-error": props.error })}
             id={props.id}
+            name={props.name}
             type={props.type}
             value={props.value}
             onInput={props.onInput}

@@ -11,7 +11,6 @@ export default NuxtAuthHandler({
   secret: process.env.BOS_SESSION_STORAGE_SECRET,
   pages: {
     signIn: "/sign-in",
-    signOut: "/sign-out",
   },
   callbacks: {
     jwt: async ({ token, user }) => {

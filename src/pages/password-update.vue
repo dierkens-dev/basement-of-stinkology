@@ -8,13 +8,18 @@ definePageMeta({
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
+// import { confirmPasswordReset } from "firebase/auth";
+// import { auth } from "../lib/firebase";
+import { FirebaseError } from "firebase/app";
+import { getErrorMessage } from "../lib/firebase-errors";
+
+const { query } = useRoute();
+
+const code = query.oobCode;
 
 const validationSchema = toTypedSchema(
   z.object({
-    email: z
-      .string()
-      .min(1, { message: "Email is required." })
-      .email("Must be a valid email."),
+    code: z.string().min(1, { message: "Reset code is required." }),
     password: z.string().min(1, "Password is required."),
   }),
 );
@@ -30,15 +35,19 @@ const {
   validationSchema,
 });
 
-const { signIn } = useAuth();
-const { query } = useRoute();
+const errorMessage = ref<string | null>(
+  code ? null : "Reset code is required.",
+);
 
 const onSubmit = handleSubmit(async (values) => {
-  await signIn("credentials", {
-    ...values,
-    callbackUrl:
-      typeof query.callbackUrl === "string" ? query.callbackUrl : "/",
-  });
+  try {
+    // TODO: This has to live on the server
+    // await confirmPasswordReset(auth, values.code, values.password);
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      errorMessage.value = getErrorMessage(error.code);
+    }
+  }
 });
 
 function handleOnInput(field: keyof typeof values, event: Event) {
@@ -54,16 +63,7 @@ function handleOnInput(field: keyof typeof values, event: Event) {
   <AuthCard>
     <AuthCardBody>
       <form novalidate @submit="onSubmit">
-        <AuthCardTitle>Sign In</AuthCardTitle>
-
-        <TextField
-          :error="submitCount > 0 ? errors.email : undefined"
-          :on-input="(event) => handleOnInput('email', event)"
-          :value="values.email"
-          label="Email"
-          name="email"
-          type="email"
-        />
+        <AuthCardTitle>Update Password</AuthCardTitle>
 
         <TextField
           :error="submitCount > 0 ? errors.password : undefined"
@@ -74,26 +74,17 @@ function handleOnInput(field: keyof typeof values, event: Event) {
           type="password"
         />
 
-        <P
-          v-if="query.error === 'CredentialsSignin'"
-          class="alert alert-error shadow-lg mb-3"
-          >Incorrect sign in credentials.</P
-        >
+        <P v-if="errorMessage" class-name="alert alert-error shadow-lg mb-3">
+          {{ errorMessage }}
+        </P>
+
+        <input type="hidden" name="code" :value="{ code }" />
 
         <AuthCardActions>
           <SubmitButton :is-loading="isSubmitting" :disabled="isSubmitting">
-            Sign In
+            <span v-if="isSubmitting">Updating Password...</span>
+            <span v-else>Update Password</span>
           </SubmitButton>
-
-          <AuthCardLinks>
-            <NuxtLink class="link hover:link-primary" to="/sign-up">
-              Sign Up
-            </NuxtLink>
-            or
-            <NuxtLink class="link hover:link-primary" to="/password-reset">
-              Reset Password
-            </NuxtLink>
-          </AuthCardLinks>
         </AuthCardActions>
       </form>
     </AuthCardBody>

@@ -48,6 +48,7 @@
     "@vee-validate/zod": "4.11.8",
     "clsx": "^2.0.0",
     "firebase": "^10.3.0",
+    "h3-zod": "0.5.1",
     "next-auth": "4.21.1",
     "prisma": "^5.0.0",
     "vee-validate": "4.11.8",

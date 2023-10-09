@@ -8,6 +8,8 @@ definePageMeta({
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
+// import { sendPasswordResetEmail } from "firebase/auth";
+// import { auth } from "../lib/firebase";
 
 const validationSchema = toTypedSchema(
   z.object({
@@ -15,7 +17,6 @@ const validationSchema = toTypedSchema(
       .string()
       .min(1, { message: "Email is required." })
       .email("Must be a valid email."),
-    password: z.string().min(1, "Password is required."),
   }),
 );
 
@@ -30,15 +31,11 @@ const {
   validationSchema,
 });
 
-const { signIn } = useAuth();
-const { query } = useRoute();
+const isEmailSent = ref(false);
 
 const onSubmit = handleSubmit(async (values) => {
-  await signIn("credentials", {
-    ...values,
-    callbackUrl:
-      typeof query.callbackUrl === "string" ? query.callbackUrl : "/",
-  });
+  // TODO: This has to live on the server
+  // await sendPasswordResetEmail(auth, values.email);
 });
 
 function handleOnInput(field: keyof typeof values, event: Event) {
@@ -51,10 +48,37 @@ function handleOnInput(field: keyof typeof values, event: Event) {
 </script>
 
 <template>
-  <AuthCard>
+  <AuthCard v-if="isEmailSent">
+    <AuthCardBody>
+      <P class="alert alert-info shadow-lg mb-3">
+        Please check your email for a reset password link.
+      </P>
+
+      <div class="flex justify-end gap-1">
+        <Link
+          class="link hover:link-primary"
+          to="{getRedirectURL({"
+          location
+          })}
+        >
+          Sign In
+        </Link>
+        or
+        <Link
+          class="link hover:link-primary"
+          to="{getRedirectURL({"
+          location
+          })}
+        >
+          Sign Up
+        </Link>
+      </div>
+    </AuthCardBody>
+  </AuthCard>
+  <AuthCard v-else>
     <AuthCardBody>
       <form novalidate @submit="onSubmit">
-        <AuthCardTitle>Sign In</AuthCardTitle>
+        <AuthCardTitle>Reset Password</AuthCardTitle>
 
         <TextField
           :error="submitCount > 0 ? errors.email : undefined"
@@ -65,34 +89,20 @@ function handleOnInput(field: keyof typeof values, event: Event) {
           type="email"
         />
 
-        <TextField
-          :error="submitCount > 0 ? errors.password : undefined"
-          :on-input="(event) => handleOnInput('password', event)"
-          :value="values.password"
-          label="Password"
-          name="password"
-          type="password"
-        />
-
-        <P
-          v-if="query.error === 'CredentialsSignin'"
-          class="alert alert-error shadow-lg mb-3"
-          >Incorrect sign in credentials.</P
-        >
-
         <AuthCardActions>
           <SubmitButton :is-loading="isSubmitting" :disabled="isSubmitting">
-            Sign In
+            <span v-if="isSubmitting">Sending Reset Email...</span>
+            <span v-else>Reset Password</span>
           </SubmitButton>
 
           <AuthCardLinks>
-            <NuxtLink class="link hover:link-primary" to="/sign-up">
-              Sign Up
-            </NuxtLink>
+            <NextLink class="link hover:link-primary" to="/sign-in">
+              Sign In
+            </NextLink>
             or
-            <NuxtLink class="link hover:link-primary" to="/password-reset">
-              Reset Password
-            </NuxtLink>
+            <NextLink class="link hover:link-primary" to="/sign-up">
+              Sign Up
+            </NextLink>
           </AuthCardLinks>
         </AuthCardActions>
       </form>

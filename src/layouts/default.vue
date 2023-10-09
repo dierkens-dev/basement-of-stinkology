@@ -62,10 +62,12 @@ const user = data.value?.user;
             <li><a>Item 3</a></li>
           </ul>
         </div>
-        <NuxtLink
-          :to="`/sign-out?callbackUrl=${encodeURIComponent(fullPath)}`"
+        <a
+          :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
+            fullPath,
+          )}`"
           class="btn btn-ghost"
-          >Sign Out</NuxtLink
+          >Sign Out</a
         >
       </div>
     </div>

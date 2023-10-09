@@ -7,6 +7,10 @@ export const inputProps = {
     type: String as PropType<InputHTMLAttributes["type"]>,
     default: undefined,
   },
+  name: {
+    type: String as PropType<InputHTMLAttributes["name"]>,
+    default: undefined,
+  },
   value: {
     type: String as PropType<InputHTMLAttributes["value"]>,
     default: undefined,
