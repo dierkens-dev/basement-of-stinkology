@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
-import { defaultProps } from "lib/html-attributes.lib";
 import type { LabelHTMLAttributes } from "vue";
+import { defaultProps } from "~/lib/html-attributes.lib";
 
 export default defineComponent({
   props: {

@@ -14,22 +14,23 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@nuxt/devtools": "latest",
-    "@nuxt/eslint-config": "^0.1.1",
+    "@nuxt/devtools": "1.0.0-beta.0",
+    "@nuxt/eslint-config": "^0.2.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
-    "@sidebase/nuxt-auth": "^0.6.0-beta.4",
+    "@sidebase/nuxt-auth": "^0.6.0-beta.6",
     "@types/node": "^18.17.1",
-    "daisyui": "^3.5.1",
-    "eslint": "^8.46.0",
+    "daisyui": "^3.9.2",
+    "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
-    "nuxt": "^3.6.5",
-    "prettier": "^3.0.1",
+    "lint-staged": "^14.0.1",
+    "nuxt": "^3.7.4",
+    "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "3.2.3",
     "tailwindcss": "^3.3.3",
-    "vite": "^4.4.7",
-    "vite-tsconfig-paths": "^4.2.0",
-    "vue-eslint-parser": "^9.3.1",
+    "vite": "^4.4.11",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vue-eslint-parser": "^9.3.2",
     "webpack": "^5.88.2"
   },
   "engines": {
@@ -44,13 +45,14 @@
     "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "dependencies": {
-    "@prisma/client": "^5.2.0",
+    "@prisma/client": "^5.4.2",
     "@vee-validate/zod": "4.11.8",
     "clsx": "^2.0.0",
-    "firebase": "^10.3.0",
+    "firebase": "^10.4.0",
     "h3-zod": "0.5.1",
     "next-auth": "4.21.1",
-    "prisma": "^5.0.0",
+    "postcss-custom-properties": "13.3.2",
+    "prisma": "^5.4.2",
     "vee-validate": "4.11.8",
     "zod": "3.22.4"
   }

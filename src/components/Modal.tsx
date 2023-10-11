@@ -1,4 +1,4 @@
-import { defaultProps } from "lib/html-attributes.lib";
+import { defaultProps } from "~/lib/html-attributes.lib";
 
 export default defineComponent({
   props: {

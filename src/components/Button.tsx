@@ -1,6 +1,7 @@
 import { clsx } from "clsx";
-import { defaultProps } from "lib/html-attributes.lib";
+
 import { ButtonHTMLAttributes } from "vue";
+import { defaultProps } from "~/lib/html-attributes.lib";
 
 export default defineComponent({
   props: {

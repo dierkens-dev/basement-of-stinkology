@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
+import { defaultProps } from "~/lib/html-attributes.lib";
 import Button from "./Button";
-import { defaultProps } from "lib/html-attributes.lib";
 
 export default defineComponent({
   props: {
@@ -22,14 +22,24 @@ export default defineComponent({
             "btn-primary",
             {
               "btn-disabled": props.disabled,
-              loading: props.isLoading,
             },
             props.class,
           )}
           disabled={props.disabled}
           type="submit"
         >
-          {context.slots.default && context.slots.default()}
+          <span
+            class={clsx("loading-spinner absolute", {
+              loading: props.isLoading,
+            })}
+          ></span>
+          <span
+            class={clsx({
+              invisible: props.isLoading,
+            })}
+          >
+            {context.slots.default && context.slots.default()}
+          </span>
         </Button>
       );
     };

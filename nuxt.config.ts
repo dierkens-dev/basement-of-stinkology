@@ -1,5 +1,5 @@
-import tsconfigPaths from "vite-tsconfig-paths";
 import path from "node:path";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   ],
   css: ["~/assets/css/main.css"],
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@sidebase/nuxt-auth"],
+  modules: ["@nuxt/devtools", "@nuxtjs/tailwindcss", "@sidebase/nuxt-auth"],
   srcDir: "./src",
   vite: {
     plugins: [

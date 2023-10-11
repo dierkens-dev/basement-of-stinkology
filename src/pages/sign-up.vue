@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { SignUpErrors } from "server/api/sign-up.post";
+import { toTypedSchema } from "@vee-validate/zod";
+import { useForm, PublicPathState } from "vee-validate";
+import { z } from "zod";
+import { SignUpErrors } from "~/server/api/sign-up.post";
 
 definePageMeta({
   auth: {
@@ -7,45 +10,69 @@ definePageMeta({
   },
 });
 
-const { query } = useRoute();
+const validationSchema = toTypedSchema(
+  z.object({
+    email: z
+      .string({ required_error: "Email is required." })
+      .email("Must be a valid email."),
+    password: z.string({ required_error: "Password is required." }),
+  }),
+);
 
-const { fieldErrors, formErrors }: SignUpErrors =
-  typeof query.error === "string"
-    ? JSON.parse(query.error)
-    : { fieldErrors: {}, formErrors: [] };
+const { defineComponentBinds, handleSubmit, isSubmitting } = useForm({
+  validationSchema,
+});
+
+const defineComponentBindsOptions = {
+  model: "value",
+  mapProps: ({ errors }: PublicPathState) => ({ errors }),
+};
+
+const email = defineComponentBinds("email", defineComponentBindsOptions);
+const password = defineComponentBinds("password", defineComponentBindsOptions);
+
+const errors = ref<null | SignUpErrors>(null);
+
+const onSubmit = handleSubmit(async (values) => {
+  const result = await $fetch("/api/sign-up", {
+    method: "POST",
+    body: values,
+  });
+
+  if (result.success) {
+    await navigateTo(`/sign-in?email=${values.email}`);
+  } else {
+    errors.value = result.error;
+  }
+});
 </script>
 
 <template>
   <AuthCard>
     <AuthCardBody>
-      <form novalidate method="post" action="/api/sign-up">
+      <form novalidate @submit="onSubmit">
         <AuthCardTitle>Sign Up</AuthCardTitle>
 
-        <TextField
-          :error="fieldErrors.email ? fieldErrors.email[0] : undefined"
-          name="email"
-          type="email"
-          label="Email"
-          :value="$route.query.email"
-        />
+        <TextField v-bind="email" label="Email" name="email" type="email" />
 
         <TextField
-          :error="fieldErrors.password ? fieldErrors.password[0] : undefined"
+          v-bind="password"
+          label="Password"
           name="password"
           type="password"
-          label="Password"
-          :value="$route.query.password"
         />
 
         <P
-          v-for="error in formErrors"
+          v-for="error in errors?.formErrors"
           :key="error"
           class="alert alert-error shadow-lg mb-3"
           >{{ error }}</P
         >
 
         <AuthCardActions>
-          <SubmitButton>Sign Up</SubmitButton>
+          <SubmitButton :is-loading="isSubmitting" :disabled="isSubmitting"
+            >Sign Up</SubmitButton
+          >
 
           <AuthCardLinks>
             <NuxtLink class="link hover:link-primary" to="/sign-in">

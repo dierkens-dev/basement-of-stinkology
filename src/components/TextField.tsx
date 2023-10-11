@@ -1,8 +1,8 @@
-import { defaultProps } from "lib/html-attributes.lib";
-import FormControl from "./FormControl";
-import Label from "./Label";
-import Input, { inputProps } from "./Input";
 import clsx from "clsx";
+import { defaultProps } from "~/lib/html-attributes.lib";
+import FormControl from "./FormControl";
+import Input, { inputProps } from "./Input";
+import Label from "./Label";
 
 export default defineComponent({
   props: {
@@ -15,33 +15,45 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
-    error: {
-      type: String,
-      default: undefined,
+    errors: {
+      type: Array as PropType<string[]>,
+      default: () => [],
     },
     ...inputProps,
   },
-  emits: ["input"],
+  emits: ["update:value", "blur", "input"],
   setup(props, context) {
     return () => {
+      function handleOnInput(event: Event) {
+        context.emit(
+          "update:value",
+          (event.currentTarget as HTMLInputElement).value,
+        );
+
+        if (props.onInput) {
+          props.onInput(event);
+        }
+      }
+
       return (
         <FormControl>
           <Label for={props.id}>{props.label}</Label>
 
           <Input
-            class={clsx({ "input-error": props.error })}
+            class={clsx({ "input-error": props.errors.length })}
             id={props.id}
             name={props.name}
             type={props.type}
             value={props.value}
-            onInput={props.onInput}
+            onInput={handleOnInput}
+            onBlur={() => context.emit("blur")}
           />
 
           {props.description && <div class="text-sm">{props.description}</div>}
 
-          {props.error && (
-            <div class="text-sm text-error py-2">{props.error}</div>
-          )}
+          {props.errors.length ? (
+            <div class="text-sm text-error py-2">{props.errors.join(" ")}</div>
+          ) : null}
 
           {context.slots.default && context.slots.default()}
         </FormControl>

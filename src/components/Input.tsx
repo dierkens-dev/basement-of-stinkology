@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
-import { defaultProps } from "lib/html-attributes.lib";
 import type { InputHTMLAttributes } from "vue";
+import { defaultProps } from "~/lib/html-attributes.lib";
 
 export const inputProps = {
   type: {
@@ -17,6 +17,10 @@ export const inputProps = {
   },
   onInput: {
     type: Function as PropType<InputHTMLAttributes["onInput"]>,
+    default: undefined,
+  },
+  onBlur: {
+    type: Function as PropType<InputHTMLAttributes["onBlur"]>,
     default: undefined,
   },
 };
