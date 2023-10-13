@@ -4,6 +4,8 @@ import { useForm, PublicPathState } from "vee-validate";
 import { z } from "zod";
 import { SignUpErrors } from "~/server/api/sign-up.post";
 
+const { $toast } = useNuxtApp();
+
 definePageMeta({
   auth: {
     unauthenticatedOnly: true,
@@ -40,6 +42,7 @@ const onSubmit = handleSubmit(async (values) => {
   });
 
   if (result.success) {
+    await $toast.show({ message: "Sign up successful. Please sign in." });
     await navigateTo(`/sign-in?email=${values.email}`);
   } else {
     errors.value = result.error;

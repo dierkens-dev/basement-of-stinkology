@@ -18,8 +18,13 @@ const validationSchema = toTypedSchema(
   }),
 );
 
+const { query } = useRoute();
+
 const { defineComponentBinds, handleSubmit, isSubmitting } = useForm({
   validationSchema,
+  initialValues: {
+    email: typeof query.email === "string" ? query.email : undefined,
+  },
 });
 
 const defineComponentBindsOptions = {
@@ -31,7 +36,6 @@ const email = defineComponentBinds("email", defineComponentBindsOptions);
 const password = defineComponentBinds("password", defineComponentBindsOptions);
 
 const { signIn } = useAuth();
-const { query } = useRoute();
 
 const onSubmit = handleSubmit(async (values) => {
   await signIn("credentials", {

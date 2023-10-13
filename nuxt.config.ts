@@ -13,9 +13,17 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
+  toaster: {
+    installPlugin: false,
+  },
   css: ["~/assets/css/main.css"],
   devtools: { enabled: true },
-  modules: ["@nuxt/devtools", "@nuxtjs/tailwindcss", "@sidebase/nuxt-auth"],
+  modules: [
+    "@nuxt/devtools",
+    "@nuxtjs/tailwindcss",
+    "@sidebase/nuxt-auth",
+    "@cssninja/nuxt-toaster",
+  ],
   srcDir: "./src",
   vite: {
     plugins: [
