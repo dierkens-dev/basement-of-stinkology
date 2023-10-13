@@ -12,38 +12,30 @@ const schema = z.object({
 });
 
 export type SignUpErrors = z.inferFlattenedErrors<typeof schema>;
-interface SignUpErrorResponse {
-  error: SignUpErrors;
-  success: false;
-}
-interface SignUpSuccessResponse {
-  success: true;
-}
-type SignUpResponse = SignUpErrorResponse | SignUpSuccessResponse;
 
-export default defineEventHandler(async (event): Promise<SignUpResponse> => {
-  const body = await readBody(event);
-  const result = schema.safeParse(body);
+export default defineEventHandler(
+  async (event): Promise<void | SignUpErrors> => {
+    const body = await readBody(event);
+    const result = schema.safeParse(body);
 
-  if (!result.success) {
-    setResponseStatus(event, 400, "Bad Request");
-    return { error: result.error.flatten(), success: false };
-  }
-
-  const { email, password } = result.data;
-
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-    if (error instanceof FirebaseError) {
-      return {
-        success: false,
-        error: { fieldErrors: {}, formErrors: [getErrorMessage(error.code)] },
-      };
+    if (!result.success) {
+      setResponseStatus(event, 400, "Bad Request");
+      return result.error.flatten();
     }
 
-    throw error;
-  }
+    const { email, password } = result.data;
 
-  return { success: true };
-});
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        setResponseStatus(event, 400, "Bad Request");
+        return { fieldErrors: {}, formErrors: [getErrorMessage(error.code)] };
+      }
+
+      throw error;
+    }
+
+    setResponseStatus(event, 204, "No Content");
+  },
+);

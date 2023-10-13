@@ -3,6 +3,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, PublicPathState } from "vee-validate";
 import { z } from "zod";
 import { SignUpErrors } from "~/server/api/sign-up.post";
+import type { FetchError } from "ofetch";
 
 const { $toast } = useNuxtApp();
 
@@ -16,14 +17,19 @@ const validationSchema = toTypedSchema(
   z.object({
     email: z
       .string({ required_error: "Email is required." })
+      .min(1, "Email is required.")
       .email("Must be a valid email."),
-    password: z.string({ required_error: "Password is required." }),
+    password: z
+      .string({ required_error: "Password is required." })
+      .min(1, "Email is required."),
   }),
 );
 
-const { defineComponentBinds, handleSubmit, isSubmitting } = useForm({
-  validationSchema,
-});
+const { defineComponentBinds, handleSubmit, isSubmitting, setErrors } = useForm(
+  {
+    validationSchema,
+  },
+);
 
 const defineComponentBindsOptions = {
   model: "value",
@@ -33,22 +39,30 @@ const defineComponentBindsOptions = {
 const email = defineComponentBinds("email", defineComponentBindsOptions);
 const password = defineComponentBinds("password", defineComponentBindsOptions);
 
-const errors = ref<null | SignUpErrors>(null);
+const formErrors = ref<null | SignUpErrors["formErrors"]>(null);
 
 const onSubmit = handleSubmit(async (values) => {
-  errors.value = { fieldErrors: {}, formErrors: [] };
+  formErrors.value = [];
 
-  const result = await $fetch("/api/sign-up", {
+  const { error } = await useFetch<
+    void,
+    FetchError<SignUpErrors>,
+    "/api/sign-up",
+    "POST"
+  >("/api/sign-up", {
     method: "POST",
     body: values,
   });
+  if (error) {
+    formErrors.value = error.value?.data?.formErrors || null;
 
-  if (result.success) {
-    await $toast.show({ message: "Sign up successful. Please sign in." });
-    await navigateTo(`/sign-in?email=${values.email}`);
-  } else {
-    errors.value = result.error;
+    setErrors(error.value?.data?.fieldErrors || {});
+
+    return;
   }
+
+  await $toast.show({ message: "Sign up successful. Please sign in." });
+  await navigateTo(`/sign-in?email=${values.email}`);
 });
 </script>
 
@@ -68,7 +82,7 @@ const onSubmit = handleSubmit(async (values) => {
         />
 
         <P
-          v-for="error in errors?.formErrors"
+          v-for="error in formErrors"
           :key="error"
           class="alert alert-error shadow-lg mb-3"
           >{{ error }}</P
