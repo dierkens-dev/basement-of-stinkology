@@ -36,6 +36,8 @@ const password = defineComponentBinds("password", defineComponentBindsOptions);
 const errors = ref<null | SignUpErrors>(null);
 
 const onSubmit = handleSubmit(async (values) => {
+  errors.value = { fieldErrors: {}, formErrors: [] };
+
   const result = await $fetch("/api/sign-up", {
     method: "POST",
     body: values,
