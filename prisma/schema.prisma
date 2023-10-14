@@ -18,10 +18,14 @@ enum Role {
 }
 
 model User {
-  id    String  @id @default(uuid()) @db.Uuid
-  email String  @unique
-  name  String?
-  role  Role    @default(VIEWER)
+  id     String  @id @default(uuid()) @db.Uuid
+  email  String
+  name   String?
+  role   Role    @default(VIEWER)
+  tenant String
+
+  @@unique([email, tenant])
+  @@index(fields: [tenant])
 }
 
 model Event {
@@ -30,12 +34,17 @@ model Event {
   // TODO: Make this work (it threw an error)
   // updatedAt DateTime @updatedAt
 
-  slug String    @unique
+  slug String
   name String
   date DateTime?
 
   // TODO Lowercase this
   MovieViews MovieView[]
+
+  tenant String
+
+  @@unique([slug, tenant])
+  @@index(fields: [tenant])
 }
 
 model Movie {
@@ -61,7 +70,12 @@ model Movie {
   //   vote_average?: number;
   //   vote_count?: number;
 
-  themoviedbId Int @unique
+  themoviedbId Int
+
+  tenant String
+
+  @@unique([themoviedbId, tenant])
+  @@index(fields: [tenant])
 }
 
 model MovieView {
@@ -76,4 +90,8 @@ model MovieView {
 
   movie   Movie  @relation(fields: [movieId], references: [id])
   movieId String @db.Uuid
+
+  tenant String
+
+  @@index(fields: [tenant])
 }

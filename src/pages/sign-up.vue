@@ -3,7 +3,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, PublicPathState } from "vee-validate";
 import { z } from "zod";
 import { SignUpErrors } from "~/server/api/sign-up.post";
-import type { FetchError } from "ofetch";
+import { FetchError } from "ofetch";
 
 const { $toast } = useNuxtApp();
 
@@ -41,28 +41,35 @@ const password = defineComponentBinds("password", defineComponentBindsOptions);
 
 const formErrors = ref<null | SignUpErrors["formErrors"]>(null);
 
+const { signIn } = useAuth();
+const { query } = useRoute();
+
 const onSubmit = handleSubmit(async (values) => {
   formErrors.value = [];
 
-  const { error } = await useFetch<
-    void,
-    FetchError<SignUpErrors>,
-    "/api/sign-up",
-    "POST"
-  >("/api/sign-up", {
-    method: "POST",
-    body: values,
-  });
-  if (error) {
-    formErrors.value = error.value?.data?.formErrors || null;
+  try {
+    await $fetch("/api/sign-up", {
+      method: "POST",
+      body: values,
+    });
 
-    setErrors(error.value?.data?.fieldErrors || {});
+    await signIn("credentials", {
+      ...values,
+      callbackUrl:
+        typeof query.callbackUrl === "string" ? query.callbackUrl : "/",
+    });
+  } catch (error) {
+    if (error instanceof FetchError) {
+      const data: FetchError<SignUpErrors>["data"] = error.data;
+      formErrors.value = data?.formErrors || null;
 
-    return;
+      setErrors(data?.fieldErrors || {});
+
+      return;
+    }
+
+    throw error;
   }
-
-  await $toast.show({ message: "Sign up successful. Please sign in." });
-  await navigateTo(`/sign-in?email=${values.email}`);
 });
 </script>
 

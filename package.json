@@ -50,6 +50,7 @@
     "@vee-validate/zod": "4.11.8",
     "clsx": "^2.0.0",
     "firebase": "^10.4.0",
+    "firebase-admin": "11.11.0",
     "next-auth": "4.21.1",
     "postcss-custom-properties": "13.3.2",
     "prisma": "^5.4.2",

@@ -19,4 +19,8 @@ const app = initializeApp({
 
 const auth = getAuth(app);
 
+invariant(process.env.BOS_TENANT_ID, "BOS_TENANT_ID should be set");
+
+auth.tenantId = process.env.BOS_TENANT_ID;
+
 export { auth };
