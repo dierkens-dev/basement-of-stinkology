@@ -1,11 +1,16 @@
 <script lang="ts" setup>
-const { data, error } = useFetch("/api/events");
+const { data } = useFetch("/api/events");
 </script>
 
 <template>
   <div class="container mx-auto">
-    <pre>{{ JSON.stringify({ data }, null, 2) }}</pre>
-
-    <pre>{{ JSON.stringify({ error }, null, 2) }}</pre>
+    <div v-if="data" class="prose">
+      <div v-for="event in data.data" :key="event.id">
+        <NuxtLink :to="`/events/${event.slug}`">
+          <h2>{{ event.name }}</h2>
+          <p v-if="event.date">{{ new Date(event.date).toLocaleString() }}</p>
+        </NuxtLink>
+      </div>
+    </div>
   </div>
 </template>

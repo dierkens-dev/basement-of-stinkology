@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { toTypedSchema } from "@vee-validate/zod";
-import { useForm, PublicPathState } from "vee-validate";
-import { z } from "zod";
-import { SignUpErrors } from "~/server/api/sign-up.post";
 import { FetchError } from "ofetch";
-
-const { $toast } = useNuxtApp();
+import { PublicPathState, useForm } from "vee-validate";
+import { z } from "zod";
+import { AuthCard } from "~/features/auth/components/AuthCard";
+import { AuthCardActions } from "~/features/auth/components/AuthCardActions";
+import { AuthCardBody } from "~/features/auth/components/AuthCardBody";
+import { AuthCardLinks } from "~/features/auth/components/AuthCardLinks";
+import { AuthCardTitle } from "~/features/auth/components/AuthCardTitle";
+import { SignUpErrors } from "~/server/api/sign-up.post";
 
 definePageMeta({
   auth: {

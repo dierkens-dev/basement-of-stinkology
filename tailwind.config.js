@@ -4,6 +4,7 @@ const srcDir = "./src";
 module.exports = {
   content: [
     `${srcDir}/components/**/*.{vue,js,ts,tsx}`,
+    `${srcDir}/features/**/*.{vue,js,ts,tsx}`,
     `${srcDir}/layouts/**/*.vue`,
     `${srcDir}/pages/**/*.vue`,
     `${srcDir}/composables/**/*.{js,ts,tsx}`,
@@ -18,7 +19,7 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     logs: false,
     themes: ["corporate", "business"],

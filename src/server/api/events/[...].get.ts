@@ -4,17 +4,17 @@ import { prisma } from "~/services/prisma.server";
 const router = createRouter();
 
 router.get(
-  "/:eventId",
+  "/:slug",
   defineEventHandler(async (event) => {
     const session = await getServerSession(event);
     if (!session) {
       throw createError({ statusMessage: "Unauthenticated", statusCode: 403 });
     }
 
-    const id = getRouterParam(event, "eventId");
+    const slug = getRouterParam(event, "slug");
 
     const data = await prisma.event.findFirst({
-      where: { tenant: session.user.tenant, id },
+      where: { tenant: session.user.tenant, slug },
       select: {
         createdAt: true,
         date: true,
@@ -31,30 +31,34 @@ router.get(
 );
 
 router.get(
-  "/:eventId/movies",
+  "/:slug/movies",
   defineEventHandler(async (event) => {
     const session = await getServerSession(event);
     if (!session) {
       throw createError({ statusMessage: "Unauthenticated", statusCode: 403 });
     }
 
-    const eventId = getRouterParam(event, "eventId");
+    const slug = getRouterParam(event, "slug");
 
-    const data = await prisma.movieView.findMany({
-      where: { tenant: session.user.tenant, eventId },
+    const data = await prisma.event.findFirst({
+      where: { tenant: session.user.tenant, slug },
       select: {
-        movie: {
+        MovieViews: {
           select: {
-            createdAt: true,
-            id: true,
-            updatedAt: true,
+            viewDateTime: true,
+            movie: {
+              select: {
+                createdAt: true,
+                themoviedbId: true,
+              },
+            },
           },
         },
       },
     });
 
     return {
-      data: data.map((movieView) => movieView.movie),
+      data,
     };
   }),
 );

@@ -3,9 +3,9 @@ import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { auth } from "~/features/auth/lib/firebase.lib";
 import { prisma } from "../../../services/prisma.server";
 import { invariant } from "../../../utils/invariant";
+import { auth } from "../lib/firebase.lib";
 
 export default NuxtAuthHandler({
   secret: process.env.BOS_SESSION_STORAGE_SECRET,

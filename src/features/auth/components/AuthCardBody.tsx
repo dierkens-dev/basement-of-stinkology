@@ -1,8 +1,8 @@
-export default defineComponent({
+export const AuthCardBody = defineComponent({
   setup(_, context) {
     return () => {
       return (
-        <div class="card-actions mb-3 justify-between flex-row-reverse">
+        <div class="card-body">
           {context.slots.default && context.slots.default()}
         </div>
       );

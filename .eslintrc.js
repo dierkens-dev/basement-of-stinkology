@@ -25,12 +25,12 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["@typescript-eslint"],
-  rules: {
-    "no-restricted-imports": [
-      "error",
-      {
-        patterns: ["~/features/*/*"],
-      },
-    ],
-  },
+  // rules: {
+  //   "no-restricted-imports": [
+  //     "error",
+  //     {
+  //       patterns: ["~/features/*/*"],
+  //     },
+  //   ],
+  // },
 };

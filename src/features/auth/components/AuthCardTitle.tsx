@@ -1,6 +1,6 @@
-import H1 from "../typography/H1";
+import H1 from "~/components/typography/H1";
 
-export default defineComponent({
+export const AuthCardTitle = defineComponent({
   setup(_, context) {
     return () => {
       return (

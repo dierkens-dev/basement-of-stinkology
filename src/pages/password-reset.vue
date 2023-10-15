@@ -5,11 +5,14 @@ definePageMeta({
   },
 });
 
-import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
 import * as z from "zod";
-// import { sendPasswordResetEmail } from "firebase/auth";
-// import { auth } from "../lib/firebase";
+import { AuthCard } from "~/features/auth/components/AuthCard";
+import { AuthCardActions } from "~/features/auth/components/AuthCardActions";
+import { AuthCardBody } from "~/features/auth/components/AuthCardBody";
+import { AuthCardLinks } from "~/features/auth/components/AuthCardLinks";
+import { AuthCardTitle } from "~/features/auth/components/AuthCardTitle";
 
 const validationSchema = toTypedSchema(
   z.object({
@@ -33,7 +36,7 @@ const {
 
 const isEmailSent = ref(false);
 
-const onSubmit = handleSubmit(async (values) => {
+const onSubmit = handleSubmit(async () => {
   // TODO: This has to live on the server
   // await sendPasswordResetEmail(auth, values.email);
 });
@@ -55,23 +58,9 @@ function handleOnInput(field: keyof typeof values, event: Event) {
       </P>
 
       <div class="flex justify-end gap-1">
-        <Link
-          class="link hover:link-primary"
-          to="{getRedirectURL({"
-          location
-          })}
-        >
-          Sign In
-        </Link>
+        <Link class="link hover:link-primary" to="/sign-in"> Sign In </Link>
         or
-        <Link
-          class="link hover:link-primary"
-          to="{getRedirectURL({"
-          location
-          })}
-        >
-          Sign Up
-        </Link>
+        <Link class="link hover:link-primary" to="/sign-up"> Sign Up </Link>
       </div>
     </AuthCardBody>
   </AuthCard>
@@ -96,13 +85,13 @@ function handleOnInput(field: keyof typeof values, event: Event) {
           </SubmitButton>
 
           <AuthCardLinks>
-            <NextLink class="link hover:link-primary" to="/sign-in">
+            <NuxtLink class="link hover:link-primary" to="/sign-in">
               Sign In
-            </NextLink>
+            </NuxtLink>
             or
-            <NextLink class="link hover:link-primary" to="/sign-up">
+            <NuxtLink class="link hover:link-primary" to="/sign-up">
               Sign Up
-            </NextLink>
+            </NuxtLink>
           </AuthCardLinks>
         </AuthCardActions>
       </form>
