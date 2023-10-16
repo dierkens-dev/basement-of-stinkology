@@ -55,27 +55,9 @@ model Movie {
   // TODO Lowercase this
   MovieViews MovieView[]
 
-  // TODO: Store data from themoviedb instead of fetching
-  //   backdrop_path?: string;
-  //   genres?: Array<Genre>;
-  //   homepage?: string;
-  //   imdb_id?: string;
-  //   overview?: string;
-  //   poster_path?: string;
-  //   release_date?: string;
-  //   runtime?: number;
-  //   tagline?: string;
-  //   title?: string;
-  //   video?: boolean;
-  //   vote_average?: number;
-  //   vote_count?: number;
+  moviedbJson Json?
 
-  themoviedbId Int
-
-  tenant String
-
-  @@unique([themoviedbId, tenant])
-  @@index(fields: [tenant])
+  themoviedbId Int @unique
 }
 
 model MovieView {

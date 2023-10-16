@@ -1,8 +1,8 @@
-export const AuthCardLinks = defineComponent({
+export default defineComponent({
   setup(_, context) {
     return () => {
       return (
-        <div class="flex gap-1">
+        <div class="card-body">
           {context.slots.default && context.slots.default()}
         </div>
       );

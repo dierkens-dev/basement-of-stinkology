@@ -12,6 +12,7 @@ export default defineNuxtConfig({
       path: "~/components",
       pathPrefix: false,
     },
+    { path: "~/features/auth/components", pathPrefix: false },
   ],
   toaster: {
     installPlugin: false,

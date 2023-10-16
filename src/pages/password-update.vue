@@ -9,10 +9,6 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { FirebaseError } from "firebase/app";
 import { useForm } from "vee-validate";
 import * as z from "zod";
-import { AuthCard } from "~/features/auth/components/AuthCard";
-import { AuthCardActions } from "~/features/auth/components/AuthCardActions";
-import { AuthCardBody } from "~/features/auth/components/AuthCardBody";
-import { AuthCardTitle } from "~/features/auth/components/AuthCardTitle";
 
 const { query } = useRoute();
 

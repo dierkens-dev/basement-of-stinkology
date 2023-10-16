@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import type { InputHTMLAttributes } from "vue";
-import { defaultProps } from "~/lib/html-attributes.lib";
+import { defaultProps } from "~/utils/html-attributes.util";
 
 export const inputProps = {
   type: {

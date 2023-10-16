@@ -7,7 +7,7 @@ import { prisma } from "../../../services/prisma.server";
 import { invariant } from "../../../utils/invariant";
 import { auth } from "../lib/firebase.lib";
 
-export default NuxtAuthHandler({
+export const nuxtAuthHandler = NuxtAuthHandler({
   secret: process.env.BOS_SESSION_STORAGE_SECRET,
   pages: {
     signIn: "/sign-in",

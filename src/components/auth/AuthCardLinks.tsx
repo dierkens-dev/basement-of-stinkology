@@ -1,8 +1,8 @@
-export const AuthCardActions = defineComponent({
+export default defineComponent({
   setup(_, context) {
     return () => {
       return (
-        <div class="card-actions mb-3 justify-between flex-row-reverse">
+        <div class="flex gap-1">
           {context.slots.default && context.slots.default()}
         </div>
       );

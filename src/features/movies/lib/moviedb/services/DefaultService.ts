@@ -2,18 +2,19 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { BaseHttpRequest } from "../core/BaseHttpRequest";
 import type { CancelablePromise } from "../core/CancelablePromise";
-import { OpenAPI } from "../core/OpenAPI";
-import { request as __request } from "../core/request";
 
 export class DefaultService {
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
   /**
    * Movie
    * Search for movies by their original, translated and alternative titles.
    * @returns any 200
    * @throws ApiError
    */
-  public static searchMovie({
+  public searchMovie({
     query,
     includeAdult = false,
     language = "en-US",
@@ -50,7 +51,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/search/movie",
       query: {
@@ -71,7 +72,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static discoverMovie({
+  public discoverMovie({
     certification,
     certificationGte,
     certificationLte,
@@ -219,7 +220,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/discover/movie",
       query: {
@@ -271,7 +272,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieDetails({
+  public movieDetails({
     movieId,
     appendToResponse,
     language = "en-US",
@@ -324,7 +325,7 @@ export class DefaultService {
     vote_average?: number;
     vote_count?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}",
       path: {
@@ -343,7 +344,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesDetails({
+  public tvSeriesDetails({
     seriesId,
     appendToResponse,
     language = "en-US",
@@ -436,7 +437,7 @@ export class DefaultService {
     vote_average?: number;
     vote_count?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}",
       path: {
@@ -455,7 +456,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static searchTv({
+  public searchTv({
     query,
     firstAirDateYear,
     includeAdult = false,
@@ -490,7 +491,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/search/tv",
       query: {
@@ -510,7 +511,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static searchMulti({
+  public searchMulti({
     query,
     includeAdult = false,
     language = "en-US",
@@ -542,7 +543,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/search/multi",
       query: {
@@ -560,7 +561,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static searchPerson({
+  public searchPerson({
     query,
     includeAdult = false,
     language = "en-US",
@@ -602,7 +603,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/search/person",
       query: {
@@ -620,7 +621,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static configurationDetails(): CancelablePromise<{
+  public configurationDetails(): CancelablePromise<{
     images?: {
       base_url?: string;
       secure_base_url?: string;
@@ -632,7 +633,7 @@ export class DefaultService {
     };
     change_keys?: Array<string>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/configuration",
     });
@@ -644,7 +645,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonDetails({
+  public tvSeasonDetails({
     seriesId,
     seasonNumber,
     appendToResponse,
@@ -707,7 +708,7 @@ export class DefaultService {
     season_number?: number;
     vote_average?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}",
       path: {
@@ -727,7 +728,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeDetails({
+  public tvEpisodeDetails({
     seriesId,
     seasonNumber,
     episodeNumber,
@@ -781,7 +782,7 @@ export class DefaultService {
     vote_average?: number;
     vote_count?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/episode/{episode_number}",
       path: {
@@ -802,7 +803,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static discoverTv({
+  public discoverTv({
     airDateGte,
     airDateLte,
     firstAirDateYear,
@@ -921,7 +922,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/discover/tv",
       query: {
@@ -968,7 +969,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieImages({
+  public movieImages({
     movieId,
     includeImageLanguage,
     language,
@@ -1009,7 +1010,7 @@ export class DefaultService {
       width?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/images",
       path: {
@@ -1028,7 +1029,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesImages({
+  public tvSeriesImages({
     seriesId,
     includeImageLanguage,
     language,
@@ -1069,7 +1070,7 @@ export class DefaultService {
       width?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/images",
       path: {
@@ -1088,7 +1089,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonImages({
+  public tvSeasonImages({
     seriesId,
     seasonNumber,
     includeImageLanguage,
@@ -1113,7 +1114,7 @@ export class DefaultService {
       width?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/images",
       path: {
@@ -1133,7 +1134,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeImages({
+  public tvEpisodeImages({
     seriesId,
     seasonNumber,
     episodeNumber,
@@ -1160,7 +1161,7 @@ export class DefaultService {
       width?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/images",
       path: {
@@ -1181,7 +1182,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static trendingAll({
+  public trendingAll({
     timeWindow = "day",
     language = "en-US",
   }: {
@@ -1212,7 +1213,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/trending/all/{time_window}",
       path: {
@@ -1230,7 +1231,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static trendingMovies({
+  public trendingMovies({
     timeWindow = "day",
     language = "en-US",
   }: {
@@ -1261,7 +1262,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/trending/movie/{time_window}",
       path: {
@@ -1279,7 +1280,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static trendingTv({
+  public trendingTv({
     timeWindow = "day",
     language = "en-US",
   }: {
@@ -1310,7 +1311,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/trending/tv/{time_window}",
       path: {
@@ -1328,7 +1329,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieAccountStates({
+  public movieAccountStates({
     movieId,
     sessionId,
     guestSessionId,
@@ -1344,7 +1345,7 @@ export class DefaultService {
     };
     watchlist?: boolean;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/account_states",
       path: {
@@ -1363,7 +1364,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesAccountStates({
+  public tvSeriesAccountStates({
     seriesId,
     sessionId,
     guestSessionId,
@@ -1379,7 +1380,7 @@ export class DefaultService {
     };
     watchlist?: boolean;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/account_states",
       path: {
@@ -1398,7 +1399,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeAccountStates({
+  public tvEpisodeAccountStates({
     seriesId,
     seasonNumber,
     episodeNumber,
@@ -1418,7 +1419,7 @@ export class DefaultService {
     };
     watchlist?: boolean;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/account_states",
       path: {
@@ -1439,7 +1440,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static trendingPeople({
+  public trendingPeople({
     timeWindow = "day",
     language = "en-US",
   }: {
@@ -1481,7 +1482,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/trending/person/{time_window}",
       path: {
@@ -1499,7 +1500,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieAlternativeTitles({
+  public movieAlternativeTitles({
     movieId,
     country,
   }: {
@@ -1516,7 +1517,7 @@ export class DefaultService {
       type?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/alternative_titles",
       path: {
@@ -1534,7 +1535,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieChanges({
+  public movieChanges({
     movieId,
     endDate,
     page = 1,
@@ -1545,7 +1546,7 @@ export class DefaultService {
     page?: number;
     startDate?: string;
   }): CancelablePromise<any> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/changes",
       path: {
@@ -1564,7 +1565,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieCredits({
+  public movieCredits({
     movieId,
     language = "en-US",
   }: {
@@ -1600,7 +1601,7 @@ export class DefaultService {
       job?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/credits",
       path: {
@@ -1617,11 +1618,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieExternalIds({
-    movieId,
-  }: {
-    movieId: number;
-  }): CancelablePromise<{
+  public movieExternalIds({ movieId }: { movieId: number }): CancelablePromise<{
     id?: number;
     imdb_id?: string;
     wikidata_id?: any;
@@ -1629,7 +1626,7 @@ export class DefaultService {
     instagram_id?: any;
     twitter_id?: any;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/external_ids",
       path: {
@@ -1643,18 +1640,14 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieKeywords({
-    movieId,
-  }: {
-    movieId: string;
-  }): CancelablePromise<{
+  public movieKeywords({ movieId }: { movieId: string }): CancelablePromise<{
     id?: number;
     keywords?: Array<{
       id?: number;
       name?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/keywords",
       path: {
@@ -1668,7 +1661,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieLists({
+  public movieLists({
     movieId,
     language = "en-US",
     page = 1,
@@ -1692,7 +1685,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/lists",
       path: {
@@ -1710,7 +1703,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieRecommendations({
+  public movieRecommendations({
     movieId,
     language = "en-US",
     page = 1,
@@ -1719,7 +1712,7 @@ export class DefaultService {
     language?: string;
     page?: number;
   }): CancelablePromise<any> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/recommendations",
       path: {
@@ -1738,7 +1731,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieReleaseDates({
+  public movieReleaseDates({
     movieId,
   }: {
     movieId: number;
@@ -1756,7 +1749,7 @@ export class DefaultService {
       }>;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/release_dates",
       path: {
@@ -1771,7 +1764,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieReviews({
+  public movieReviews({
     movieId,
     language = "en-US",
     page = 1,
@@ -1799,7 +1792,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/reviews",
       path: {
@@ -1818,7 +1811,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieSimilar({
+  public movieSimilar({
     movieId,
     language = "en-US",
     page = 1,
@@ -1847,7 +1840,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/similar",
       path: {
@@ -1866,7 +1859,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieTranslations({
+  public movieTranslations({
     movieId,
   }: {
     movieId: number;
@@ -1886,7 +1879,7 @@ export class DefaultService {
       };
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/translations",
       path: {
@@ -1900,7 +1893,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieVideos({
+  public movieVideos({
     movieId,
     language = "en-US",
   }: {
@@ -1921,7 +1914,7 @@ export class DefaultService {
       id?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/videos",
       path: {
@@ -1939,7 +1932,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieWatchProviders({
+  public movieWatchProviders({
     movieId,
   }: {
     movieId: number;
@@ -3421,7 +3414,7 @@ export class DefaultService {
       };
     };
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/{movie_id}/watch/providers",
       path: {
@@ -3436,7 +3429,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieAddRating({
+  public movieAddRating({
     movieId,
     guestSessionId,
     sessionId,
@@ -3454,7 +3447,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/movie/{movie_id}/rating",
       path: {
@@ -3478,7 +3471,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieDeleteRating({
+  public movieDeleteRating({
     movieId,
     contentType = "application/json;charset=utf-8",
     guestSessionId,
@@ -3492,7 +3485,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "DELETE",
       url: "/3/movie/{movie_id}/rating",
       path: {
@@ -3513,12 +3506,12 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static authenticationCreateGuestSession(): CancelablePromise<{
+  public authenticationCreateGuestSession(): CancelablePromise<{
     success?: boolean;
     guest_session_id?: string;
     expires_at?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/authentication/guest_session/new",
     });
@@ -3529,12 +3522,12 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static authenticationCreateRequestToken(): CancelablePromise<{
+  public authenticationCreateRequestToken(): CancelablePromise<{
     success?: boolean;
     expires_at?: string;
     request_token?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/authentication/token/new",
     });
@@ -3545,7 +3538,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static authenticationCreateSession({
+  public authenticationCreateSession({
     requestBody,
   }: {
     requestBody?: {
@@ -3555,7 +3548,7 @@ export class DefaultService {
     success?: boolean;
     session_id?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/authentication/session/new",
       body: requestBody,
@@ -3568,7 +3561,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static authenticationCreateSessionFromV4Token({
+  public authenticationCreateSessionFromV4Token({
     requestBody,
   }: {
     requestBody?: {
@@ -3578,7 +3571,7 @@ export class DefaultService {
     success?: boolean;
     session_id?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/authentication/session/convert/4",
       body: requestBody,
@@ -3591,7 +3584,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static authenticationDeleteSession({
+  public authenticationDeleteSession({
     requestBody,
   }: {
     requestBody?: {
@@ -3600,7 +3593,7 @@ export class DefaultService {
   }): CancelablePromise<{
     success?: boolean;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "DELETE",
       url: "/3/authentication/session",
       body: requestBody,
@@ -3614,7 +3607,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static findById({
+  public findById({
     externalId,
     externalSource,
     language,
@@ -3654,7 +3647,7 @@ export class DefaultService {
     tv_episode_results?: any[];
     tv_season_results?: any[];
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/find/{external_id}",
       path: {
@@ -3673,7 +3666,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personDetails({
+  public personDetails({
     personId,
     appendToResponse,
     language = "en-US",
@@ -3700,7 +3693,7 @@ export class DefaultService {
     popularity?: number;
     profile_path?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/{person_id}",
       path: {
@@ -3719,7 +3712,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personChanges({
+  public personChanges({
     personId,
     endDate,
     page = 1,
@@ -3742,7 +3735,7 @@ export class DefaultService {
       }>;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/{person_id}/changes",
       path: {
@@ -3762,7 +3755,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesChanges({
+  public tvSeriesChanges({
     seriesId,
     endDate,
     page = 1,
@@ -3796,7 +3789,7 @@ export class DefaultService {
       }>;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/changes",
       path: {
@@ -3816,12 +3809,12 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personImages({
+  public personImages({
     personId,
   }: {
     personId: number;
   }): CancelablePromise<any> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/{person_id}/images",
       path: {
@@ -3836,7 +3829,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personMovieCredits({
+  public personMovieCredits({
     personId,
     language = "en-US",
   }: {
@@ -3883,7 +3876,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/{person_id}/movie_credits",
       path: {
@@ -3901,7 +3894,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personTvCredits({
+  public personTvCredits({
     personId,
     language = "en-US",
   }: {
@@ -3949,7 +3942,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/{person_id}/tv_credits",
       path: {
@@ -3967,7 +3960,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personCombinedCredits({
+  public personCombinedCredits({
     personId,
     language = "en-US",
   }: {
@@ -4016,7 +4009,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/{person_id}/combined_credits",
       path: {
@@ -4034,7 +4027,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personExternalIds({
+  public personExternalIds({
     personId,
   }: {
     personId: number;
@@ -4051,7 +4044,7 @@ export class DefaultService {
     twitter_id?: string;
     youtube_id?: any;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/{person_id}/external_ids",
       path: {
@@ -4066,7 +4059,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personTaggedImages({
+  public personTaggedImages({
     personId,
     page = 1,
   }: {
@@ -4107,7 +4100,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/{person_id}/tagged_images",
       path: {
@@ -4125,11 +4118,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static translations({
-    personId,
-  }: {
-    personId: number;
-  }): CancelablePromise<{
+  public translations({ personId }: { personId: number }): CancelablePromise<{
     id?: number;
     translations?: Array<{
       iso_3166_1?: string;
@@ -4141,7 +4130,7 @@ export class DefaultService {
       };
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/{person_id}/translations",
       path: {
@@ -4156,7 +4145,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personPopularList({
+  public personPopularList({
     language = "en-US",
     page = 1,
   }: {
@@ -4192,7 +4181,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/popular",
       query: {
@@ -4208,7 +4197,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static moviePopularList({
+  public moviePopularList({
     language = "en-US",
     page = 1,
     region,
@@ -4240,7 +4229,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/popular",
       query: {
@@ -4257,7 +4246,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieTopRatedList({
+  public movieTopRatedList({
     language = "en-US",
     page = 1,
     region,
@@ -4289,7 +4278,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/top_rated",
       query: {
@@ -4306,7 +4295,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieUpcomingList({
+  public movieUpcomingList({
     language = "en-US",
     page = 1,
     region,
@@ -4342,7 +4331,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/upcoming",
       query: {
@@ -4359,7 +4348,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieNowPlayingList({
+  public movieNowPlayingList({
     language = "en-US",
     page = 1,
     region,
@@ -4395,7 +4384,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/now_playing",
       query: {
@@ -4412,7 +4401,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesAiringTodayList({
+  public tvSeriesAiringTodayList({
     language = "en-US",
     page = 1,
     timezone,
@@ -4440,7 +4429,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/airing_today",
       query: {
@@ -4457,7 +4446,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesOnTheAirList({
+  public tvSeriesOnTheAirList({
     language = "en-US",
     page = 1,
     timezone,
@@ -4485,7 +4474,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/on_the_air",
       query: {
@@ -4502,7 +4491,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesPopularList({
+  public tvSeriesPopularList({
     language = "en-US",
     page = 1,
   }: {
@@ -4528,7 +4517,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/popular",
       query: {
@@ -4544,7 +4533,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesTopRatedList({
+  public tvSeriesTopRatedList({
     language = "en-US",
     page = 1,
   }: {
@@ -4570,7 +4559,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/top_rated",
       query: {
@@ -4586,7 +4575,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static movieLatestId(): CancelablePromise<{
+  public movieLatestId(): CancelablePromise<{
     adult?: boolean;
     backdrop_path?: any;
     belongs_to_collection?: any;
@@ -4613,7 +4602,7 @@ export class DefaultService {
     vote_average?: number;
     vote_count?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/latest",
     });
@@ -4625,7 +4614,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesLatestId(): CancelablePromise<{
+  public tvSeriesLatestId(): CancelablePromise<{
     adult?: boolean;
     backdrop_path?: any;
     created_by?: any[];
@@ -4680,7 +4669,7 @@ export class DefaultService {
     vote_average?: number;
     vote_count?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/latest",
     });
@@ -4692,7 +4681,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesAggregateCredits({
+  public tvSeriesAggregateCredits({
     seriesId,
     language = "en-US",
   }: {
@@ -4735,7 +4724,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/aggregate_credits",
       path: {
@@ -4753,7 +4742,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesAlternativeTitles({
+  public tvSeriesAlternativeTitles({
     seriesId,
   }: {
     seriesId: number;
@@ -4765,7 +4754,7 @@ export class DefaultService {
       type?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/alternative_titles",
       path: {
@@ -4780,7 +4769,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesContentRatings({
+  public tvSeriesContentRatings({
     seriesId,
   }: {
     seriesId: number;
@@ -4792,7 +4781,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/content_ratings",
       path: {
@@ -4807,7 +4796,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesCredits({
+  public tvSeriesCredits({
     seriesId,
     language = "en-US",
   }: {
@@ -4842,7 +4831,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/credits",
       path: {
@@ -4860,7 +4849,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesEpisodeGroups({
+  public tvSeriesEpisodeGroups({
     seriesId,
   }: {
     seriesId: number;
@@ -4881,7 +4870,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/episode_groups",
       path: {
@@ -4896,7 +4885,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesExternalIds({
+  public tvSeriesExternalIds({
     seriesId,
   }: {
     seriesId: number;
@@ -4912,7 +4901,7 @@ export class DefaultService {
     instagram_id?: string;
     twitter_id?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/external_ids",
       path: {
@@ -4927,7 +4916,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesKeywords({
+  public tvSeriesKeywords({
     seriesId,
   }: {
     seriesId: number;
@@ -4938,7 +4927,7 @@ export class DefaultService {
       id?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/keywords",
       path: {
@@ -4952,7 +4941,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesRecommendations({
+  public tvSeriesRecommendations({
     seriesId,
     language = "en-US",
     page = 1,
@@ -4982,7 +4971,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/recommendations",
       path: {
@@ -5001,7 +4990,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesReviews({
+  public tvSeriesReviews({
     seriesId,
     language = "en-US",
     page = 1,
@@ -5029,7 +5018,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/reviews",
       path: {
@@ -5048,7 +5037,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesScreenedTheatrically({
+  public tvSeriesScreenedTheatrically({
     seriesId,
   }: {
     seriesId: number;
@@ -5060,7 +5049,7 @@ export class DefaultService {
       season_number?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/screened_theatrically",
       path: {
@@ -5075,7 +5064,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesSimilar({
+  public tvSeriesSimilar({
     seriesId,
     language = "en-US",
     page = 1,
@@ -5104,7 +5093,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/similar",
       path: {
@@ -5123,7 +5112,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesTranslations({
+  public tvSeriesTranslations({
     seriesId,
   }: {
     seriesId: number;
@@ -5142,7 +5131,7 @@ export class DefaultService {
       };
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/translations",
       path: {
@@ -5157,7 +5146,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesVideos({
+  public tvSeriesVideos({
     seriesId,
     includeVideoLanguage,
     language = "en-US",
@@ -5183,7 +5172,7 @@ export class DefaultService {
       id?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/videos",
       path: {
@@ -5202,7 +5191,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesWatchProviders({
+  public tvSeriesWatchProviders({
     seriesId,
   }: {
     seriesId: number;
@@ -6117,7 +6106,7 @@ export class DefaultService {
       };
     };
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/watch/providers",
       path: {
@@ -6132,7 +6121,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesAddRating({
+  public tvSeriesAddRating({
     seriesId,
     guestSessionId,
     sessionId,
@@ -6150,7 +6139,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/tv/{series_id}/rating",
       path: {
@@ -6173,7 +6162,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeriesDeleteRating({
+  public tvSeriesDeleteRating({
     seriesId,
     contentType = "application/json;charset=utf-8",
     guestSessionId,
@@ -6187,7 +6176,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "DELETE",
       url: "/3/tv/{series_id}/rating",
       path: {
@@ -6209,7 +6198,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonAccountStates({
+  public tvSeasonAccountStates({
     seriesId,
     seasonNumber,
     sessionId,
@@ -6229,7 +6218,7 @@ export class DefaultService {
       };
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/account_states",
       path: {
@@ -6249,7 +6238,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonAggregateCredits({
+  public tvSeasonAggregateCredits({
     seriesId,
     seasonNumber,
     language = "en-US",
@@ -6294,7 +6283,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/aggregate_credits",
       path: {
@@ -6313,7 +6302,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonChangesById({
+  public tvSeasonChangesById({
     seasonId,
     endDate,
     page = 1,
@@ -6337,7 +6326,7 @@ export class DefaultService {
       }>;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/season/{season_id}/changes",
       path: {
@@ -6356,7 +6345,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonCredits({
+  public tvSeasonCredits({
     seriesId,
     seasonNumber,
     language = "en-US",
@@ -6393,7 +6382,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/credits",
       path: {
@@ -6412,7 +6401,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonExternalIds({
+  public tvSeasonExternalIds({
     seriesId,
     seasonNumber,
   }: {
@@ -6426,7 +6415,7 @@ export class DefaultService {
     tvrage_id?: any;
     wikidata_id?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/external_ids",
       path: {
@@ -6442,7 +6431,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonTranslations({
+  public tvSeasonTranslations({
     seriesId,
     seasonNumber,
   }: {
@@ -6461,7 +6450,7 @@ export class DefaultService {
       };
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/translations",
       path: {
@@ -6477,7 +6466,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonVideos({
+  public tvSeasonVideos({
     seriesId,
     seasonNumber,
     includeVideoLanguage,
@@ -6505,7 +6494,7 @@ export class DefaultService {
       id?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/videos",
       path: {
@@ -6524,7 +6513,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeCredits({
+  public tvEpisodeCredits({
     seriesId,
     seasonNumber,
     episodeNumber,
@@ -6576,7 +6565,7 @@ export class DefaultService {
     }>;
     id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/credits",
       path: {
@@ -6596,7 +6585,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeExternalIds({
+  public tvEpisodeExternalIds({
     seriesId,
     seasonNumber,
     episodeNumber,
@@ -6613,7 +6602,7 @@ export class DefaultService {
     tvrage_id?: number;
     wikidata_id?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/external_ids",
       path: {
@@ -6630,7 +6619,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeTranslations({
+  public tvEpisodeTranslations({
     seriesId,
     seasonNumber,
     episodeNumber,
@@ -6651,7 +6640,7 @@ export class DefaultService {
       };
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/translations",
       path: {
@@ -6668,7 +6657,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeVideos({
+  public tvEpisodeVideos({
     seriesId,
     seasonNumber,
     episodeNumber,
@@ -6698,7 +6687,7 @@ export class DefaultService {
       id?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/videos",
       path: {
@@ -6719,7 +6708,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeAddRating({
+  public tvEpisodeAddRating({
     seriesId,
     seasonNumber,
     episodeNumber,
@@ -6741,7 +6730,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/rating",
       path: {
@@ -6767,7 +6756,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeDeleteRating({
+  public tvEpisodeDeleteRating({
     seriesId,
     seasonNumber,
     episodeNumber,
@@ -6785,7 +6774,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "DELETE",
       url: "/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/rating",
       path: {
@@ -6808,7 +6797,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountDetails({
+  public accountDetails({
     accountId = null,
     sessionId,
   }: {
@@ -6830,7 +6819,7 @@ export class DefaultService {
     include_adult?: boolean;
     username?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/account/{account_id}",
       path: {
@@ -6847,7 +6836,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountLists({
+  public accountLists({
     accountId = null,
     page = 1,
     sessionId,
@@ -6870,7 +6859,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/account/{account_id}/lists",
       path: {
@@ -6888,7 +6877,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountGetFavorites({
+  public accountGetFavorites({
     accountId = null,
     language = "en-US",
     page = 1,
@@ -6921,7 +6910,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/account/{account_id}/favorite/movies",
       path: {
@@ -6941,7 +6930,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountFavoriteTv({
+  public accountFavoriteTv({
     accountId = null,
     language = "en-US",
     page = 1,
@@ -6974,7 +6963,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/account/{account_id}/favorite/tv",
       path: {
@@ -6994,7 +6983,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountRatedMovies({
+  public accountRatedMovies({
     accountId = null,
     language = "en-US",
     page = 1,
@@ -7028,7 +7017,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/account/{account_id}/rated/movies",
       path: {
@@ -7048,7 +7037,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountRatedTv({
+  public accountRatedTv({
     accountId = null,
     language = "en-US",
     page = 1,
@@ -7082,7 +7071,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/account/{account_id}/rated/tv",
       path: {
@@ -7102,7 +7091,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountRatedTvEpisodes({
+  public accountRatedTvEpisodes({
     accountId = null,
     language = "en-US",
     page = 1,
@@ -7134,7 +7123,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/account/{account_id}/rated/tv/episodes",
       path: {
@@ -7154,7 +7143,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountWatchlistMovies({
+  public accountWatchlistMovies({
     accountId = null,
     language = "en-US",
     page = 1,
@@ -7187,7 +7176,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/account/{account_id}/watchlist/movies",
       path: {
@@ -7207,7 +7196,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountWatchlistTv({
+  public accountWatchlistTv({
     accountId = null,
     language = "en-US",
     page = 1,
@@ -7240,7 +7229,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/account/{account_id}/watchlist/tv",
       path: {
@@ -7260,7 +7249,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountAddFavorite({
+  public accountAddFavorite({
     accountId = null,
     sessionId,
     requestBody,
@@ -7274,7 +7263,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/account/{account_id}/favorite",
       path: {
@@ -7293,7 +7282,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static accountAddToWatchlist({
+  public accountAddToWatchlist({
     accountId = null,
     sessionId,
     requestBody,
@@ -7307,7 +7296,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/account/{account_id}/watchlist",
       path: {
@@ -7327,7 +7316,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static certificationMovieList(): CancelablePromise<{
+  public certificationMovieList(): CancelablePromise<{
     certifications?: {
       AU?: Array<{
         certification?: string;
@@ -7556,7 +7545,7 @@ export class DefaultService {
       }>;
     };
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/certification/movie/list",
     });
@@ -7567,7 +7556,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static certificationsTvList(): CancelablePromise<{
+  public certificationsTvList(): CancelablePromise<{
     certifications?: {
       AU?: Array<{
         certification?: string;
@@ -7771,7 +7760,7 @@ export class DefaultService {
       }>;
     };
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/certification/tv/list",
     });
@@ -7783,7 +7772,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static changesMovieList({
+  public changesMovieList({
     endDate,
     page = 1,
     startDate,
@@ -7800,7 +7789,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/movie/changes",
       query: {
@@ -7816,7 +7805,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static changesTvList({
+  public changesTvList({
     endDate,
     page = 1,
     startDate,
@@ -7833,7 +7822,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/changes",
       query: {
@@ -7849,7 +7838,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static changesPeopleList({
+  public changesPeopleList({
     endDate,
     page = 1,
     startDate,
@@ -7866,7 +7855,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/changes",
       query: {
@@ -7883,7 +7872,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static collectionDetails({
+  public collectionDetails({
     collectionId,
     language = "en-US",
   }: {
@@ -7913,7 +7902,7 @@ export class DefaultService {
       vote_count?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/collection/{collection_id}",
       path: {
@@ -7931,7 +7920,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static collectionImages({
+  public collectionImages({
     collectionId,
     includeImageLanguage,
     language,
@@ -7963,7 +7952,7 @@ export class DefaultService {
       width?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/collection/{collection_id}/images",
       path: {
@@ -7981,7 +7970,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static collectionTranslations({
+  public collectionTranslations({
     collectionId,
   }: {
     collectionId: number;
@@ -7999,7 +7988,7 @@ export class DefaultService {
       };
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/collection/{collection_id}/translations",
       path: {
@@ -8014,7 +8003,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static companyDetails({
+  public companyDetails({
     companyId,
   }: {
     companyId: number;
@@ -8028,7 +8017,7 @@ export class DefaultService {
     origin_country?: string;
     parent_company?: any;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/company/{company_id}",
       path: {
@@ -8043,7 +8032,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static companyAlternativeNames({
+  public companyAlternativeNames({
     companyId,
   }: {
     companyId: number;
@@ -8054,7 +8043,7 @@ export class DefaultService {
       type?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/company/{company_id}/alternative_names",
       path: {
@@ -8069,7 +8058,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static companyImages({
+  public companyImages({
     companyId,
   }: {
     companyId: number;
@@ -8086,7 +8075,7 @@ export class DefaultService {
       width?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/company/{company_id}/images",
       path: {
@@ -8101,11 +8090,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static creditDetails({
-    creditId,
-  }: {
-    creditId: string;
-  }): CancelablePromise<{
+  public creditDetails({ creditId }: { creditId: string }): CancelablePromise<{
     credit_type?: string;
     department?: string;
     job?: string;
@@ -8152,7 +8137,7 @@ export class DefaultService {
       profile_path?: string;
     };
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/credit/{credit_id}",
       path: {
@@ -8167,7 +8152,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static genreMovieList({
+  public genreMovieList({
     language = "en",
   }: {
     language?: string;
@@ -8177,7 +8162,7 @@ export class DefaultService {
       name?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/genre/movie/list",
       query: {
@@ -8192,7 +8177,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static genreTvList({
+  public genreTvList({
     language = "en",
   }: {
     language?: string;
@@ -8202,7 +8187,7 @@ export class DefaultService {
       name?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/genre/tv/list",
       query: {
@@ -8217,7 +8202,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static guestSessionRatedMovies({
+  public guestSessionRatedMovies({
     guestSessionId,
     language = "en-US",
     page = 1,
@@ -8249,7 +8234,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/guest_session/{guest_session_id}/rated/movies",
       path: {
@@ -8269,7 +8254,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static guestSessionRatedTv({
+  public guestSessionRatedTv({
     guestSessionId,
     language = "en-US",
     page = 1,
@@ -8301,7 +8286,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/guest_session/{guest_session_id}/rated/tv",
       path: {
@@ -8321,7 +8306,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static guestSessionRatedTvEpisodes({
+  public guestSessionRatedTvEpisodes({
     guestSessionId,
     language = "en-US",
     page = 1,
@@ -8351,7 +8336,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/guest_session/{guest_session_id}/rated/tv/episodes",
       path: {
@@ -8371,7 +8356,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static watchProvidersAvailableRegions({
+  public watchProvidersAvailableRegions({
     language = "en-US",
   }: {
     language?: string;
@@ -8382,7 +8367,7 @@ export class DefaultService {
       native_name?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/watch/providers/regions",
       query: {
@@ -8397,7 +8382,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static watchProvidersMovieList({
+  public watchProvidersMovieList({
     language = "en-US",
     watchRegion,
   }: {
@@ -8476,7 +8461,7 @@ export class DefaultService {
       provider_id?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/watch/providers/movie",
       query: {
@@ -8492,7 +8477,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static watchProviderTvList({
+  public watchProviderTvList({
     language = "en-US",
     watchRegion,
   }: {
@@ -8571,7 +8556,7 @@ export class DefaultService {
       provider_id?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/watch/providers/tv",
       query: {
@@ -8586,7 +8571,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static keywordDetails({
+  public keywordDetails({
     keywordId,
   }: {
     keywordId: number;
@@ -8594,7 +8579,7 @@ export class DefaultService {
     id?: number;
     name?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/keyword/{keyword_id}",
       path: {
@@ -8608,7 +8593,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static keywordMovies({
+  public keywordMovies({
     keywordId,
     includeAdult = false,
     language = "en-US",
@@ -8640,7 +8625,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/keyword/{keyword_id}/movies",
       path: {
@@ -8659,7 +8644,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static listDetails({
+  public listDetails({
     listId,
     language = "en-US",
   }: {
@@ -8692,7 +8677,7 @@ export class DefaultService {
     name?: string;
     poster_path?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/list/{list_id}",
       path: {
@@ -8710,7 +8695,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static listDelete({
+  public listDelete({
     listId,
     sessionId,
   }: {
@@ -8720,7 +8705,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "DELETE",
       url: "/3/list/{list_id}",
       path: {
@@ -8738,7 +8723,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static listCheckItemStatus({
+  public listCheckItemStatus({
     listId,
     language = "en-US",
     movieId,
@@ -8750,7 +8735,7 @@ export class DefaultService {
     id?: number;
     item_present?: boolean;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/list/{list_id}/item_status",
       path: {
@@ -8768,7 +8753,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static listCreate({
+  public listCreate({
     sessionId,
     requestBody,
   }: {
@@ -8782,7 +8767,7 @@ export class DefaultService {
     status_code?: number;
     list_id?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/list",
       query: {
@@ -8799,7 +8784,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static listAddMovie({
+  public listAddMovie({
     listId,
     sessionId,
     requestBody,
@@ -8813,7 +8798,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/list/{list_id}/add_item",
       path: {
@@ -8833,7 +8818,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static listRemoveMovie({
+  public listRemoveMovie({
     listId,
     sessionId,
     requestBody,
@@ -8847,7 +8832,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/list/{list_id}/remove_item",
       path: {
@@ -8867,7 +8852,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static listClear({
+  public listClear({
     listId,
     sessionId,
     confirm = false,
@@ -8879,7 +8864,7 @@ export class DefaultService {
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/list/{list_id}/clear",
       path: {
@@ -8897,7 +8882,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static networkDetails({
+  public networkDetails({
     networkId,
   }: {
     networkId: number;
@@ -8909,7 +8894,7 @@ export class DefaultService {
     name?: string;
     origin_country?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/network/{network_id}",
       path: {
@@ -8924,18 +8909,14 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static detailsCopy({
-    networkId,
-  }: {
-    networkId: number;
-  }): CancelablePromise<{
+  public detailsCopy({ networkId }: { networkId: number }): CancelablePromise<{
     id?: number;
     results?: Array<{
       name?: string;
       type?: string;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/network/{network_id}/alternative_names",
       path: {
@@ -8950,7 +8931,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static alternativeNamesCopy({
+  public alternativeNamesCopy({
     networkId,
   }: {
     networkId: number;
@@ -8967,7 +8948,7 @@ export class DefaultService {
       width?: number;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/network/{network_id}/images",
       path: {
@@ -8982,11 +8963,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static reviewDetails({
-    reviewId,
-  }: {
-    reviewId: string;
-  }): CancelablePromise<{
+  public reviewDetails({ reviewId }: { reviewId: string }): CancelablePromise<{
     id?: string;
     author?: string;
     author_details?: {
@@ -9004,7 +8981,7 @@ export class DefaultService {
     updated_at?: string;
     url?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/review/{review_id}",
       path: {
@@ -9019,12 +8996,12 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static authenticationValidateKey(): CancelablePromise<{
+  public authenticationValidateKey(): CancelablePromise<{
     success?: boolean;
     status_code?: number;
     status_message?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/authentication",
       errors: {
@@ -9039,7 +9016,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvSeasonWatchProviders({
+  public tvSeasonWatchProviders({
     seriesId,
     seasonNumber,
     language = "en-US",
@@ -9943,7 +9920,7 @@ export class DefaultService {
       };
     };
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/{series_id}/season/{season_number}/watch/providers",
       path: {
@@ -9962,7 +9939,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static configurationCountries({
+  public configurationCountries({
     language = "en-US",
   }: {
     language?: string;
@@ -9973,7 +9950,7 @@ export class DefaultService {
       native_name?: string;
     }>
   > {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/configuration/countries",
       query: {
@@ -9988,13 +9965,13 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static configurationJobs(): CancelablePromise<
+  public configurationJobs(): CancelablePromise<
     Array<{
       department?: string;
       jobs?: Array<string>;
     }>
   > {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/configuration/jobs",
     });
@@ -10006,14 +9983,14 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static configurationLanguages(): CancelablePromise<
+  public configurationLanguages(): CancelablePromise<
     Array<{
       iso_639_1?: string;
       english_name?: string;
       name?: string;
     }>
   > {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/configuration/languages",
     });
@@ -10025,10 +10002,8 @@ export class DefaultService {
    * @returns string 200
    * @throws ApiError
    */
-  public static configurationPrimaryTranslations(): CancelablePromise<
-    Array<string>
-  > {
-    return __request(OpenAPI, {
+  public configurationPrimaryTranslations(): CancelablePromise<Array<string>> {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/configuration/primary_translations",
     });
@@ -10040,13 +10015,13 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static configurationTimezones(): CancelablePromise<
+  public configurationTimezones(): CancelablePromise<
     Array<{
       iso_3166_1?: string;
       zones?: Array<string>;
     }>
   > {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/configuration/timezones",
     });
@@ -10058,7 +10033,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static authenticationCreateSessionFromLogin({
+  public authenticationCreateSessionFromLogin({
     requestBody,
   }: {
     requestBody?: {
@@ -10069,7 +10044,7 @@ export class DefaultService {
     expires_at?: string;
     request_token?: string;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "POST",
       url: "/3/authentication/token/validate_with_login",
       body: requestBody,
@@ -10083,7 +10058,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static personLatestId(): CancelablePromise<{
+  public personLatestId(): CancelablePromise<{
     adult?: boolean;
     also_known_as?: any[];
     biography?: string;
@@ -10099,7 +10074,7 @@ export class DefaultService {
     popularity?: number;
     profile_path?: any;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/person/latest",
     });
@@ -10111,7 +10086,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeChangesById({
+  public tvEpisodeChangesById({
     episodeId,
   }: {
     episodeId: number;
@@ -10126,7 +10101,7 @@ export class DefaultService {
       }>;
     }>;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/episode/{episode_id}/changes",
       path: {
@@ -10141,7 +10116,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static tvEpisodeGroupDetails({
+  public tvEpisodeGroupDetails({
     tvEpisodeGroupId,
   }: {
     tvEpisodeGroupId: string;
@@ -10180,7 +10155,7 @@ export class DefaultService {
     };
     type?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/tv/episode_group/{tv_episode_group_id}",
       path: {
@@ -10195,7 +10170,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static searchCompany({
+  public searchCompany({
     query,
     page = 1,
   }: {
@@ -10212,7 +10187,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/search/company",
       query: {
@@ -10228,7 +10203,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static searchCollection({
+  public searchCollection({
     query,
     includeAdult = false,
     language = "en-US",
@@ -10255,7 +10230,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/search/collection",
       query: {
@@ -10274,7 +10249,7 @@ export class DefaultService {
    * @returns any 200
    * @throws ApiError
    */
-  public static searchKeyword({
+  public searchKeyword({
     query,
     page = 1,
   }: {
@@ -10289,7 +10264,7 @@ export class DefaultService {
     total_pages?: number;
     total_results?: number;
   }> {
-    return __request(OpenAPI, {
+    return this.httpRequest.request({
       method: "GET",
       url: "/3/search/keyword",
       query: {

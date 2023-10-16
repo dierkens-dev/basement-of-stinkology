@@ -1,4 +1,4 @@
-export const AuthCard = defineComponent({
+export default defineComponent({
   setup(_, context) {
     return () => {
       return (

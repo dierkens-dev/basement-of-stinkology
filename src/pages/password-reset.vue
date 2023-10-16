@@ -5,14 +5,9 @@ definePageMeta({
   },
 });
 
-import { toTypedSchema } from "@vee-validate/zod";
-import { useForm } from "vee-validate";
 import * as z from "zod";
-import { AuthCard } from "~/features/auth/components/AuthCard";
-import { AuthCardActions } from "~/features/auth/components/AuthCardActions";
-import { AuthCardBody } from "~/features/auth/components/AuthCardBody";
-import { AuthCardLinks } from "~/features/auth/components/AuthCardLinks";
-import { AuthCardTitle } from "~/features/auth/components/AuthCardTitle";
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
 
 const validationSchema = toTypedSchema(
   z.object({

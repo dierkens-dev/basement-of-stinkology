@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { defaultProps } from "~/lib/html-attributes.lib";
+import { defaultProps } from "~/utils/html-attributes.util";
 import FormControl from "./FormControl";
 import Input, { inputProps } from "./Input";
 import Label from "./Label";

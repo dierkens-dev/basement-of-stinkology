@@ -48,10 +48,15 @@ router.get(
             viewDateTime: true,
             movie: {
               select: {
-                createdAt: true,
-                themoviedbId: true,
+                title: true,
+                releaseDate: true,
+                tagline: true,
+                overview: true,
               },
             },
+          },
+          orderBy: {
+            viewDateTime: "asc",
           },
         },
       },

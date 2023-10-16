@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
-let prisma: PrismaClient;
+let client: PrismaClient;
 
 declare global {
   // eslint-disable-next-line no-var
@@ -11,12 +11,49 @@ declare global {
 // the server with every change, but we want to make sure we don't
 // create a new connection to the DB with every change either.
 if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
+  client = new PrismaClient();
 } else {
   if (!global.__db) {
     global.__db = new PrismaClient();
   }
-  prisma = global.__db;
+  client = global.__db;
 }
+
+function getValueAtPath(json: Prisma.JsonValue, key: string) {
+  return json && typeof json === "object" && key in json
+    ? json[key as keyof typeof json]
+    : undefined;
+}
+
+const prisma = client.$extends({
+  result: {
+    movie: {
+      title: {
+        needs: { moviedbJson: true },
+        compute(movie) {
+          return getValueAtPath(movie.moviedbJson, "title");
+        },
+      },
+      overview: {
+        needs: { moviedbJson: true },
+        compute(movie) {
+          return getValueAtPath(movie.moviedbJson, "overview");
+        },
+      },
+      tagline: {
+        needs: { moviedbJson: true },
+        compute(movie) {
+          return getValueAtPath(movie.moviedbJson, "tagline");
+        },
+      },
+      releaseDate: {
+        needs: { moviedbJson: true },
+        compute(movie) {
+          return getValueAtPath(movie.moviedbJson, "release_date");
+        },
+      },
+    },
+  },
+});
 
 export { prisma };

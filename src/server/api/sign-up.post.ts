@@ -1,8 +1,8 @@
 import { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { z } from "zod";
-import { auth } from "~/features/auth/lib/firebase.lib";
-import { getErrorMessage } from "~/features/auth/util/firebase-errors.util";
+import { auth, getErrorMessage } from "~/features/auth";
+
 const schema = z.object({
   email: z
     .string({ required_error: "Email is required." })
