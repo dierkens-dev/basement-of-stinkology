@@ -9,51 +9,61 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { FirebaseError } from "firebase/app";
 import { useForm } from "vee-validate";
 import * as z from "zod";
+import {
+  codeSchema,
+  passwordSchema,
+  componentBindsConfig,
+} from "~/features/forms";
+import { PasswordUpdateErrors } from "~/server/api/password-update";
+import { FetchError } from "ofetch";
 
 const { query } = useRoute();
-
-const code = query.oobCode;
+const { push } = useRouter();
 
 const validationSchema = toTypedSchema(
   z.object({
-    code: z.string().min(1, { message: "Reset code is required." }),
-    password: z.string().min(1, "Password is required."),
+    code: codeSchema,
+    password: passwordSchema,
   }),
 );
 
-const {
-  handleSubmit,
-  errors,
-  isSubmitting,
-  setFieldValue,
-  values,
-  submitCount,
-} = useForm({
-  validationSchema,
-});
+const { handleSubmit, setErrors, isSubmitting, values, defineComponentBinds } =
+  useForm({
+    validationSchema,
+    initialValues: {
+      code: typeof query.oobCode === "string" ? query.oobCode : undefined,
+    },
+  });
 
-const errorMessage = ref<string | null>(
-  code ? null : "Reset code is required.",
-);
+const code = defineComponentBinds("code", componentBindsConfig);
+const password = defineComponentBinds("password", componentBindsConfig);
 
-const onSubmit = handleSubmit(async (values) => {
+const formErrors = ref<null | PasswordUpdateErrors["formErrors"]>(null);
+
+const onSubmit = handleSubmit(async () => {
+  formErrors.value = [];
+
   try {
-    // TODO: This has to live on the server
-    // await confirmPasswordReset(auth, values.code, values.password);
+    await $fetch("/api/password-update", {
+      method: "POST",
+      body: values,
+    });
+
+    push("/sign-in");
   } catch (error) {
-    if (error instanceof FirebaseError) {
-      errorMessage.value = getErrorMessage(error.code);
+    if (error instanceof FetchError) {
+      const data: FetchError<PasswordUpdateErrors>["data"] = error.data;
+
+      formErrors.value = data?.formErrors || null;
+
+      setErrors(data?.fieldErrors || {});
+
+      return;
     }
+
+    throw error;
   }
 });
-
-function handleOnInput(field: keyof typeof values, event: Event) {
-  setFieldValue(
-    field,
-    (event.currentTarget as HTMLInputElement).value,
-    submitCount.value > 0,
-  );
-}
 </script>
 
 <template>
@@ -62,18 +72,20 @@ function handleOnInput(field: keyof typeof values, event: Event) {
       <form novalidate @submit="onSubmit">
         <AuthCardTitle>Update Password</AuthCardTitle>
 
+        <TextField v-bind="code" name="code" type="hidden" />
         <TextField
-          :error="submitCount > 0 ? errors.password : undefined"
-          :on-input="(event) => handleOnInput('password', event)"
-          :value="values.password"
+          v-bind="password"
           label="Password"
           name="password"
           type="password"
         />
 
-        <P v-if="errorMessage" class-name="alert alert-error shadow-lg mb-3">
-          {{ errorMessage }}
-        </P>
+        <P
+          v-for="error in formErrors"
+          :key="error"
+          class="alert alert-error shadow-lg mb-3"
+          >{{ error }}</P
+        >
 
         <input type="hidden" name="code" :value="{ code }" />
 

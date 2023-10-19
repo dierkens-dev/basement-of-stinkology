@@ -49,15 +49,11 @@ export const nuxtAuthHandler = NuxtAuthHandler({
 
           const user = await prisma.user.upsert({
             where: {
-              email_tenant: {
-                email: userCredential.user.email,
-                tenant: userCredential.user.tenantId,
-              },
+              email: userCredential.user.email,
             },
             update: {},
             create: {
               email: userCredential.user.email,
-              tenant: userCredential.user.tenantId,
             },
           });
 

@@ -1,18 +1,18 @@
 import { FirebaseError } from "firebase/app";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { confirmPasswordReset } from "firebase/auth";
 import { z } from "zod";
 import { auth, getErrorMessage } from "~/features/auth";
-import { emailSchema, passwordSchema } from "~/features/forms";
+import { codeSchema, passwordSchema } from "~/features/forms";
 
 const schema = z.object({
-  email: emailSchema,
+  code: codeSchema,
   password: passwordSchema,
 });
 
-export type SignUpErrors = z.inferFlattenedErrors<typeof schema>;
+export type PasswordUpdateErrors = z.inferFlattenedErrors<typeof schema>;
 
 export default defineEventHandler(
-  async (event): Promise<void | SignUpErrors> => {
+  async (event): Promise<void | PasswordUpdateErrors> => {
     const body = await readBody(event);
     const result = schema.safeParse(body);
 
@@ -21,10 +21,10 @@ export default defineEventHandler(
       return result.error.flatten();
     }
 
-    const { email, password } = result.data;
+    const { code, password } = result.data;
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      await confirmPasswordReset(auth, code, password);
     } catch (error) {
       if (error instanceof FirebaseError) {
         setResponseStatus(event, 400, "Bad Request");

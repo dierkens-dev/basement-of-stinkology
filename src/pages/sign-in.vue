@@ -6,15 +6,18 @@ definePageMeta({
 });
 
 import { toTypedSchema } from "@vee-validate/zod";
-import { PublicPathState, useForm } from "vee-validate";
+import { useForm } from "vee-validate";
 import * as z from "zod";
+import {
+  componentBindsConfig,
+  emailSchema,
+  passwordSchema,
+} from "~/features/forms";
 
 const validationSchema = toTypedSchema(
   z.object({
-    email: z
-      .string({ required_error: "Email is required." })
-      .email("Must be a valid email."),
-    password: z.string({ required_error: "Password is required." }),
+    email: emailSchema,
+    password: passwordSchema,
   }),
 );
 
@@ -27,13 +30,8 @@ const { defineComponentBinds, handleSubmit, isSubmitting } = useForm({
   },
 });
 
-const defineComponentBindsOptions = {
-  model: "value",
-  mapProps: ({ errors }: PublicPathState) => ({ errors }),
-};
-
-const email = defineComponentBinds("email", defineComponentBindsOptions);
-const password = defineComponentBinds("password", defineComponentBindsOptions);
+const email = defineComponentBinds("email", componentBindsConfig);
+const password = defineComponentBinds("password", componentBindsConfig);
 
 const { signIn } = useAuth();
 

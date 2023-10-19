@@ -5,44 +5,53 @@ definePageMeta({
   },
 });
 
-import * as z from "zod";
-import { useForm } from "vee-validate";
+import { emailSchema, componentBindsConfig } from "~/features/forms";
+import { FetchError } from "ofetch";
+import { PasswordResetErrors } from "~/server/api/password-reset";
 import { toTypedSchema } from "@vee-validate/zod";
+import { useForm } from "vee-validate";
+import * as z from "zod";
 
 const validationSchema = toTypedSchema(
   z.object({
-    email: z
-      .string()
-      .min(1, { message: "Email is required." })
-      .email("Must be a valid email."),
+    email: emailSchema,
   }),
 );
 
-const {
-  handleSubmit,
-  errors,
-  isSubmitting,
-  setFieldValue,
-  values,
-  submitCount,
-} = useForm({
-  validationSchema,
-});
+const { handleSubmit, isSubmitting, values, defineComponentBinds, setErrors } =
+  useForm({
+    validationSchema,
+  });
+
+const email = defineComponentBinds("email", componentBindsConfig);
 
 const isEmailSent = ref(false);
+const formErrors = ref<null | PasswordResetErrors["formErrors"]>(null);
 
 const onSubmit = handleSubmit(async () => {
-  // TODO: This has to live on the server
-  // await sendPasswordResetEmail(auth, values.email);
-});
+  formErrors.value = [];
 
-function handleOnInput(field: keyof typeof values, event: Event) {
-  setFieldValue(
-    field,
-    (event.currentTarget as HTMLInputElement).value,
-    submitCount.value > 0,
-  );
-}
+  try {
+    await $fetch("/api/password-reset", {
+      method: "POST",
+      body: values,
+    });
+
+    isEmailSent.value = true;
+  } catch (error) {
+    if (error instanceof FetchError) {
+      const data: FetchError<PasswordResetErrors>["data"] = error.data;
+
+      formErrors.value = data?.formErrors || null;
+
+      setErrors(data?.fieldErrors || {});
+
+      return;
+    }
+
+    throw error;
+  }
+});
 </script>
 
 <template>
@@ -53,9 +62,13 @@ function handleOnInput(field: keyof typeof values, event: Event) {
       </P>
 
       <div class="flex justify-end gap-1">
-        <Link class="link hover:link-primary" to="/sign-in"> Sign In </Link>
+        <NuxtLink class="link hover:link-primary" to="/sign-in">
+          Sign In
+        </NuxtLink>
         or
-        <Link class="link hover:link-primary" to="/sign-up"> Sign Up </Link>
+        <NuxtLink class="link hover:link-primary" to="/sign-up">
+          Sign Up
+        </NuxtLink>
       </div>
     </AuthCardBody>
   </AuthCard>
@@ -64,19 +77,18 @@ function handleOnInput(field: keyof typeof values, event: Event) {
       <form novalidate @submit="onSubmit">
         <AuthCardTitle>Reset Password</AuthCardTitle>
 
-        <TextField
-          :error="submitCount > 0 ? errors.email : undefined"
-          :on-input="(event) => handleOnInput('email', event)"
-          :value="values.email"
-          label="Email"
-          name="email"
-          type="email"
-        />
+        <TextField v-bind="email" label="Email" name="email" type="email" />
+
+        <P
+          v-for="error in formErrors"
+          :key="error"
+          class="alert alert-error shadow-lg mb-3"
+          >{{ error }}</P
+        >
 
         <AuthCardActions>
           <SubmitButton :is-loading="isSubmitting" :disabled="isSubmitting">
-            <span v-if="isSubmitting">Sending Reset Email...</span>
-            <span v-else>Reset Password</span>
+            <span>Reset Password</span>
           </SubmitButton>
 
           <AuthCardLinks>

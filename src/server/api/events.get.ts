@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const data = await prisma.event.findMany({
-    where: { tenant: session.user.tenant },
+    where: {},
     select: {
       createdAt: true,
       date: true,

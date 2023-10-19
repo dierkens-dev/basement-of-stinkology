@@ -3,6 +3,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { FetchError } from "ofetch";
 import { PublicPathState, useForm } from "vee-validate";
 import { z } from "zod";
+import { emailSchema, passwordSchema } from "~/features/forms";
 import { SignUpErrors } from "~/server/api/sign-up.post";
 
 definePageMeta({
@@ -13,13 +14,8 @@ definePageMeta({
 
 const validationSchema = toTypedSchema(
   z.object({
-    email: z
-      .string({ required_error: "Email is required." })
-      .min(1, "Email is required.")
-      .email("Must be a valid email."),
-    password: z
-      .string({ required_error: "Password is required." })
-      .min(1, "Email is required."),
+    email: emailSchema,
+    password: passwordSchema,
   }),
 );
 

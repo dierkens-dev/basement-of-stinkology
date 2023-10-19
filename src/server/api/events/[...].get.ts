@@ -14,7 +14,7 @@ router.get(
     const slug = getRouterParam(event, "slug");
 
     const data = await prisma.event.findFirst({
-      where: { tenant: session.user.tenant, slug },
+      where: { slug },
       select: {
         createdAt: true,
         date: true,
@@ -41,7 +41,7 @@ router.get(
     const slug = getRouterParam(event, "slug");
 
     const data = await prisma.event.findFirst({
-      where: { tenant: session.user.tenant, slug },
+      where: { slug },
       select: {
         MovieViews: {
           select: {
