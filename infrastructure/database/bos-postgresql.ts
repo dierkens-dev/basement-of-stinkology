@@ -10,12 +10,16 @@ export const bosPostgresInstance = new gcp.sql.DatabaseInstance(
   "bos-postgres-instance",
   {
     region: "us-central1",
-    databaseVersion: "POSTGRES_14",
+    databaseVersion: "POSTGRES_15",
     settings: {
       tier: "db-f1-micro",
+      backupConfiguration: {
+        enabled: true,
+      },
+      deletionProtectionEnabled: true,
     },
     deletionProtection: true,
-  }
+  },
 );
 
 export const bosPostgresDatabase = new gcp.sql.Database(
@@ -23,7 +27,15 @@ export const bosPostgresDatabase = new gcp.sql.Database(
   {
     instance: bosPostgresInstance.name,
     deletionPolicy: "ABANDON",
-  }
+  },
+);
+
+export const bosPostgresDevelopmentDatabase = new gcp.sql.Database(
+  "bos-postgres-development-database",
+  {
+    instance: bosPostgresInstance.name,
+    deletionPolicy: "ABANDON",
+  },
 );
 
 export const bosPostgresShadowDatabase = new gcp.sql.Database(
@@ -31,7 +43,7 @@ export const bosPostgresShadowDatabase = new gcp.sql.Database(
   {
     instance: bosPostgresInstance.name,
     deletionPolicy: "ABANDON",
-  }
+  },
 );
 
 export const bosPostgresUser = new gcp.sql.User("bos-postgres-user", {
