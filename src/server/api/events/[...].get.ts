@@ -52,6 +52,7 @@ router.get(
                 releaseDate: true,
                 tagline: true,
                 overview: true,
+                poster: true,
               },
             },
           },

@@ -58,6 +58,15 @@ const prisma = client.$extends({
           return getValueAtPath(movie.moviedbJson, "runtime");
         },
       },
+      poster: {
+        needs: { moviedbJson: true },
+        compute(movie) {
+          return `https://image.tmdb.org/t/p/original${getValueAtPath(
+            movie.moviedbJson,
+            "poster_path",
+          )}`;
+        },
+      },
     },
   },
 });

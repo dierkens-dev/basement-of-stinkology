@@ -24,6 +24,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     "@nuxt/devtools",
+    "@nuxt/image",
     "@nuxtjs/tailwindcss",
     "@sidebase/nuxt-auth",
     "@cssninja/nuxt-toaster",
