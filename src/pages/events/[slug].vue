@@ -16,8 +16,15 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`);
     >
       <div class="hero-overlay bg-opacity-60"></div>
       <div class="hero-content text-center text-neutral-content">
-        <div class="max-w-md">
+        <div>
           <h1 class="mb-5 text-5xl font-bold">{{ event.data.name }}</h1>
+          <h2>
+            {{
+              new Date(event.data.date).toLocaleString(undefined, {
+                year: "numeric",
+              })
+            }}
+          </h2>
         </div>
       </div>
     </div>
