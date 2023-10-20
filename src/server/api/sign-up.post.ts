@@ -1,5 +1,8 @@
 import { FirebaseError } from "firebase/app";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { z } from "zod";
 import { auth, getErrorMessage } from "~/features/auth";
 import { emailSchema, passwordSchema } from "~/features/forms";
@@ -24,7 +27,13 @@ export default defineEventHandler(
     const { email, password } = result.data;
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
+      await sendEmailVerification(userCredential.user);
     } catch (error) {
       if (error instanceof FirebaseError) {
         setResponseStatus(event, 400, "Bad Request");

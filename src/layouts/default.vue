@@ -38,7 +38,8 @@ const user = data.value?.user;
                 <li><a>Submenu 2</a></li>
               </ul>
             </li>
-            <li><a>Item 3</a></li>
+
+            <li><NuxtLink to="/users/profile/me">Profile</NuxtLink></li>
           </ul>
         </div>
         <NuxtLink to="/" class="btn btn-ghost normal-case text-xl"
@@ -59,7 +60,7 @@ const user = data.value?.user;
                 </ul>
               </details>
             </li>
-            <li><a>Item 3</a></li>
+            <li><NuxtLink to="/users/profile/me">Profile</NuxtLink></li>
           </ul>
         </div>
         <a
