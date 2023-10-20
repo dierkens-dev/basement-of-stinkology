@@ -1,4 +1,4 @@
 build
 public/build
 .cache
-src/features/movies/lib/moviedb
+src/features/movies/lib/moviedb/**/*
