@@ -62,6 +62,7 @@
     "firebase-admin": "11.11.0",
     "moviedb-promise": "4.0.3",
     "next-auth": "4.21.1",
+    "oh-vue-icons": "1.0.0-rc3",
     "postcss-custom-properties": "13.3.2",
     "prisma": "^5.4.2",
     "rimraf": "5.0.5",

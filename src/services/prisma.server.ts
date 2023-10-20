@@ -52,6 +52,12 @@ const prisma = client.$extends({
           return getValueAtPath(movie.moviedbJson, "release_date");
         },
       },
+      runtime: {
+        needs: { moviedbJson: true },
+        compute(movie) {
+          return getValueAtPath(movie.moviedbJson, "runtime");
+        },
+      },
     },
   },
 });

@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     globalAppMiddleware: true,
     origin: process.env.BOS_FIREBASE_AUTH_DOMAIN,
   },
+  build: {
+    transpile: ["oh-vue-icons"],
+  },
   components: [
     {
       path: "~/components",
