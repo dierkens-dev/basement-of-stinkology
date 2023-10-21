@@ -27,9 +27,9 @@ export default defineComponent({
     return () => {
       return (
         <dialog ref={dialog} class="modal">
-          <form method="dialog" class="modal-box">
+          <div class="modal-box">
             {context.slots.default && context.slots?.default()}
-          </form>
+          </div>
 
           <form method="dialog" class="modal-backdrop bg-black bg-opacity-30">
             <button type="submit">close</button>

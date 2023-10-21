@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@sidebase/nuxt-auth",
     "@cssninja/nuxt-toaster",
+    "@vueuse/nuxt",
   ],
   srcDir: "./src",
   vite: {

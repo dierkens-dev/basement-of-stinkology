@@ -8,6 +8,15 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`);
 
 <template>
   <div>
+    <NuxtPage />
+
+    <NuxtLink
+      class="btn btn-circle btn-primary fixed right-3 bottom-3"
+      :to="`/events/${slug}/log-movie`"
+    >
+      <v-icon name="px-plus" />
+      <span class="sr-only">Log Movie</span>
+    </NuxtLink>
     <div
       class="hero min-h-[calc(100vh-62px)]"
       style="
