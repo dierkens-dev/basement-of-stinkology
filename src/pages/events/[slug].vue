@@ -3,7 +3,11 @@ const { params } = useRoute();
 
 const slug = params.slug;
 const { data: event } = useFetch(`/api/events/${slug}`);
-const { data: movies } = useFetch(`/api/events/${slug}/movies`);
+const { data: movies } = await useAsyncData(`${slug}/movies`, () =>
+  $fetch(`/api/events/${slug}/movies`),
+);
+
+console.log({ movies });
 </script>
 
 <template>
@@ -39,7 +43,7 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`);
     </div>
 
     <div class="container mx-auto my-3">
-      <div class="flex flex-wrap gap-3 justify-center">
+      <div v-if="movies" class="flex flex-wrap gap-3 justify-center">
         <div
           v-for="{ movie, viewDateTime } in movies.data.MovieViews"
           :key="movie.id"

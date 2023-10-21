@@ -2,7 +2,6 @@
 import clsx from "clsx";
 
 const { params } = useRoute();
-const router = useRouter();
 
 const slug = params.slug;
 
@@ -58,7 +57,9 @@ async function handleLogMovieClick() {
       },
     });
 
-    await router.push(`/events/${slug}`);
+    await refreshNuxtData(`${slug}/movies`);
+
+    await navigateTo(`/events/${slug}`);
   } finally {
     isSubmitting.value = false;
   }
