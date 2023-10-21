@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import clsx from "clsx";
+
 const { params } = useRoute();
+const router = useRouter();
 
 const slug = params.slug;
 
@@ -35,6 +38,30 @@ interface Movie {
 
 function handleMovieClick(movie: Movie) {
   selectedMovie.value = movie;
+}
+
+const isSubmitting = ref(false);
+
+async function handleLogMovieClick() {
+  if (!selectedMovie.value) {
+    return;
+  }
+
+  isSubmitting.value = true;
+
+  try {
+    await $fetch("/api/movies/log", {
+      method: "POST",
+      body: {
+        moviedbId: selectedMovie.value.id,
+        eventSlug: slug,
+      },
+    });
+
+    await router.push(`/events/${slug}`);
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 </script>
 
@@ -119,7 +146,17 @@ function handleMovieClick(movie: Movie) {
       </div>
 
       <div class="modal-action">
-        <button class="btn btn-primary">Log Movie</button>
+        <Button
+          :class="
+            clsx('btn btn-primary', {
+              'btn-disabled': !selectedMovie || isSubmitting,
+              loading: isSubmitting,
+            })
+          "
+          @click="handleLogMovieClick"
+        >
+          Log Movie
+        </Button>
       </div>
     </div>
 
