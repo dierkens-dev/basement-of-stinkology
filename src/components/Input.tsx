@@ -3,6 +3,10 @@ import type { InputHTMLAttributes } from "vue";
 import { defaultProps } from "~/utils/html-attributes.util";
 
 export const inputProps = {
+  autoFocus: {
+    type: Boolean,
+    default: false,
+  },
   type: {
     type: String as PropType<InputHTMLAttributes["type"]>,
     default: undefined,
@@ -31,11 +35,18 @@ export default defineComponent({
     ...inputProps,
   },
   setup(props) {
+    const target = ref();
+    useFocus(target, { initialValue: props.autoFocus });
+
     return () => {
       const { class: className, ...rest } = props;
 
       return (
-        <input class={clsx("input input-bordered", className)} {...rest} />
+        <input
+          ref={target}
+          class={clsx("input input-bordered", className)}
+          {...rest}
+        />
       );
     };
   },

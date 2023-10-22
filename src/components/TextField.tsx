@@ -40,6 +40,7 @@ export default defineComponent({
           <Label for={props.id}>{props.label}</Label>
 
           <Input
+            autoFocus={props.autoFocus}
             class={clsx({ "input-error": props.errors.length })}
             id={props.id}
             name={props.name}

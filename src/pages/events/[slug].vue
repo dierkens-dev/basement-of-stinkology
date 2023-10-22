@@ -6,8 +6,6 @@ const { data: event } = useFetch(`/api/events/${slug}`);
 const { data: movies } = await useAsyncData(`${slug}/movies`, () =>
   $fetch(`/api/events/${slug}/movies`),
 );
-
-console.log({ movies });
 </script>
 
 <template>

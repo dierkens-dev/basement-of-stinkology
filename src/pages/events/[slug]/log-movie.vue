@@ -41,6 +41,9 @@ function handleMovieClick(movie: Movie) {
 
 const isSubmitting = ref(false);
 
+const input = ref();
+useFocus(input, { initialValue: true });
+
 async function handleLogMovieClick() {
   if (!selectedMovie.value) {
     return;
@@ -67,9 +70,10 @@ async function handleLogMovieClick() {
 </script>
 
 <template>
-  <dialog class="modal modal-open">
+  <dialog class="modal modal-open" open>
     <div class="modal-box">
       <TextField
+        :auto-focus="true"
         name="search"
         label="Find Movie"
         :value="search"
