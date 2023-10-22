@@ -3,9 +3,9 @@ const { params } = useRoute();
 
 const slug = params.slug;
 const { data: event } = useFetch(`/api/events/${slug}`);
-const { data: movies } = await useAsyncData(`${slug}/movies`, () =>
-  $fetch(`/api/events/${slug}/movies`),
-);
+const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
+  key: `${slug}/movies`,
+});
 </script>
 
 <template>
