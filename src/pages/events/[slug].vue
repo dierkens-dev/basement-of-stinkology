@@ -2,6 +2,9 @@
 const { params } = useRoute();
 
 const slug = params.slug;
+const highlightRef = ref();
+useFocus(highlightRef, { initialValue: true });
+
 const { data: event } = useFetch(`/api/events/${slug}`);
 const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
   key: `${slug}/movies`,
@@ -44,6 +47,7 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
       <div v-if="movies" class="flex flex-wrap gap-3 justify-center">
         <div
           v-for="{ movie, viewDateTime } in movies.data.MovieViews"
+          :id="movie.id"
           :key="movie.id"
           class="shadow-xl relative"
         >

@@ -52,7 +52,7 @@ async function handleLogMovieClick() {
   isSubmitting.value = true;
 
   try {
-    await $fetch("/api/movies/log", {
+    const movie = await $fetch("/api/movies/log", {
       method: "POST",
       body: {
         moviedbId: selectedMovie.value.id,
@@ -62,7 +62,16 @@ async function handleLogMovieClick() {
 
     await refreshNuxtData(`${slug}/movies`);
 
-    await navigateTo(`/events/${slug}`);
+    await navigateTo(
+      {
+        path: `/events/${slug}`,
+        hash: `#${movie.result.movie.id}`,
+      },
+      {
+        // Workaround for now to reload the page and scroll to added movie.
+        external: true,
+      },
+    );
   } finally {
     isSubmitting.value = false;
   }

@@ -48,6 +48,7 @@ router.get(
             viewDateTime: true,
             movie: {
               select: {
+                id: true,
                 title: true,
                 releaseDate: true,
                 tagline: true,
