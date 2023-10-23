@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-const { params } = useRoute();
+const { params, hash } = useRoute();
 
 const slug = params.slug;
-const highlightRef = ref();
-useFocus(highlightRef, { initialValue: true });
 
 const { data: event } = useFetch(`/api/events/${slug}`);
 const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
@@ -43,19 +41,24 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
       </div>
     </div>
 
-    <div class="container mx-auto my-3">
+    <div class="container p-3 mx-auto my-3">
       <div v-if="movies" class="flex flex-wrap gap-3 justify-center">
         <div
           v-for="{ movie, viewDateTime } in movies.data.MovieViews"
           :id="movie.id"
           :key="movie.id"
-          class="shadow-xl relative"
+          class="shadow-xl relative basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 indicator"
         >
+          <span
+            v-if="hash.replace('#', '') === movie.id"
+            class="indicator-item badge badge-primary"
+            >new</span
+          >
           <NuxtImg
             :src="movie.poster"
             width="250px"
             height="375px"
-            class="object-contain"
+            class="object-contain w-full"
           />
           <div
             class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono"
