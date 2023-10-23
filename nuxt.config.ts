@@ -30,6 +30,11 @@ export default defineNuxtConfig({
     "@cssninja/nuxt-toaster",
     "@vueuse/nuxt",
   ],
+  nitro: {
+    experimental: {
+      openAPI: true,
+    },
+  },
   srcDir: "./src",
   vite: {
     plugins: [

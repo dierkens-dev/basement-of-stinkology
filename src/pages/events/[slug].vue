@@ -21,6 +21,7 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
       <span class="sr-only">Log Movie</span>
     </NuxtLink>
     <div
+      v-if="event?.data"
       class="hero min-h-[calc(100vh-62px)]"
       style="
         background-image: url(https://www.themoviedb.org/t/p/original/fV93xMMLvbRBIbj5pplYyRwNH88.jpg);
@@ -30,7 +31,7 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
       <div class="hero-content text-center text-neutral-content">
         <div>
           <h1 class="mb-5 text-5xl font-bold">{{ event.data.name }}</h1>
-          <h2>
+          <h2 v-if="event.data.date">
             {{
               new Date(event.data.date).toLocaleString(undefined, {
                 year: "numeric",
@@ -42,7 +43,7 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
     </div>
 
     <div class="container p-3 mx-auto my-3">
-      <div v-if="movies" class="flex flex-wrap gap-3 justify-center">
+      <div v-if="movies?.data" class="flex flex-wrap gap-3 justify-center">
         <div
           v-for="{ movie, viewDateTime } in movies.data.MovieViews"
           :id="movie.id"
