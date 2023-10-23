@@ -1,38 +1,14 @@
-import { FirebaseError } from "firebase/app";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { z } from "zod";
-import { auth, getErrorMessage } from "~/features/auth";
-import { emailSchema } from "~/features/forms";
+import { auth } from "~/features/auth";
+import { defineValidatedEventHandler } from "~/server/utils/validated-handler.server";
+import { passwordResetPostSchema } from "./-password-reset.post.schema";
 
-const schema = z.object({
-  email: emailSchema,
-});
-
-export type PasswordResetErrors = z.inferFlattenedErrors<typeof schema>;
-
-export default defineEventHandler(
-  async (event): Promise<void | PasswordResetErrors> => {
+export default defineValidatedEventHandler(
+  passwordResetPostSchema,
+  async (event) => {
     const body = await readBody(event);
-    const result = schema.safeParse(body);
+    const { email } = body;
 
-    if (!result.success) {
-      setResponseStatus(event, 400, "Bad Request");
-      return result.error.flatten();
-    }
-
-    const { email } = result.data;
-
-    try {
-      await sendPasswordResetEmail(auth, email);
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        setResponseStatus(event, 400, "Bad Request");
-        return { fieldErrors: {}, formErrors: [getErrorMessage(error.code)] };
-      }
-
-      throw error;
-    }
-
-    setResponseStatus(event, 204, "No Content");
+    return sendPasswordResetEmail(auth, email);
   },
 );

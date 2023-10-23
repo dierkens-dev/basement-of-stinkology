@@ -5,28 +5,24 @@ definePageMeta({
   },
 });
 
-import { emailSchema, componentBindsConfig } from "~/features/forms";
+import { componentBindsConfig } from "~/features/forms";
 import { FetchError } from "ofetch";
-import { PasswordResetErrors } from "~/server/api/password-reset";
+import {
+  PasswordResetPostErrors,
+  passwordResetPostSchema,
+} from "~/server/api/-password-reset.post.schema";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
-import * as z from "zod";
-
-const validationSchema = toTypedSchema(
-  z.object({
-    email: emailSchema,
-  }),
-);
 
 const { handleSubmit, isSubmitting, values, defineComponentBinds, setErrors } =
   useForm({
-    validationSchema,
+    validationSchema: toTypedSchema(passwordResetPostSchema.partial()),
   });
 
 const email = defineComponentBinds("email", componentBindsConfig);
 
 const isEmailSent = ref(false);
-const formErrors = ref<null | PasswordResetErrors["formErrors"]>(null);
+const formErrors = ref<null | PasswordResetPostErrors["formErrors"]>(null);
 
 const onSubmit = handleSubmit(async () => {
   formErrors.value = [];
@@ -40,11 +36,12 @@ const onSubmit = handleSubmit(async () => {
     isEmailSent.value = true;
   } catch (error) {
     if (error instanceof FetchError) {
-      const data: FetchError<PasswordResetErrors>["data"] = error.data;
+      const { data: response }: FetchError<{ data?: PasswordResetPostErrors }> =
+        error;
 
-      formErrors.value = data?.formErrors || null;
+      formErrors.value = response?.data?.formErrors || null;
 
-      setErrors(data?.fieldErrors || {});
+      setErrors(response?.data?.fieldErrors || {});
 
       return;
     }
