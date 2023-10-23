@@ -6,45 +6,44 @@ const user = data.value?.user;
 </script>
 
 <template>
-  <div class="drawer">
+  <div class="drawer h-full">
     <input id="main-nav-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col">
-      <div class="h-full flex flex-col">
-        <div v-if="user" class="navbar bg-base-100">
-          <div class="navbar-start">
-            <div class="flex-none lg:hidden">
-              <label
-                for="main-nav-drawer"
-                aria-label="open sidebar"
-                class="btn btn-square btn-ghost"
-              >
-                <v-icon name="px-menu" />
-                <span class="sr-only">Main Menu</span>
-              </label>
-            </div>
-
-            <NuxtLink to="/" class="btn btn-ghost normal-case text-xl lg:flex"
-              >Basement of Stinkology</NuxtLink
+    <div class="drawer-content flex flex-col h-full">
+      <div v-if="user" class="navbar bg-base-100">
+        <div class="navbar-start">
+          <div class="flex-none lg:hidden">
+            <label
+              for="main-nav-drawer"
+              aria-label="open sidebar"
+              class="btn btn-square btn-ghost"
             >
+              <v-icon name="px-menu" />
+              <span class="sr-only">Main Menu</span>
+            </label>
           </div>
 
-          <div class="navbar-end gap-2">
-            <div class="hidden lg:flex">
-              <ul class="menu menu-horizontal px-1">
-                <li><NuxtLink to="/users/profile/me">Profile</NuxtLink></li>
-              </ul>
-            </div>
-            <a
-              :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
-                fullPath,
-              )}`"
-              class="btn btn-ghost"
-              >Sign Out</a
-            >
-          </div>
+          <NuxtLink to="/" class="btn btn-ghost normal-case text-xl lg:flex"
+            >Basement of Stinkology</NuxtLink
+          >
         </div>
-        <slot />
+
+        <div class="navbar-end gap-2">
+          <div class="hidden lg:flex">
+            <ul class="menu menu-horizontal px-1">
+              <li><NuxtLink to="/users/me/watch-list">Watch List</NuxtLink></li>
+              <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
+            </ul>
+          </div>
+          <a
+            :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
+              fullPath,
+            )}`"
+            class="btn btn-ghost"
+            >Sign Out</a
+          >
+        </div>
       </div>
+      <slot />
     </div>
 
     <div class="drawer-side">
@@ -61,7 +60,8 @@ const user = data.value?.user;
           >
         </li>
 
-        <li><NuxtLink to="/users/profile/me">Profile</NuxtLink></li>
+        <li><NuxtLink to="/users/me/watch-list">Watch List</NuxtLink></li>
+        <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
       </ul>
     </div>
   </div>
