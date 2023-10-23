@@ -7,59 +7,54 @@ const movieLogPostBodySchema = z.object({
   moviedbId: z.coerce.number(),
 });
 
-export default defineEventHandler(async (event) => {
-  const session = await getServerSession(event);
-  if (!session) {
-    throw createError({ statusMessage: "Unauthenticated", statusCode: 403 });
-  }
+export default defineValidatedEventHandler(
+  movieLogPostBodySchema,
+  async (event) => {
+    const session = await getServerSession(event);
+    if (!session) {
+      throw createError({ statusMessage: "Unauthenticated", statusCode: 403 });
+    }
 
-  const body = await readBody(event);
+    const { moviedbId } = await readBody(event);
 
-  const result = movieLogPostBodySchema.safeParse(body);
-
-  if (!result.success) {
-    throw createError({ statusMessage: "Bad Request", statusCode: 400 });
-  }
-
-  const { moviedbId } = result.data;
-
-  let movie = await prisma.movie.findFirst({
-    where: { themoviedbId: moviedbId },
-  });
-
-  if (!movie) {
-    const moviedbJson = await movieDbClient.default.movieDetails({
-      movieId: moviedbId,
+    let movie = await prisma.movie.findFirst({
+      where: { themoviedbId: moviedbId },
     });
 
-    movie = await prisma.movie.create({
+    if (!movie) {
+      const moviedbJson = await movieDbClient.default.movieDetails({
+        movieId: moviedbId,
+      });
+
+      movie = await prisma.movie.create({
+        data: {
+          themoviedbId: moviedbId,
+          moviedbJson,
+        },
+      });
+    }
+
+    const userWatchListMovie = await prisma.userWatchListMovie.create({
       data: {
-        themoviedbId: moviedbId,
-        moviedbJson,
+        userId: session.user.id,
+        movieId: movie.id,
       },
-    });
-  }
-
-  const userWatchListMovie = await prisma.userWatchListMovie.create({
-    data: {
-      userId: session.user.id,
-      movieId: movie.id,
-    },
-    select: {
-      movie: {
-        select: {
-          id: true,
-          title: true,
-          releaseDate: true,
-          tagline: true,
-          overview: true,
-          poster: true,
+      select: {
+        movie: {
+          select: {
+            id: true,
+            title: true,
+            releaseDate: true,
+            tagline: true,
+            overview: true,
+            poster: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  return {
-    result: userWatchListMovie,
-  };
-});
+    return {
+      result: userWatchListMovie,
+    };
+  },
+);

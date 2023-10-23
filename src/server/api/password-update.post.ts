@@ -1,7 +1,6 @@
-import { FirebaseError } from "firebase/app";
 import { confirmPasswordReset } from "firebase/auth";
 import { z } from "zod";
-import { auth, getErrorMessage } from "~/features/auth";
+import { auth } from "~/features/auth";
 import { codeSchema, passwordSchema } from "~/features/forms";
 
 const schema = z.object({
@@ -11,28 +10,12 @@ const schema = z.object({
 
 export type PasswordUpdateErrors = z.inferFlattenedErrors<typeof schema>;
 
-export default defineEventHandler(
+export default defineValidatedEventHandler(
+  schema,
   async (event): Promise<void | PasswordUpdateErrors> => {
-    const body = await readBody(event);
-    const result = schema.safeParse(body);
+    const { code, password } = await readBody(event);
 
-    if (!result.success) {
-      setResponseStatus(event, 400, "Bad Request");
-      return result.error.flatten();
-    }
-
-    const { code, password } = result.data;
-
-    try {
-      await confirmPasswordReset(auth, code, password);
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        setResponseStatus(event, 400, "Bad Request");
-        return { fieldErrors: {}, formErrors: [getErrorMessage(error.code)] };
-      }
-
-      throw error;
-    }
+    await confirmPasswordReset(auth, code, password);
 
     setResponseStatus(event, 204, "No Content");
   },

@@ -6,8 +6,7 @@ import { passwordResetPostSchema } from "./-password-reset.post.schema";
 export default defineValidatedEventHandler(
   passwordResetPostSchema,
   async (event) => {
-    const body = await readBody(event);
-    const { email } = body;
+    const { email } = await readBody(event);
 
     return sendPasswordResetEmail(auth, email);
   },

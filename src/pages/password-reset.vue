@@ -16,7 +16,7 @@ import { useForm } from "vee-validate";
 
 const { handleSubmit, isSubmitting, values, defineComponentBinds, setErrors } =
   useForm({
-    validationSchema: toTypedSchema(passwordResetPostSchema.partial()),
+    validationSchema: toTypedSchema(passwordResetPostSchema),
   });
 
 const email = defineComponentBinds("email", componentBindsConfig);
