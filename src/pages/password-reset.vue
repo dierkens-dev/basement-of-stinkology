@@ -13,6 +13,7 @@ import {
 } from "~/server/api/-password-reset.post.schema";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
+import { readFetchError } from "~/utils/read-fetch-error.util";
 
 const { handleSubmit, isSubmitting, values, defineComponentBinds, setErrors } =
   useForm({
@@ -36,12 +37,10 @@ const onSubmit = handleSubmit(async () => {
     isEmailSent.value = true;
   } catch (error) {
     if (error instanceof FetchError) {
-      const { data: response }: FetchError<{ data?: PasswordResetPostErrors }> =
-        error;
+      const errors = readFetchError<PasswordResetPostErrors>(error);
 
-      formErrors.value = response?.data?.formErrors || null;
-
-      setErrors(response?.data?.fieldErrors || {});
+      formErrors.value = errors?.formErrors || null;
+      setErrors(errors?.fieldErrors || {});
 
       return;
     }

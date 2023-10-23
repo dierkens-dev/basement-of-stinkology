@@ -6,16 +6,16 @@ definePageMeta({
 });
 
 import { toTypedSchema } from "@vee-validate/zod";
-import { FirebaseError } from "firebase/app";
+import { FetchError } from "ofetch";
 import { useForm } from "vee-validate";
 import * as z from "zod";
 import {
   codeSchema,
-  passwordSchema,
   componentBindsConfig,
+  passwordSchema,
 } from "~/features/forms";
 import { PasswordUpdateErrors } from "~/server/api/password-update";
-import { FetchError } from "ofetch";
+import { readFetchError } from "~/utils/read-fetch-error.util";
 
 const { query } = useRoute();
 const { push } = useRouter();
@@ -52,11 +52,10 @@ const onSubmit = handleSubmit(async () => {
     push("/sign-in");
   } catch (error) {
     if (error instanceof FetchError) {
-      const data: FetchError<PasswordUpdateErrors>["data"] = error.data;
+      const errors = readFetchError<PasswordUpdateErrors>(error);
 
-      formErrors.value = data?.formErrors || null;
-
-      setErrors(data?.fieldErrors || {});
+      formErrors.value = errors?.formErrors || null;
+      setErrors(errors?.fieldErrors || {});
 
       return;
     }

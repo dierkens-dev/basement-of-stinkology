@@ -5,6 +5,7 @@ import { PublicPathState, useForm } from "vee-validate";
 import { z } from "zod";
 import { emailSchema, passwordSchema } from "~/features/forms";
 import { SignUpErrors } from "~/server/api/sign-up.post";
+import { readFetchError } from "~/utils/read-fetch-error.util";
 
 definePageMeta({
   auth: {
@@ -54,10 +55,10 @@ const onSubmit = handleSubmit(async (values) => {
     });
   } catch (error) {
     if (error instanceof FetchError) {
-      const data: FetchError<SignUpErrors>["data"] = error.data;
-      formErrors.value = data?.formErrors || null;
+      const errors = readFetchError<SignUpErrors>(error);
 
-      setErrors(data?.fieldErrors || {});
+      formErrors.value = errors?.formErrors || null;
+      setErrors(errors?.fieldErrors || {});
 
       return;
     }
