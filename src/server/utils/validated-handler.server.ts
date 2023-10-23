@@ -24,7 +24,8 @@ export const defineValidatedEventHandler = <
     }
 
     try {
-      return await handler(event);
+      const response = await handler(event);
+      return response;
     } catch (error) {
       if (error instanceof FirebaseError) {
         throw createError({
