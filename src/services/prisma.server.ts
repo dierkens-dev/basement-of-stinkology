@@ -1,5 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 
+export * from "@prisma/client";
+
 let client: PrismaClient;
 
 declare global {
@@ -25,7 +27,7 @@ function getValueAtPath(json: Prisma.JsonValue, key: string) {
     : undefined;
 }
 
-const prisma = client.$extends({
+export const prisma = client.$extends({
   result: {
     movie: {
       title: {
@@ -70,5 +72,6 @@ const prisma = client.$extends({
     },
   },
 });
+export type Prisma = typeof prisma;
 
-export { prisma };
+export type Movie = Awaited<ReturnType<Prisma["movie"]["findFirstOrThrow"]>>;

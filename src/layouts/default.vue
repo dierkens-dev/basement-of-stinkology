@@ -22,7 +22,9 @@ const user = data.value?.user;
             </label>
           </div>
 
-          <NuxtLink to="/" class="btn btn-ghost normal-case text-xl lg:flex"
+          <NuxtLink
+            to="/"
+            class="btn btn-ghost normal-case text-xl hidden lg:flex"
             >Basement of Stinkology</NuxtLink
           >
         </div>

@@ -44,23 +44,12 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
 
     <div class="container p-3 mx-auto my-3">
       <div v-if="movies?.data" class="flex flex-wrap gap-3 justify-center">
-        <div
+        <MovieCard
           v-for="{ movie, viewDateTime } in movies.data.MovieViews"
-          :id="movie.id"
           :key="movie.id"
-          class="shadow-xl relative basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 indicator"
+          :movie="movie"
+          :is-new="hash.replace('#', '') === movie.id"
         >
-          <span
-            v-if="hash.replace('#', '') === movie.id"
-            class="indicator-item badge badge-primary"
-            >new</span
-          >
-          <NuxtImg
-            :src="movie.poster"
-            width="250px"
-            height="375px"
-            class="object-contain w-full"
-          />
           <div
             class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono"
           >
@@ -73,7 +62,7 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
               })
             }}
           </div>
-        </div>
+        </MovieCard>
       </div>
     </div>
   </div>
