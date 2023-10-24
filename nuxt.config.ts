@@ -10,13 +10,6 @@ export default defineNuxtConfig({
   build: {
     transpile: ["oh-vue-icons"],
   },
-  components: [
-    {
-      path: "~/components",
-      pathPrefix: false,
-    },
-    { path: "~/features/auth/components", pathPrefix: false },
-  ],
   toaster: {
     installPlugin: false,
   },
