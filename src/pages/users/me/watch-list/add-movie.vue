@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-import clsx from "clsx";
-
-const { params } = useRoute();
-
-const slug = params.slug;
-
 const search = ref("");
 const selectedMovie = ref<Movie | null>(null);
 
@@ -44,7 +38,7 @@ const isSubmitting = ref(false);
 const input = ref();
 useFocus(input, { initialValue: true });
 
-async function handleLogMovieClick() {
+async function handleAddMovieClick() {
   if (!selectedMovie.value) {
     return;
   }
@@ -76,7 +70,7 @@ async function handleLogMovieClick() {
 </script>
 
 <template>
-  <dialog class="modal modal-open" open>
+  <dialog class="modal modal-open modal-top sm:modal-middle" open>
     <div class="modal-box">
       <TextField
         :auto-focus="true"
@@ -157,22 +151,18 @@ async function handleLogMovieClick() {
       </div>
 
       <div class="modal-action">
-        <Button
-          :class="
-            clsx('btn btn-primary', {
-              'btn-disabled': !selectedMovie || isSubmitting,
-              loading: isSubmitting,
-            })
-          "
-          @click="handleLogMovieClick"
+        <SubmitButton
+          :is-loading="isSubmitting"
+          :disabled="isSubmitting"
+          @click="handleAddMovieClick"
         >
           Add Movie
-        </Button>
+        </SubmitButton>
       </div>
     </div>
 
     <div class="modal-backdrop bg-black bg-opacity-30">
-      <NuxtLink :to="`/events/${slug}`">Close Modal</NuxtLink>
+      <NuxtLink to="/users/me/watch-list">Close Modal</NuxtLink>
     </div>
   </dialog>
 </template>

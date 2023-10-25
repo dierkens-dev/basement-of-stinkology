@@ -79,7 +79,7 @@ async function handleLogMovieClick() {
 </script>
 
 <template>
-  <dialog class="modal modal-open" open>
+  <dialog class="modal modal-open modal-top" open>
     <div class="modal-box">
       <TextField
         :auto-focus="true"
@@ -160,17 +160,13 @@ async function handleLogMovieClick() {
       </div>
 
       <div class="modal-action">
-        <Button
-          :class="
-            clsx('btn btn-primary', {
-              'btn-disabled': !selectedMovie || isSubmitting,
-              loading: isSubmitting,
-            })
-          "
+        <SubmitButton
+          :is-loading="isSubmitting"
+          :disabled="isSubmitting"
           @click="handleLogMovieClick"
         >
           Log Movie
-        </Button>
+        </SubmitButton>
       </div>
     </div>
 

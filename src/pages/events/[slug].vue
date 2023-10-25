@@ -14,7 +14,7 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
     <NuxtPage />
 
     <NuxtLink
-      class="btn btn-circle btn-primary fixed right-3 bottom-3"
+      class="btn btn-circle btn-primary fixed right-3 bottom-3 z-10"
       :to="`/events/${slug}/log-movie`"
     >
       <v-icon name="px-plus" />
@@ -42,10 +42,11 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
       </div>
     </div>
 
-    <div class="container p-3 mx-auto my-3">
+    <div class="container p-3 mx-auto my-3 w-screen sm:w-auto">
       <div v-if="movies?.data" class="flex flex-wrap gap-3 justify-center">
         <MovieCard
           v-for="{ movie, viewDateTime } in movies.data.MovieViews"
+          :id="movie.id"
           :key="movie.id"
           :movie="movie"
           :is-new="hash.replace('#', '') === movie.id"

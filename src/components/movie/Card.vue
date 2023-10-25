@@ -18,7 +18,11 @@ defineProps({
   <div
     class="shadow-xl relative basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 indicator"
   >
-    <span v-if="isNew" class="indicator-item badge badge-primary">new</span>
+    <span
+      v-if="isNew"
+      class="indicator-item badge badge-primary badge-lg transform-none"
+      >new</span
+    >
     <NuxtImg
       v-if="movie.poster"
       :src="movie.poster"

@@ -15,7 +15,7 @@ const { data: watchListMovie } = useFetch(`/api/users/me/watch-list`);
       <span class="sr-only">Add Movie</span>
     </NuxtLink>
 
-    <div class="container p-3 mx-auto my-3">
+    <div class="container p-3 mx-auto my-3 w-screen sm:w-auto">
       <div v-if="watchListMovie" class="flex flex-wrap gap-3 justify-center">
         <MovieCard
           v-for="{ movie } in watchListMovie"

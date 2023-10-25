@@ -8,7 +8,7 @@ const user = data.value?.user;
 <template>
   <div class="drawer h-full">
     <input id="main-nav-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col h-full">
+    <div class="drawer-content flex flex-col min-h-full">
       <div v-if="user" class="navbar bg-base-100">
         <div class="navbar-start">
           <div class="flex-none lg:hidden">
