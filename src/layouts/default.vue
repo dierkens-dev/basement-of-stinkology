@@ -45,6 +45,18 @@ const user = data.value?.user;
           >
         </div>
       </div>
+
+      <div
+        v-if="user && !user.emailVerified"
+        class="alert alert-warning w-full flex justify-center"
+      >
+        <span class="flex items-center justify-start gap-3">
+          <v-icon name="px-alert" scale="1.5" />
+          <span class="text-start">
+            Site is in readonly mode. Check your email for a verification link.
+          </span>
+        </span>
+      </div>
       <slot />
     </div>
 

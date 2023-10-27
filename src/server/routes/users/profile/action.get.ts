@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
 
   switch (mode) {
     case "resetPassword": {
-      return sendRedirect(event, `/password-reset?${searchParams.toString()}`);
+      return sendRedirect(event, `/password-update?${searchParams.toString()}`);
     }
     case "verifyEmail": {
       await applyActionCode(auth, code);

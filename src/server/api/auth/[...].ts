@@ -1,6 +1,9 @@
 import { NuxtAuthHandler } from "#auth";
 import { FirebaseError } from "firebase/app";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { auth } from "~/features/auth";
 import { prisma } from "../../../services/prisma.server";
@@ -65,6 +68,10 @@ export default NuxtAuthHandler({
               email: userCredential.user.email,
             },
           });
+
+          if (!user.emailVerified) {
+            await sendEmailVerification(userCredential.user);
+          }
 
           return user;
         } catch (error) {
