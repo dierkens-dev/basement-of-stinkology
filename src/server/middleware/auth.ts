@@ -1,5 +1,5 @@
 import { getServerSession } from "#auth";
-import { RoleLevel } from "~/services/prisma.server";
+import { RoleLevel } from "~/services/prisma";
 
 export default defineEventHandler(async (event) => {
   if (!event.path.startsWith("/api")) {
