@@ -47,7 +47,7 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
   <AuthCard>
     <AuthCardBody>
-      <form novalidate @submit="onSubmit">
+      <form autocomplete="off" novalidate @submit="onSubmit">
         <AuthCardTitle>Sign In</AuthCardTitle>
 
         <TextField v-bind="email" label="Email" name="email" type="email" />

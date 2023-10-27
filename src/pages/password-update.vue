@@ -68,7 +68,7 @@ const onSubmit = handleSubmit(async () => {
 <template>
   <AuthCard>
     <AuthCardBody>
-      <form novalidate @submit="onSubmit">
+      <form autocomplete="off" novalidate @submit="onSubmit">
         <AuthCardTitle>Update Password</AuthCardTitle>
 
         <TextField v-bind="code" name="code" type="hidden" />
