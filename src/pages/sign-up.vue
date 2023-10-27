@@ -4,7 +4,7 @@ import { FetchError } from "ofetch";
 import { PublicPathState, useForm } from "vee-validate";
 import { z } from "zod";
 import { emailSchema, passwordSchema } from "~/features/forms";
-import { SignUpErrors } from "~/server/api/sign-up.post";
+import { SignUpErrors } from "~/server/api/auth/sign-up.post";
 import { readFetchError } from "~/utils/read-fetch-error.util";
 
 definePageMeta({
@@ -43,7 +43,7 @@ const onSubmit = handleSubmit(async (values) => {
   formErrors.value = [];
 
   try {
-    await $fetch("/api/sign-up", {
+    await $fetch("/api/auth/sign-up", {
       method: "POST",
       body: values,
     });

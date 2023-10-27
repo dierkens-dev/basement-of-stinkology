@@ -10,7 +10,7 @@ import { FetchError } from "ofetch";
 import {
   PasswordResetPostErrors,
   passwordResetPostSchema,
-} from "~/server/api/-password-reset.post.schema";
+} from "~/server/api/auth/-password-reset.post.schema";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { readFetchError } from "~/utils/read-fetch-error.util";
@@ -29,7 +29,7 @@ const onSubmit = handleSubmit(async () => {
   formErrors.value = [];
 
   try {
-    await $fetch("/api/password-reset", {
+    await $fetch("/api/auth/password-reset", {
       method: "POST",
       body: values,
     });

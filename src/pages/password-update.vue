@@ -14,7 +14,7 @@ import {
   componentBindsConfig,
   passwordSchema,
 } from "~/features/forms";
-import { PasswordUpdateErrors } from "~/server/api/password-update";
+import { PasswordUpdateErrors } from "~/server/api/auth/password-update";
 import { readFetchError } from "~/utils/read-fetch-error.util";
 
 const { query } = useRoute();
@@ -44,7 +44,7 @@ const onSubmit = handleSubmit(async () => {
   formErrors.value = [];
 
   try {
-    await $fetch("/api/password-update", {
+    await $fetch("/api/auth/password-update", {
       method: "POST",
       body: values,
     });

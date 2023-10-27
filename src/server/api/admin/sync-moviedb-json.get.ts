@@ -1,15 +1,8 @@
-import { getServerSession } from "#auth";
-import { Role } from "@prisma/client";
 import limit from "promise-limit";
 import { movieDbClient } from "~/features/movies";
 import { prisma } from "~/services/prisma.server";
 
-export default defineEventHandler(async (event) => {
-  const session = await getServerSession(event);
-  if (!session || session.user.role > Role.ADMIN) {
-    throw createError({ statusMessage: "Unauthenticated", statusCode: 403 });
-  }
-
+export default defineEventHandler(async () => {
   const movies = await prisma.movie.findMany();
   const limiter =
     limit<Awaited<ReturnType<typeof movieDbClient.default.movieDetails>>>(3);

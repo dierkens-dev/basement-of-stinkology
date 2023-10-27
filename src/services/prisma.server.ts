@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, Role } from "@prisma/client";
 
 export * from "@prisma/client";
 
@@ -73,5 +73,11 @@ export const prisma = client.$extends({
   },
 });
 export type Prisma = typeof prisma;
+
+export const RoleLevel: Record<Role, number> = {
+  VIEWER: 100,
+  EDITOR: 200,
+  ADMIN: 300,
+};
 
 export type Movie = Awaited<ReturnType<Prisma["movie"]["findFirstOrThrow"]>>;
