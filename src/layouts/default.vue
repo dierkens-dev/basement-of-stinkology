@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { RoleLevel } from "~/services/prisma";
+
 const { data } = useAuth();
 const { fullPath } = useRoute();
 
@@ -34,6 +36,9 @@ const user = data.value?.user;
             <ul class="menu menu-horizontal px-1">
               <li><NuxtLink to="/users/me/watch-list">Watch List</NuxtLink></li>
               <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
+              <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">
+                <NuxtLink to="/admin/users">Users</NuxtLink>
+              </li>
             </ul>
           </div>
           <a
@@ -76,6 +81,9 @@ const user = data.value?.user;
 
         <li><NuxtLink to="/users/me/watch-list">Watch List</NuxtLink></li>
         <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
+        <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">
+          <NuxtLink to="/admin/users">Users</NuxtLink>
+        </li>
       </ul>
     </div>
   </div>

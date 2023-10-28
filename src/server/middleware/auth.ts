@@ -2,7 +2,7 @@ import { getServerSession } from "#auth";
 import { RoleLevel } from "~/services/prisma";
 
 export default defineEventHandler(async (event) => {
-  if (!event.path.startsWith("/api")) {
+  if (!event.path.startsWith("/api") && !event.path.startsWith("/admin")) {
     return;
   }
 
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
   // Admin only apis.
   if (
-    event.path.startsWith("/api/admin") &&
+    (event.path.startsWith("/api/admin") || event.path.startsWith("/admin")) &&
     RoleLevel[session.user.role] < RoleLevel["ADMIN"]
   ) {
     throw createError({ statusMessage: "Unauthorized", statusCode: 400 });

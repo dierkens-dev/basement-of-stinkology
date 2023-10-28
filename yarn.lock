@@ -2314,10 +2314,10 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.5.1.tgz#5f1b518ec5fa54437c0b7c4a821546c64fed6922"
   integrity sha512-6i/8UoL0P5y4leBIGzvkZdS85RDMG9y1ihZzmTZQ5LdHUYmZ7pKFoj8X0236s3lusPs1Fa5HTQUpwI+UfTcmeA==
 
-"@sidebase/nuxt-auth@^0.6.0-beta.6":
-  version "0.6.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@sidebase/nuxt-auth/-/nuxt-auth-0.6.0-beta.7.tgz#be9acfb2ce3bbe801cb3335b6eaebb9ba6ecc99b"
-  integrity sha512-wrNZKeHzKbrSLiWXf8mFzD8UMe7vUtNjg/ICFXUjI9CoGqZEgCtsopXJogTe+pRRyP3Je2/RbxBVLmvfxtB9wA==
+"@sidebase/nuxt-auth@^0.6.0-rc.1":
+  version "0.6.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@sidebase/nuxt-auth/-/nuxt-auth-0.6.0-rc.1.tgz#ad2e9ac916fe09b91efe07903bf45f6e4ea064cf"
+  integrity sha512-ncwDLD1koXeO/fFwcCwjA9uxf0b755s5yHJQxsBjRoCyRNadz9snSCe8e78N8i/NW8da7rZrzKWejIOXlVSizw==
   dependencies:
     "@nuxt/kit" "^3.4.2"
     "@vueuse/core" "^9.13.0"
@@ -2371,6 +2371,11 @@
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
+
+"@total-typescript/ts-reset@0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@total-typescript/ts-reset/-/ts-reset-0.5.1.tgz#93b0535d00faa588518bcfb0db30182e63e4f7af"
+  integrity sha512-AqlrT8YA1o7Ff5wPfMOL0pvL+1X+sw60NN6CcOCqs658emD6RfiXhF7Gu9QcfKBH7ELY2nInLhKSCWVoNL70MQ==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
