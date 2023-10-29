@@ -1,7 +1,15 @@
 import { OhVueIcon, addIcons } from "oh-vue-icons";
-import { PxAlert, PxEye, PxLink, PxMenu, PxPlus } from "oh-vue-icons/icons";
+import {
+  PxAlert,
+  PxCheck,
+  PxEye,
+  PxLink,
+  PxMenu,
+  PxPlus,
+  PxTrash,
+} from "oh-vue-icons/icons";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  addIcons(PxLink, PxEye, PxMenu, PxPlus, PxAlert);
+  addIcons(PxLink, PxEye, PxMenu, PxPlus, PxAlert, PxCheck, PxTrash);
   nuxtApp.vueApp.component("v-icon", OhVueIcon);
 });
