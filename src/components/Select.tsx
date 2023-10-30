@@ -61,7 +61,9 @@ export default defineComponent({
 
           <select
             autofocus={props.autoFocus}
-            class={clsx("select", { "input-error": props.errors.length })}
+            class={clsx("select select-bordered", {
+              "input-error": props.errors.length,
+            })}
             id={props.id}
             name={props.name}
             value={props.value}

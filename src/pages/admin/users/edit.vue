@@ -74,7 +74,7 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <dialog class="modal modal-open modal-top sm:modal-middle" open>
-    <div v-if="user" class="modal-box">
+    <div v-if="user" class="modal-box prose">
       <h2>Edit {{ user?.email }}</h2>
 
       <form autocomplete="off" novalidate @submit="onSubmit">
