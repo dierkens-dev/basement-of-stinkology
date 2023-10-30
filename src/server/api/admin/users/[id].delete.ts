@@ -10,6 +10,10 @@ export default defineEventHandler(async (event) => {
     },
   });
 
+  if (user.id === event.context.user.id) {
+    throw createError({ status: 400, statusMessage: "Bad Request" });
+  }
+
   const providerUser = await adminAuth.getUserByEmail(user.email);
   await adminAuth.deleteUser(await providerUser.uid);
   await prisma.user.delete({ where: { id } });

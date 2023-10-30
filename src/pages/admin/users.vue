@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const { data, pending, error } = useFetch("/api/admin/users");
+const { data, pending, error } = useFetch("/api/admin/users", {
+  key: "admin-users",
+});
+
+const { data: session } = useAuth();
 </script>
 <template>
   <div class="flex h-full justify-center container mx-auto">
@@ -29,8 +33,22 @@ const { data, pending, error } = useFetch("/api/admin/users");
               <span class="sr-only">{{ user.emailVerified }}</span>
             </td>
             <td>{{ user.role }}</td>
-            <td>
+            <td class="flex gap-1">
               <NuxtLink
+                :to="{
+                  path: '/admin/users/edit',
+                  query: {
+                    id: user.id,
+                  },
+                }"
+                class="btn btn-circle btn-sm"
+              >
+                <v-icon name="px-edit" class="text-primary" />
+                <span class="sr-only">Edit {{ user.email }}</span>
+              </NuxtLink>
+
+              <NuxtLink
+                v-if="session?.user.id !== user.id"
                 :to="{
                   path: '/admin/users/delete',
                   query: {
@@ -42,6 +60,9 @@ const { data, pending, error } = useFetch("/api/admin/users");
                 <v-icon name="px-trash" class="text-error" />
                 <span class="sr-only">Delete {{ user.email }}</span>
               </NuxtLink>
+              <span v-else class="btn btn-circle btn-sm btn-disabled">
+                <v-icon name="px-trash" class="text-neutral" />
+              </span>
             </td>
           </tr>
         </tbody>

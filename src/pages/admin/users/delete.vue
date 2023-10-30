@@ -13,15 +13,11 @@ async function handleConfirm() {
       method: "DELETE",
     });
 
-    await navigateTo(
-      {
-        path: "/admin/users",
-      },
-      {
-        // Workaround for now to reload the page and scroll to added movie.
-        external: true,
-      },
-    );
+    await navigateTo({
+      path: "/admin/users",
+    });
+
+    await refreshNuxtData("admin-users");
   } finally {
     isSubmitting.value = false;
   }
@@ -32,10 +28,12 @@ useFocus(confirm, { initialValue: true });
 </script>
 
 <template>
-  <dialog class="modal modal-open modal-top" open>
-    <div class="modal-box">
-      <p v-if="user">Are you sure you would like to delete {{ user.email }}?</p>
-      <p v-else>Are you sure you would like to delete the selected user?</p>
+  <dialog class="modal modal-open modal-top sm:modal-middle" open>
+    <div v-if="user" class="modal-box prose">
+      <h2>Delete User</h2>
+      <p>
+        You are about to delete <strong>{{ user.email }}.</strong>
+      </p>
       <div class="modal-action">
         <NuxtLink to="/admin/users" class="btn btn-secondary">Cancel</NuxtLink>
         <SubmitButton
@@ -50,7 +48,7 @@ useFocus(confirm, { initialValue: true });
     </div>
 
     <div class="modal-backdrop bg-black bg-opacity-30">
-      <NuxtLink :to="`/admin/user`">Close Modal</NuxtLink>
+      <NuxtLink to="/admin/users">Close Modal</NuxtLink>
     </div>
   </dialog>
 </template>

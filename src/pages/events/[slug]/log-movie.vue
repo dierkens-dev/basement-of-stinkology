@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import clsx from "clsx";
-
 const { params } = useRoute();
 
 const slug = params.slug;
@@ -79,7 +77,7 @@ async function handleLogMovieClick() {
 </script>
 
 <template>
-  <dialog class="modal modal-open modal-top" open>
+  <dialog class="modal modal-open modal-top sm:modal-middle" open>
     <div class="modal-box">
       <TextField
         :auto-focus="true"

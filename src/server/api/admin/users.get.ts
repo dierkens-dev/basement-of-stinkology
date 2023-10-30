@@ -14,5 +14,8 @@ export default defineEventHandler(async () => {
         in: emails,
       },
     },
+    orderBy: {
+      email: "asc",
+    },
   });
 });

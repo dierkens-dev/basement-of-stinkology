@@ -1,4 +1,6 @@
-import type { Role } from "./prisma.server";
+import { Role } from "@prisma/client";
+
+export { Role };
 
 export const RoleLevel: Record<Role, number> = {
   VIEWER: 100,

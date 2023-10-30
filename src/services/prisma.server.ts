@@ -4,10 +4,11 @@ export type {
   $Enums,
   Event,
   MovieView,
-  Role,
   User,
   UserWatchListMovie,
 } from "@prisma/client";
+
+export { Role } from "@prisma/client";
 
 let client: PrismaClient;
 

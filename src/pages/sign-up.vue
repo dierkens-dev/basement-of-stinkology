@@ -36,8 +36,7 @@ const password = defineComponentBinds("password", defineComponentBindsOptions);
 
 const formErrors = ref<null | SignUpErrors["formErrors"]>(null);
 
-const { signIn } = useAuth();
-const { query } = useRoute();
+const { $toast } = useNuxtApp();
 
 const onSubmit = handleSubmit(async (values) => {
   formErrors.value = [];
@@ -48,10 +47,11 @@ const onSubmit = handleSubmit(async (values) => {
       body: values,
     });
 
-    await signIn("credentials", {
-      ...values,
-      callbackUrl:
-        typeof query.callbackUrl === "string" ? query.callbackUrl : "/",
+    await navigateTo("/sign-in");
+
+    await $toast.show({
+      title: `User '${values.email}' created.`,
+      message: "Please check your email for a verification link.",
     });
   } catch (error) {
     if (error instanceof FetchError) {
