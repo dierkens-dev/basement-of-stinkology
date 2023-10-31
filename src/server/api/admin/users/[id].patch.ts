@@ -1,10 +1,5 @@
-import { z } from "zod";
-import { prisma, Role } from "~/services/prisma.server";
-
-const adminUsersPatchBodySchema = z.object({
-  role: z.enum([Role.ADMIN, Role.EDITOR, Role.VIEWER]).optional(),
-  name: z.string().optional(),
-});
+import { prisma } from "~/services/prisma.server";
+import { adminUsersPatchBodySchema } from "./-[id].patch.schema";
 
 export default defineValidatedEventHandler(
   adminUsersPatchBodySchema,

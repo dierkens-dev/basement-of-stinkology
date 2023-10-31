@@ -25,11 +25,22 @@ const { data: session } = useAuth();
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>
-              <v-icon
-                v-if="user.emailVerified"
-                name="px-check"
-                class="text-success"
-              />
+              <span v-if="user.emailVerified" class="rounded-full p-2">
+                <v-icon name="px-check" class="text-success" />
+              </span>
+              <NuxtLink
+                v-else
+                :to="{
+                  path: '/admin/users/send-verification-email',
+                  query: {
+                    id: user.id,
+                  },
+                }"
+                class="btn btn-circle btn-sm btn-ghost"
+              >
+                <v-icon name="px-mail-arrow-right" class="text-secondary" />
+                <span class="sr-only">Resend verify email</span>
+              </NuxtLink>
               <span class="sr-only">{{ user.emailVerified }}</span>
             </td>
             <td>{{ user.role }}</td>
