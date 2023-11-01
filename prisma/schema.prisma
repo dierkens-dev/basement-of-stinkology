@@ -42,9 +42,10 @@ model Event {
   // TODO: Make this work (it threw an error)
   // updatedAt DateTime @updatedAt
 
-  slug String    @unique
-  name String
-  date DateTime?
+  slug        String    @unique
+  name        String
+  date        DateTime?
+  backdropUrl String?
 
   // TODO Lowercase this
   MovieViews MovieView[]

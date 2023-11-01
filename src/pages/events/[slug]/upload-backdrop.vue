@@ -9,28 +9,28 @@ const slug = params.slug;
 
 const validationSchema = toTypedSchema(
   z.object({
-    file: z.instanceof(File),
+    file: z.instanceof(File, { message: "Please select a backdrop image." }),
   }),
 );
 
-const { handleSubmit, isSubmitting, setFieldValue, errors } = useForm({
+const {
+  handleSubmit,
+  isSubmitting,
+  setFieldValue,
+  errors,
+  submitCount,
+  setErrors,
+} = useForm({
   validationSchema,
 });
-
-const formErrors = ref<null>(null);
 
 const handleChange = (payload: Event) => {
   const target = payload.target as HTMLInputElement;
   const files = target.files ?? [];
   setFieldValue("file", files[0]);
 };
-const handleBlur = (payload: Event) => console.log({ payload });
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log(values);
-
-  formErrors.value = null;
-
   try {
     const formData = new FormData();
 
@@ -41,16 +41,20 @@ const onSubmit = handleSubmit(async (values) => {
       body: formData,
     });
 
-    // await navigateTo({
-    //   path: `/api/events/${slug}`,
-    // });
+    await navigateTo({
+      path: `/events/${slug}`,
+    });
 
-    // await refreshNuxtData(`events/${slug}`);
+    await refreshNuxtData(`events/${slug}`);
   } catch (error) {
     if (error instanceof FetchError) {
-      // TODO
-      console.error(error);
+      const errors = readFetchError<{ file: string }>(error);
 
+      console.log({ error });
+
+      if (errors) {
+        setErrors(errors);
+      }
       return;
     }
 
@@ -68,20 +72,16 @@ const onSubmit = handleSubmit(async (values) => {
         <input
           type="file"
           class="file-input"
+          accept="image/gif, image/jpeg, image/png, image/webp"
           @change="handleChange"
-          @blur="handleBlur"
         />
 
-        <div v-if="errors.file" class="text-sm text-error py-2">
+        <div
+          v-if="errors.file && submitCount > 0"
+          class="text-sm text-error py-2"
+        >
           {{ errors.file }}
         </div>
-
-        <P
-          v-for="error in formErrors"
-          :key="error"
-          class="alert alert-error shadow-lg mb-3"
-          >{{ error }}</P
-        >
 
         <div class="modal-action">
           <SubmitButton :is-loading="isSubmitting" :disabled="isSubmitting">

@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
       id: true,
       name: true,
       slug: true,
+      backdropUrl: true,
     },
   });
 

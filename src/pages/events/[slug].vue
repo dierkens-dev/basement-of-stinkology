@@ -5,7 +5,9 @@ const { params, hash } = useRoute();
 
 const slug = params.slug;
 
-const { data: event } = useFetch(`/api/events/${slug}`);
+const { data: event } = useFetch(`/api/events/${slug}`, {
+  key: `events/${slug}`,
+});
 const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
   key: `${slug}/movies`,
 });
@@ -20,20 +22,30 @@ const isEditor =
   <div>
     <NuxtPage />
 
-    <NuxtLink
-      v-if="isEditor"
-      class="btn btn-circle btn-primary fixed right-3 bottom-3 z-10"
-      :to="`/events/${slug}/log-movie`"
-    >
-      <v-icon name="px-plus" />
-      <span class="sr-only">Log Movie</span>
-    </NuxtLink>
+    <div class="fixed right-10 bottom-3 z-10 flex gap-3">
+      <NuxtLink
+        v-if="isEditor"
+        class="btn btn-circle btn-secondary"
+        :to="`/events/${slug}/upload-backdrop`"
+      >
+        <v-icon name="px-image" />
+        <span class="sr-only">Upload Backdrop Image</span>
+      </NuxtLink>
+
+      <NuxtLink
+        v-if="isEditor"
+        class="btn btn-circle btn-primary"
+        :to="`/events/${slug}/log-movie`"
+      >
+        <v-icon name="px-plus" />
+        <span class="sr-only">Log Movie</span>
+      </NuxtLink>
+    </div>
+
     <div
       v-if="event?.data"
       class="hero min-h-[calc(100vh-62px)]"
-      style="
-        background-image: url(https://www.themoviedb.org/t/p/original/fV93xMMLvbRBIbj5pplYyRwNH88.jpg);
-      "
+      :style="`background-image: url(${event.data.backdropUrl});`"
     >
       <div class="hero-overlay bg-opacity-60"></div>
       <div class="hero-content text-center text-neutral-content">
