@@ -1,4 +1,5 @@
 import { Storage } from "@google-cloud/storage";
+import crypto from "node:crypto";
 import { Readable } from "node:stream";
 import { invariant } from "~/utils/invariant";
 
@@ -13,7 +14,6 @@ const bucket = storage.bucket(process.env.BOS_ASSET_BUCKET_NAME);
 export default defineEventHandler(async (event) => {
   const formData = await readMultipartFormData(event);
   const slug = getRouterParam(event, "slug");
-  const path = `${slug}/backdrop`;
 
   const file = formData?.find(({ name }) => name === "file");
 
@@ -22,6 +22,8 @@ export default defineEventHandler(async (event) => {
   }
 
   if (file) {
+    const hashed = crypto.createHash("md5").update(file.data).digest("base64");
+    const path = `${slug}/${hashed}`;
     const bucketFile = bucket.file(path);
 
     await new Promise((resolve, reject) => {
@@ -30,7 +32,7 @@ export default defineEventHandler(async (event) => {
           bucketFile.createWriteStream({
             resumable: false,
             validation: false,
-            contentType: "application/octet-stream",
+            contentType: file.type,
           }),
         )
         .on("finish", resolve)
