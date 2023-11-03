@@ -6,10 +6,13 @@ import {
   PxEye,
   PxImage,
   PxLink,
+  PxMail,
   PxMailArrowRight,
   PxMenu,
   PxPlus,
   PxTrash,
+  PxUpload,
+  PxUser,
 } from "oh-vue-icons/icons";
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -20,10 +23,13 @@ export default defineNuxtPlugin((nuxtApp) => {
     PxEye,
     PxImage,
     PxLink,
+    PxMail,
     PxMailArrowRight,
     PxMenu,
     PxPlus,
     PxTrash,
+    PxUpload,
+    PxUser,
   );
   nuxtApp.vueApp.component("v-icon", OhVueIcon);
 });
