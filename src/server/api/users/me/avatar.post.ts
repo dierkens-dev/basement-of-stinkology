@@ -14,9 +14,9 @@ const bucket = storage.bucket(process.env.BOS_ASSET_BUCKET_NAME);
 
 export default defineEventHandler(async (event) => {
   const formData = await readMultipartFormData(event);
-  const slug = getRouterParam(event, "slug");
 
   const file = formData?.find(({ name }) => name === "file");
+  const id = event.context.user.id;
 
   if (!file || !file.type) {
     throw createError({
@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const md5 = crypto.createHash("md5").update(file.data).digest("hex");
-  const basePath = `events/${slug}`;
+  const basePath = `users/${event.context.user.id}`;
   const bucketFile = bucket.file(`${basePath}/${md5}`);
 
   await new Promise((resolve, reject) => {
@@ -57,12 +57,12 @@ export default defineEventHandler(async (event) => {
       .on("error", reject);
   });
 
-  await prisma.event.update({
+  await prisma.user.update({
     where: {
-      slug,
+      id,
     },
     data: {
-      backdropUrl: `https://storage.googleapis.com/${
+      avatar: `https://storage.googleapis.com/${
         process.env.BOS_ASSET_BUCKET_NAME
       }/${basePath}/${encodeURIComponent(md5)}`,
     },

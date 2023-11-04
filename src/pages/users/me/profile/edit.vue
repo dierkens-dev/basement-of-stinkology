@@ -4,16 +4,13 @@ import { FetchError } from "ofetch";
 import { useForm } from "vee-validate";
 import { componentBindsConfig } from "~/features/forms";
 import {
-  AdminUsersPatchErrors,
-  adminUsersPatchBodySchema,
-} from "~/server/api/admin/users/-[id].patch.schema";
-import { Role } from "~/services/prisma";
+  UsersMePatchErrors,
+  usersMePatchBodySchema,
+} from "~/server/api/users/-me.patch.schema";
 
-const { query } = useRoute();
-const id = query.id;
-const { data: user } = await useFetch(`/api/users/${id}`);
+const { data: user } = await useFetch(`/api/users/me`);
 
-const validationSchema = toTypedSchema(adminUsersPatchBodySchema);
+const validationSchema = toTypedSchema(usersMePatchBodySchema);
 
 const {
   defineComponentBinds,
@@ -25,7 +22,7 @@ const {
   validationSchema,
   // Already loaded
   initialValues: {
-    role: user.value?.role,
+    nickname: user.value?.nickname ?? undefined,
     name: user.value?.name ?? undefined,
   },
 });
@@ -34,32 +31,32 @@ const {
 watch(user, async (values) => {
   setValues({
     name: values?.name ?? undefined,
-    role: values?.role,
+    nickname: values?.nickname ?? undefined,
   });
 });
 
-const role = defineComponentBinds("role", componentBindsConfig);
+const nickname = defineComponentBinds("nickname", componentBindsConfig);
 const name = defineComponentBinds("name", componentBindsConfig);
 
-const formErrors = ref<null | AdminUsersPatchErrors["formErrors"]>(null);
+const formErrors = ref<null | UsersMePatchErrors["formErrors"]>(null);
 
 const onSubmit = handleSubmit(async (values) => {
   formErrors.value = [];
 
   try {
-    await $fetch(`/api/admin/users/${id}`, {
+    await $fetch(`/api/users/me`, {
       method: "PATCH",
       body: values,
     });
 
     await navigateTo({
-      path: "/admin/users",
+      path: "/users/me/profile",
     });
 
-    await refreshNuxtData("admin-users");
+    await refreshNuxtData("users/me");
   } catch (error) {
     if (error instanceof FetchError) {
-      const errors = readFetchError<AdminUsersPatchErrors>(error);
+      const errors = readFetchError<UsersMePatchErrors>(error);
 
       formErrors.value = errors?.formErrors || null;
       setErrors(errors?.fieldErrors || {});
@@ -86,15 +83,12 @@ const onSubmit = handleSubmit(async (values) => {
           auto-focus
         />
 
-        <Select v-bind="role" label="Role" name="role">
-          <option
-            v-for="roleOption in Object.values(Role)"
-            :key="roleOption"
-            :selected="role.value === roleOption"
-          >
-            {{ roleOption }}
-          </option>
-        </Select>
+        <TextField
+          v-bind="nickname"
+          label="Nickname"
+          name="nickname"
+          type="text"
+        />
 
         <P
           v-for="error in formErrors"
@@ -115,7 +109,7 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
 
     <div class="modal-backdrop bg-black bg-opacity-30">
-      <NuxtLink to="/admin/users">Close Modal</NuxtLink>
+      <NuxtLink to="/users/me/profile">Close Modal</NuxtLink>
     </div>
   </dialog>
 </template>

@@ -23,13 +23,6 @@ export default NuxtAuthHandler({
         where: {
           id: token.sub,
         },
-        select: {
-          email: true,
-          emailVerified: true,
-          id: true,
-          name: true,
-          role: true,
-        },
       });
 
       return session;
