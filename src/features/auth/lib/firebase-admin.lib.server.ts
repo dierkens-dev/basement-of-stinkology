@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import { applicationDefault } from "firebase-admin/app";
-import { invariant } from "~~/app/utils/invariant";
+import { invariant } from "~/utils/invariant";
 
 admin.initializeApp({
   projectId: "basement-of-stinkology",

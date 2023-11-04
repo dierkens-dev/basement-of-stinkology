@@ -2,7 +2,6 @@ import { prisma } from "~/services/prisma.server";
 
 export default defineEventHandler(async () => {
   const data = await prisma.event.findMany({
-    where: {},
     select: {
       createdAt: true,
       date: true,
