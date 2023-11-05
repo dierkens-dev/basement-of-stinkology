@@ -1,9 +1,7 @@
 import { prisma } from "~/services/prisma.server";
-import { invariant } from "~/utils/invariant";
 
 export default defineEventHandler(async () => {
   const watchListMovies = await prisma.userWatchListMovie.findMany({
-    distinct: ["movieId"],
     select: {
       movie: {
         select: {
@@ -19,8 +17,8 @@ export default defineEventHandler(async () => {
           updatedAt: true,
         },
       },
+      user: true,
       movieId: true,
-      userId: true,
     },
     orderBy: {
       movie: {
@@ -31,23 +29,27 @@ export default defineEventHandler(async () => {
     },
   });
 
-  const users = await prisma.user.findMany({
-    where: {
-      id: {
-        in: watchListMovies.map(({ userId }) => userId),
-      },
+  type WatchListMovie = (typeof watchListMovies)[number];
+
+  type Result = Omit<(typeof watchListMovies)[number], "user"> & {
+    users: Array<WatchListMovie["user"]>;
+  };
+
+  const results = watchListMovies.reduce<Record<Result["movieId"], Result>>(
+    (acc, { user, ...value }) => {
+      if (!acc[value.movieId]) {
+        acc[value.movieId] = {
+          ...value,
+          users: [],
+        };
+      }
+
+      acc[value.movieId].users.push(user);
+
+      return acc;
     },
-  });
-
-  const results = watchListMovies.map((watchListMovie) => {
-    const user = users.find(({ id }) => watchListMovie.userId === id);
-    invariant(user, "Could not find user for movie list movie");
-
-    return {
-      ...watchListMovie.movie,
-      user,
-    };
-  });
+    {},
+  );
 
   return {
     results,
