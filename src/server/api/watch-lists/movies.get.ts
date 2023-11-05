@@ -6,8 +6,10 @@ export default defineEventHandler(async () => {
       movie: {
         select: {
           _count: true,
-          id: true,
+          backdrop: true,
           createdAt: true,
+          genres: true,
+          id: true,
           overview: true,
           poster: true,
           releaseDate: true,
@@ -15,6 +17,7 @@ export default defineEventHandler(async () => {
           tagline: true,
           title: true,
           updatedAt: true,
+          voteAverage: true,
         },
       },
       user: true,

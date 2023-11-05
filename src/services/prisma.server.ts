@@ -77,6 +77,37 @@ export const prisma = client.$extends({
           )}`;
         },
       },
+      backdrop: {
+        needs: { moviedbJson: true },
+        compute(movie) {
+          return `https://image.tmdb.org/t/p/original${getValueAtPath(
+            movie.moviedbJson,
+            "backdrop_path",
+          )}`;
+        },
+      },
+      voteAverage: {
+        needs: { moviedbJson: true },
+        compute(movie) {
+          return getValueAtPath(movie.moviedbJson, "vote_average");
+        },
+      },
+      genres: {
+        needs: { moviedbJson: true },
+        compute(movie) {
+          const value = getValueAtPath(movie.moviedbJson, "genres");
+
+          return Array.isArray(value)
+            ? value
+                .map((genre) =>
+                  genre !== null && typeof genre === "object" && "name" in genre
+                    ? genre.name
+                    : null,
+                )
+                .filter(Boolean)
+            : [];
+        },
+      },
     },
   },
 });
