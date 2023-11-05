@@ -1,16 +1,57 @@
 <script lang="ts" setup>
+import clsx from "clsx";
 const { data } = useFetch(`/api/watch-lists/movies`);
+const { query } = useRoute();
+const { push } = useRouter();
+
+const showWatched = ref(
+  typeof query.showWatched === "string" && query.showWatched === "true",
+);
+
+watch(showWatched, (value) => {
+  push({
+    query: {
+      ...query,
+      showWatched: String(value),
+    },
+  });
+});
 </script>
 
 <template>
   <div>
     <div class="container p-3 mx-auto my-3 w-screen sm:w-auto">
-      <div v-if="data" class="flex flex-col gap-3 justify-center">
+      <div class="flex justify-between">
+        <h1 class="text-3xl font-bold">What to watch</h1>
+        <div class="form-control">
+          <label class="label cursor-pointer gap-2">
+            <span class="label-text">Show Watched</span>
+            <input v-model="showWatched" type="checkbox" class="toggle" />
+          </label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div v-if="data" class="flex flex-wrap gap-3 justify-center">
         <div
           v-for="{ movie, users } in data.results"
           :key="movie.id"
-          class="card card-side bg-base-100 shadow-xl flex-col sm:flex-row"
+          class="card card-side bg-base-100 shadow-xl flex-col sm:flex-row basis-full lg:basis-5/12"
+          :class="
+            clsx(
+              'card card-side bg-base-100 shadow-xl flex-col sm:flex-row basis-full lg:basis-5/12',
+              {
+                'grayscale relative indicator opacity-50':
+                  movie._count.MovieViews > 0,
+                hidden: !showWatched && movie._count.MovieViews > 0,
+              },
+            )
+          "
         >
+          <span
+            v-if="movie._count.MovieViews > 0"
+            class="badge badge-primary indicator-item indicator-center indicator-middle px-8 h-12 text-xl gap-2"
+            ><v-icon name="px-eye" scale="2.0" />Watched</span
+          >
           <figure class="w-full sm:w-40 shrink-0">
             <NuxtImg
               class="object-cover hidden sm:block"
