@@ -16,7 +16,7 @@ defineProps({
 
 <template>
   <div
-    class="shadow-xl relative basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 indicator"
+    class="shadow-xl relative basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 indicator"
   >
     <span
       v-if="isNew"

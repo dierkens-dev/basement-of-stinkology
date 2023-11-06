@@ -65,23 +65,40 @@ const isEditor =
     <div class="container p-3 mx-auto my-3 w-screen sm:w-auto">
       <div v-if="movies?.data" class="flex flex-wrap gap-3 justify-center">
         <MovieCard
-          v-for="{ movie, viewDateTime } in movies.data.MovieViews"
+          v-for="{ movie, viewDateTime, id } in movies.data.MovieViews"
           :id="movie.id"
           :key="movie.id"
           :movie="movie"
           :is-new="hash.replace('#', '') === movie.id"
         >
           <div
-            class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono"
+            class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono flex justify-between items-center"
           >
-            <v-icon scale="1.5" name="px-eye" />
-            {{
-              new Date(viewDateTime).toLocaleString(undefined, {
-                weekday: "short",
-                hour: "numeric",
-                minute: "numeric",
-              })
-            }}
+            <span>
+              <v-icon scale="1.5" name="px-eye" />
+              {{
+                new Date(viewDateTime).toLocaleString(undefined, {
+                  weekday: "short",
+                  hour: "numeric",
+                  minute: "numeric",
+                })
+              }}
+            </span>
+
+            <span>
+              <NuxtLink
+                :to="{
+                  path: `/events/${slug}/edit-movie`,
+                  query: {
+                    id,
+                  },
+                }"
+                class="btn btn-circle btn-primary btn-sm"
+              >
+                <span class="sr-only">Edit {{ movie.title }}.</span>
+                <v-icon name="px-edit" />
+              </NuxtLink>
+            </span>
           </div>
         </MovieCard>
       </div>

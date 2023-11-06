@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
     select: {
       MovieViews: {
         select: {
+          id: true,
           viewDateTime: true,
           movie: {
             select: {

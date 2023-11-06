@@ -34,6 +34,9 @@ const user = data.value?.user;
         <div class="navbar-end gap-2">
           <div class="hidden lg:flex">
             <ul class="menu menu-horizontal px-1">
+              <li>
+                <NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink>
+              </li>
               <li><NuxtLink to="/users/me/watch-list">Watch List</NuxtLink></li>
               <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
               <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">
@@ -65,7 +68,7 @@ const user = data.value?.user;
       <slot />
     </div>
 
-    <div class="drawer-side">
+    <div class="drawer-side lg:hidden">
       <label
         for="main-nav-drawer"
         aria-label="close sidebar"
@@ -79,6 +82,7 @@ const user = data.value?.user;
           >
         </li>
 
+        <li><NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink></li>
         <li><NuxtLink to="/users/me/watch-list">Watch List</NuxtLink></li>
         <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
         <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">

@@ -35,10 +35,11 @@ const isEditor =
           :key="movie.id"
           :movie="movie"
           :is-new="hash.replace('#', '') === movie.id"
+          tabindex="0"
           class="group"
         >
           <div
-            class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono hidden group-hover:flex justify-end"
+            class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono hidden group-hover:flex group-focus-within:flex justify-end"
           >
             <NuxtLink
               :to="{
