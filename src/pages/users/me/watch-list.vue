@@ -2,7 +2,9 @@
 import { RoleLevel } from "~/services/prisma";
 
 const { hash } = useRoute();
-const { data: watchListMovie } = useFetch(`/api/users/me/watch-list`);
+const { data: watchListMovies } = useFetch(`/api/users/me/watch-list`, {
+  key: "/users/me/watch-list",
+});
 
 const { data } = useAuth();
 const user = data.value?.user;
@@ -24,14 +26,36 @@ const isEditor =
     </NuxtLink>
 
     <div class="container p-3 mx-auto my-3 w-screen sm:w-auto">
-      <div v-if="watchListMovie" class="flex flex-wrap gap-3 justify-center">
+      <h1 class="text-3xl font-bold">My Watchlist</h1>
+      <div class="divider"></div>
+      <div v-if="watchListMovies" class="flex flex-wrap gap-3 justify-center">
         <MovieCard
-          v-for="{ movie } in watchListMovie"
+          v-for="{ movie, id } in watchListMovies"
           :id="movie.id"
           :key="movie.id"
           :movie="movie"
           :is-new="hash.replace('#', '') === movie.id"
-        />
+          class="group"
+        >
+          <div
+            class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono hidden group-hover:flex justify-end"
+          >
+            <NuxtLink
+              :to="{
+                path: '/users/me/watch-list/remove-movie',
+                query: {
+                  id,
+                },
+              }"
+              class="btn btn-circle btn-error btn-sm"
+            >
+              <span class="sr-only"
+                >Remove {{ movie.title }} from your watch list.</span
+              >
+              <v-icon name="px-trash" />
+            </NuxtLink>
+          </div>
+        </MovieCard>
       </div>
     </div>
   </div>

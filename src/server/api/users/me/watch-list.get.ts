@@ -5,6 +5,7 @@ export default defineEventHandler(async (event) => {
     where: { userId: event.context.user.id },
     select: {
       movie: true,
+      id: true,
     },
   });
 });
