@@ -68,13 +68,15 @@ const isEditor =
           v-for="{ movie, viewDateTime, id } in movies.data.MovieViews"
           :id="movie.id"
           :key="movie.id"
+          tabindex="0"
           :movie="movie"
           :is-new="hash.replace('#', '') === movie.id"
+          class="group"
         >
           <div
             class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono flex justify-between items-center"
           >
-            <span>
+            <span class="py-2">
               <v-icon scale="1.5" name="px-eye" />
               {{
                 new Date(viewDateTime).toLocaleString(undefined, {
@@ -85,7 +87,7 @@ const isEditor =
               }}
             </span>
 
-            <span>
+            <span class="gap-2 hidden group-hover:flex group-focus-within:flex">
               <NuxtLink
                 :to="{
                   path: `/events/${slug}/edit-movie`,
@@ -97,6 +99,19 @@ const isEditor =
               >
                 <span class="sr-only">Edit {{ movie.title }}.</span>
                 <v-icon name="px-edit" />
+              </NuxtLink>
+
+              <NuxtLink
+                :to="{
+                  path: `/events/${slug}/remove-movie`,
+                  query: {
+                    id,
+                  },
+                }"
+                class="btn btn-circle btn-error btn-sm"
+              >
+                <span class="sr-only">Remove {{ movie.title }}.</span>
+                <v-icon name="px-trash" />
               </NuxtLink>
             </span>
           </div>

@@ -58,8 +58,6 @@ async function handleLogMovieClick() {
       },
     });
 
-    await refreshNuxtData(`${slug}/movies`);
-
     await navigateTo(
       {
         path: `/events/${slug}`,
@@ -70,6 +68,7 @@ async function handleLogMovieClick() {
         external: true,
       },
     );
+    await refreshNuxtData(`${slug}/movies`);
   } finally {
     isSubmitting.value = false;
   }
