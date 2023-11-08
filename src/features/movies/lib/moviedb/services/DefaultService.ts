@@ -8635,9 +8635,11 @@ export class DefaultService {
     public listDetails({
         listId,
         language = 'en-US',
+        page = 1,
     }: {
         listId: number,
         language?: string,
+        page?: number,
     }): CancelablePromise<{
         created_by?: string;
         description?: string;
@@ -8673,6 +8675,7 @@ export class DefaultService {
             },
             query: {
                 'language': language,
+                'page': page,
             },
         });
     }

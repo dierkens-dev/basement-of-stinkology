@@ -11,7 +11,7 @@ const user = data.value?.user;
   <div class="drawer h-full">
     <input id="main-nav-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col min-h-full">
-      <div v-if="user" class="navbar bg-base-100">
+      <div v-if="user" class="navbar shadow bg-base-100">
         <div class="navbar-start">
           <div class="flex-none lg:hidden">
             <label
@@ -33,24 +33,63 @@ const user = data.value?.user;
 
         <div class="navbar-end gap-2">
           <div class="hidden lg:flex">
-            <ul class="menu menu-horizontal px-1">
+            <ul class="menu menu-horizontal px-1 items-center gap-2">
               <li>
                 <NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink>
               </li>
               <li><NuxtLink to="/users/me/watch-list">Watch List</NuxtLink></li>
-              <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
+
               <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">
                 <NuxtLink to="/admin/users">Users</NuxtLink>
               </li>
+
+              <div class="dropdown dropdown-end">
+                <label
+                  tabindex="0"
+                  class="btn btn-outline btn-circle btn-primary focus-within:border-2"
+                >
+                  <div v-if="user.avatar" class="avatar">
+                    <div class="rounded-full w-10 overflow-hidden p-1">
+                      <img
+                        class="rounded-full"
+                        :src="user.avatar"
+                        :alt="`Avatar for ${user.email}`"
+                      />
+                    </div>
+                  </div>
+                  <div v-else class="avatar placeholder p-2">
+                    <div
+                      class="bg-neutral text-neutral-content rounded-full w-10 ring ring-primary ring-offset-base-100 ring-offset-2"
+                    >
+                      <span class="text-6xl uppercase">{{
+                        user.email[0]
+                      }}</span>
+                    </div>
+                  </div>
+                </label>
+                <ul
+                  class="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box"
+                >
+                  <li class="menu-title">
+                    <span class="font-bold">{{ user.email }}</span>
+                    <span class="divider my-1"></span>
+                  </li>
+                  <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
+                  <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">
+                    <NuxtLink to="/admin/users">Users</NuxtLink>
+                  </li>
+                  <li>
+                    <a
+                      :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
+                        fullPath,
+                      )}`"
+                      >Sign Out</a
+                    >
+                  </li>
+                </ul>
+              </div>
             </ul>
           </div>
-          <a
-            :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
-              fullPath,
-            )}`"
-            class="btn btn-ghost"
-            >Sign Out</a
-          >
         </div>
       </div>
 
@@ -82,11 +121,38 @@ const user = data.value?.user;
           >
         </li>
 
+        <li class="menu-title">
+          <span class="divider my-1"></span>
+        </li>
+
         <li><NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink></li>
-        <li><NuxtLink to="/users/me/watch-list">Watch List</NuxtLink></li>
-        <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
+        <li>
+          <NuxtLink to="/users/me/watch-list">Watch List</NuxtLink>
+        </li>
+
+        <li v-if="user" class="menu-title">
+          <span class="divider my-1"></span>
+        </li>
+
+        <li v-if="user" class="menu-title">
+          <span class="font-bold">{{ user.email }}</span>
+        </li>
+
+        <li v-if="user" class="menu-title">
+          <span class="divider my-1"></span>
+        </li>
+
+        <li v-if="user"><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
         <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">
           <NuxtLink to="/admin/users">Users</NuxtLink>
+        </li>
+        <li v-if="user">
+          <a
+            :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
+              fullPath,
+            )}`"
+            >Sign Out</a
+          >
         </li>
       </ul>
     </div>
