@@ -114,17 +114,29 @@ watch(showWatched, (value) => {
             <div class="flex items-center gap-3">
               <div
                 v-if="typeof movie.voteAverage === 'number'"
-                class="radial-progress text-xs"
+                :class="{
+                  'radial-progress text-xs': true,
+                  'text-success': movie.voteAverage > 6,
+                  'text-warning':
+                    movie.voteAverage > 3 && movie.voteAverage <= 6,
+                  'text-error': movie.voteAverage <= 3,
+                }"
                 :style="`--value: ${movie.voteAverage * 10}; --size: 3rem`"
               >
                 {{ Math.floor(movie.voteAverage * 10) }}%
               </div>
 
               <div class="flex -space-x-4">
-                <div v-for="user in users" :key="user.id" :title="user.email">
+                <div
+                  v-for="user in users"
+                  :key="user.id"
+                  :title="user.email"
+                  class="relative tooltip"
+                  :data-tip="user.nickname || user.name || user.email"
+                >
                   <div v-if="user.avatar">
                     <div
-                      class="w-10 bg-base-100 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+                      class="w-10 bg-base-100 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden"
                     >
                       <img :src="user.avatar" />
                     </div>

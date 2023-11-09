@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RoleLevel } from "~/services/prisma";
+import { isAdmin, isEditor } from "~/services/prisma";
 
 const { data } = useAuth();
 const { fullPath } = useRoute();
@@ -37,9 +37,11 @@ const user = data.value?.user;
               <li>
                 <NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink>
               </li>
-              <li><NuxtLink to="/users/me/watch-list">Watch List</NuxtLink></li>
+              <li v-if="isEditor(user)">
+                <NuxtLink to="/users/me/watch-list">Watch List</NuxtLink>
+              </li>
 
-              <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">
+              <li v-if="isAdmin(user)">
                 <NuxtLink to="/admin/users">Users</NuxtLink>
               </li>
 
@@ -49,7 +51,7 @@ const user = data.value?.user;
                   class="btn btn-outline btn-circle btn-primary focus-within:border-2"
                 >
                   <div v-if="user.avatar" class="avatar">
-                    <div class="rounded-full w-10 overflow-hidden p-1">
+                    <div class="rounded-full w-10 overflow-hidden">
                       <img
                         class="rounded-full"
                         :src="user.avatar"
@@ -57,14 +59,11 @@ const user = data.value?.user;
                       />
                     </div>
                   </div>
-                  <div v-else class="avatar placeholder p-2">
-                    <div
-                      class="bg-neutral text-neutral-content rounded-full w-10 ring ring-primary ring-offset-base-100 ring-offset-2"
-                    >
-                      <span class="text-6xl uppercase">{{
-                        user.email[0]
-                      }}</span>
-                    </div>
+                  <div
+                    v-else
+                    class="bg-neutral text-neutral-content rounded-full w-10 h-10 flex justify-center items-center"
+                  >
+                    <span class="text-xl uppercase">{{ user.email[0] }}</span>
                   </div>
                 </label>
                 <ul
@@ -75,7 +74,7 @@ const user = data.value?.user;
                     <span class="divider my-1"></span>
                   </li>
                   <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
-                  <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">
+                  <li v-if="isAdmin(user)">
                     <NuxtLink to="/admin/users">Users</NuxtLink>
                   </li>
                   <li>
@@ -126,7 +125,7 @@ const user = data.value?.user;
         </li>
 
         <li><NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink></li>
-        <li>
+        <li v-if="isEditor(user)">
           <NuxtLink to="/users/me/watch-list">Watch List</NuxtLink>
         </li>
 
@@ -143,7 +142,7 @@ const user = data.value?.user;
         </li>
 
         <li v-if="user"><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
-        <li v-if="user && RoleLevel[user.role] >= RoleLevel['ADMIN']">
+        <li v-if="isAdmin(user)">
           <NuxtLink to="/admin/users">Users</NuxtLink>
         </li>
         <li v-if="user">

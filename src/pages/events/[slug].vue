@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { RoleLevel } from "~/services/prisma";
+import { isEditor } from "~/services/prisma";
 
 const { params, hash } = useRoute();
 
@@ -14,17 +14,14 @@ const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
 
 const { data } = useAuth();
 const user = data.value?.user;
-const isEditor =
-  user && user.emailVerified && RoleLevel[user.role] >= RoleLevel["EDITOR"];
 </script>
 
 <template>
   <div>
     <NuxtPage />
 
-    <div class="fixed right-10 bottom-3 z-10 flex gap-3">
+    <div v-if="isEditor(user)" class="fixed right-10 bottom-3 z-10 flex gap-3">
       <NuxtLink
-        v-if="isEditor"
         class="btn btn-circle btn-secondary"
         :to="`/events/${slug}/upload-backdrop`"
       >
@@ -33,7 +30,6 @@ const isEditor =
       </NuxtLink>
 
       <NuxtLink
-        v-if="isEditor"
         class="btn btn-circle btn-primary"
         :to="`/events/${slug}/log-movie`"
       >
@@ -87,7 +83,10 @@ const isEditor =
               }}
             </span>
 
-            <span class="gap-2 hidden group-hover:flex group-focus-within:flex">
+            <span
+              v-if="isEditor(user)"
+              class="gap-2 hidden group-hover:flex group-focus-within:flex"
+            >
               <NuxtLink
                 :to="{
                   path: `/events/${slug}/edit-movie`,

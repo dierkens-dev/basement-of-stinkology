@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { RoleLevel } from "~/services/prisma";
+import { isEditor } from "~/services/prisma";
 
 const { hash } = useRoute();
 const { data: watchListMovies } = useFetch(`/api/users/me/watch-list`, {
@@ -8,8 +8,6 @@ const { data: watchListMovies } = useFetch(`/api/users/me/watch-list`, {
 
 const { data } = useAuth();
 const user = data.value?.user;
-const isEditor =
-  user && user.emailVerified && RoleLevel[user.role] >= RoleLevel["EDITOR"];
 </script>
 
 <template>
@@ -17,7 +15,7 @@ const isEditor =
     <NuxtPage />
 
     <NuxtLink
-      v-if="isEditor"
+      v-if="isEditor(user)"
       to="/users/me/watch-list/add-movie"
       class="btn btn-circle btn-primary fixed right-3 bottom-3 z-10"
     >
@@ -39,6 +37,7 @@ const isEditor =
           class="group"
         >
           <div
+            v-if="isEditor(user)"
             class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono hidden group-hover:flex group-focus-within:flex justify-end"
           >
             <NuxtLink
