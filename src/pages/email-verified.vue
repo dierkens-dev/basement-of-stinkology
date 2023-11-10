@@ -3,6 +3,10 @@ definePageMeta({
   auth: false,
 });
 
+useSeoMeta({
+  title: "Email Verified - Basement of Stinkology",
+});
+
 const { status } = useAuth();
 </script>
 

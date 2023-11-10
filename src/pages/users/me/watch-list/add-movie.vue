@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+useSeoMeta({
+  title: "Add Movie - Watch List - Basement of Stinkology",
+});
+
 const search = ref("");
 const selectedMovie = ref<Movie | null>(null);
 

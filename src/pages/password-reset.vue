@@ -15,6 +15,10 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { readFetchError } from "~/utils/read-fetch-error.util";
 
+useSeoMeta({
+  title: "Password Reset - Basement of Stinkology",
+});
+
 const { handleSubmit, isSubmitting, values, defineComponentBinds, setErrors } =
   useForm({
     validationSchema: toTypedSchema(passwordResetPostSchema),

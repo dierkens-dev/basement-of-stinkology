@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+useSeoMeta({
+  title: "Remove Movie - Watch List - Basement of Stinkology",
+});
+
 const { query } = useRoute();
 
 const id = query.id;

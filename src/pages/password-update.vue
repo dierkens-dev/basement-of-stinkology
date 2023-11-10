@@ -17,6 +17,10 @@ import {
 import { PasswordUpdateErrors } from "~/server/api/auth/password-update.post";
 import { readFetchError } from "~/utils/read-fetch-error.util";
 
+useSeoMeta({
+  title: "Password Update - Basement of Stinkology",
+});
+
 const { query } = useRoute();
 const { push } = useRouter();
 

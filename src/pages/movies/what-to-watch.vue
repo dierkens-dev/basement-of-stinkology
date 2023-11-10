@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 import clsx from "clsx";
+
+useSeoMeta({
+  title: "What to Watch - Movies - Basement of Stinkology",
+});
+
 const { data } = useFetch(`/api/watch-lists/movies`);
 const { query } = useRoute();
 const { push } = useRouter();

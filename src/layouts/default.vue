@@ -41,10 +41,6 @@ const user = data.value?.user;
                 <NuxtLink to="/users/me/watch-list">Watch List</NuxtLink>
               </li>
 
-              <li v-if="isAdmin(user)">
-                <NuxtLink to="/admin/users">Users</NuxtLink>
-              </li>
-
               <div class="dropdown dropdown-end">
                 <label
                   tabindex="0"

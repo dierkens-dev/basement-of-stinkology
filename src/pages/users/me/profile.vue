@@ -1,4 +1,8 @@
 <script setup lang="ts">
+useSeoMeta({
+  title: "Profile - Basement of Stinkology",
+});
+
 const { data: user } = await useFetch("/api/users/me", {
   key: "users/me",
 });

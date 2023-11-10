@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { isEditor } from "~/services/prisma";
 
+useSeoMeta({
+  title: "Watch List - Basement of Stinkology",
+});
+
 const { hash } = useRoute();
 const { data: watchListMovies } = useFetch(`/api/users/me/watch-list`, {
   key: "/users/me/watch-list",
