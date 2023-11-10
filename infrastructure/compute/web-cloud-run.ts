@@ -8,6 +8,7 @@ import {
   bosPostgresShadowDatabase,
   bosPostgresUser,
 } from "../database/bos-postgresql";
+import { bosAssetBucket } from "../storage/asset-bucket";
 
 if (!gcp.config.project) {
   throw new Error("Please set the project in the config.");
@@ -19,7 +20,7 @@ const config = new pulumi.Config();
 const BOS_FIREBASE_API_KEY = config.getSecret("BOS_FIREBASE_API_KEY");
 const BOS_FIREBASE_AUTH_DOMAIN = config.getSecret("BOS_FIREBASE_AUTH_DOMAIN");
 const BOS_SESSION_STORAGE_SECRET = config.getSecret(
-  "BOS_SESSION_STORAGE_SECRET"
+  "BOS_SESSION_STORAGE_SECRET",
 );
 const BOS_THE_MOVIE_DB_API_KEY = config.getSecret("BOS_THE_MOVIE_DB_API_KEY");
 
@@ -30,29 +31,32 @@ const BOS_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${
 
 const BOS_SHADOW_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstance.publicIpAddress}:5432/${bosPostgresShadowDatabase.name}?host=/cloudsql/${bosPostgresInstance.connectionName}`;
 
-const remixImage = new docker.Image("bos-remix-image", {
-  imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-remix`,
+const BOS_TENANT_ID = config.get("BOS_TENANT_ID");
+const BOS_ASSET_BUCKET_NAME = pulumi.interpolate`${bosAssetBucket.name}`;
+
+const webImage = new docker.Image("bos-web-image", {
+  imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web`,
   build: {
     context: "../",
     platform: "linux/amd64",
   },
 });
 
-export const bos_remix_service_account = new gcp.serviceaccount.Account(
-  "bos-remix-service-account",
+export const bos_web_service_account = new gcp.serviceaccount.Account(
+  "bos-web-service-account",
   {
-    accountId: `remix-service-account`,
-    displayName: "BOS Remix Service Account",
-  }
+    accountId: `web-service-account`,
+    displayName: "BOS Web Service Account",
+  },
 );
 
 const serviceAccountUserBinding = new gcp.serviceaccount.IAMBinding(
   "bos-service-account-user-role",
   {
-    serviceAccountId: bos_remix_service_account.name,
+    serviceAccountId: bos_web_service_account.name,
     role: "roles/iam.serviceAccountUser",
     members: ["allUsers"],
-  }
+  },
 );
 
 const serviceAccountSqlClientIAMBinding = new gcp.projects.IAMBinding(
@@ -61,23 +65,23 @@ const serviceAccountSqlClientIAMBinding = new gcp.projects.IAMBinding(
     project: gcp.config.project,
     role: "roles/cloudsql.client",
     members: [
-      pulumi.interpolate`serviceAccount:${bos_remix_service_account.email}`,
+      pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
     ],
-  }
+  },
 );
 
-export const remixService = new gcp.cloudrun.Service(
-  "bos-remix-service",
+export const webService = new gcp.cloudrun.Service(
+  "bos-web-service",
   {
     location,
     // https://github.com/hashicorp/terraform-provider-google/issues/5898
     autogenerateRevisionName: true,
     template: {
       spec: {
-        serviceAccountName: bos_remix_service_account.email,
+        serviceAccountName: bos_web_service_account.email,
         containers: [
           {
-            image: remixImage.imageName,
+            image: webImage.imageName,
             envs: [
               {
                 name: "BOS_FIREBASE_API_KEY",
@@ -85,6 +89,10 @@ export const remixService = new gcp.cloudrun.Service(
               },
               {
                 name: "BOS_FIREBASE_AUTH_DOMAIN",
+                value: BOS_FIREBASE_AUTH_DOMAIN,
+              },
+              {
+                name: "AUTH_NO_ORIGIN",
                 value: BOS_FIREBASE_AUTH_DOMAIN,
               },
               {
@@ -102,6 +110,14 @@ export const remixService = new gcp.cloudrun.Service(
               {
                 name: "BOS_THE_MOVIE_DB_API_KEY",
                 value: BOS_THE_MOVIE_DB_API_KEY,
+              },
+              {
+                name: "BOS_TENANT_ID",
+                value: BOS_TENANT_ID,
+              },
+              {
+                name: "BOS_ASSET_BUCKET_NAME",
+                value: BOS_ASSET_BUCKET_NAME,
               },
             ],
           },
@@ -123,23 +139,23 @@ export const remixService = new gcp.cloudrun.Service(
       bosPostgresUser,
       serviceAccountSqlClientIAMBinding,
     ],
-  }
+  },
 );
 
-new gcp.cloudrun.IamMember("bos-remix-service-iam-member", {
-  service: remixService.name,
+new gcp.cloudrun.IamMember("bos-web-service-iam-member", {
+  service: webService.name,
   location,
   role: "roles/run.invoker",
   member: "allUsers",
 });
 
-new gcp.cloudrun.DomainMapping("box-remix-domain-mapping", {
+new gcp.cloudrun.DomainMapping("box-web-domain-mapping", {
   location,
   name: "basementofstinkology.app",
   metadata: {
     namespace: gcp.config.project,
   },
   spec: {
-    routeName: remixService.name,
+    routeName: webService.name,
   },
 });

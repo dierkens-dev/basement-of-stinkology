@@ -6,18 +6,16 @@ COPY package.json ./
 COPY yarn.lock ./
 COPY prisma/schema.prisma ./prisma/schema.prisma
 
-RUN yarn install --production --frozen-lockfile --prefer-offline
+RUN yarn install --production --frozen-lockfile
 
 # Production Build
 FROM node:18.13.0 as build
 WORKDIR /build
 
-ARG NPM_TOKEN
-
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN yarn install --frozen-lockfile --prefer-offline
+RUN yarn install --frozen-lockfile
 
 COPY . .
 
@@ -31,9 +29,6 @@ COPY --from=dependencies /dependencies/package.json ./package.json
 COPY --from=dependencies /dependencies/node_modules ./node_modules
 
 # Copy built application code
-COPY --from=build /build/build ./build
-COPY --from=build /build/public ./public
-
-COPY ./server.js ./server.js
+COPY --from=build /build/.output ./.output
 
 ENTRYPOINT [ "yarn", "start" ]

@@ -1,3 +1,4 @@
+import { webService } from "./compute/web-cloud-run";
 import {
   bosPostgresDatabase,
   bosPostgresDevelopmentDatabase,
@@ -12,3 +13,4 @@ export const bosPostgresShadowDatabaseName = bosPostgresShadowDatabase.name;
 export const bosPostgresDevelopmentDatabaseName =
   bosPostgresDevelopmentDatabase.name;
 export const bosAssetBucketUrn = bosAssetBucket.urn;
+export const webServiceUrn = webService.urn;

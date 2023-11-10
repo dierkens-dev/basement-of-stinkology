@@ -11,6 +11,7 @@ config:
     secure: v1:HLoJDKau3mET5wTi:cfZDIfKqtC0W+IUCftTvmdIxNuOZiuYY2T/pKQ53+PM7
   basement-of-stinkology:BOS_SESSION_STORAGE_SECRET:
     secure: v1:JGjKqeSuKyN8al/g:HKjVty5ouOuSyhgnidS9aCL68BiC8KVbI70=
+  basement-of-stinkology:BOS_TENANT_ID: production-i8tyq
   basement-of-stinkology:BOS_THE_MOVIE_DB_API_KEY:
     secure: v1:ahoR48/gVXmHLpTE:43sFOV2CM1QHhAco4+ZsXSxEHhhHbi65ka8r1VAdddJWliIdbcKu2/Wu7Zq+EXGL
   gcp:project: basement-of-stinkology
