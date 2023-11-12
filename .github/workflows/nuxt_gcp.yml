@@ -15,12 +15,13 @@ jobs:
       - id: "auth"
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: ${{ secrets.GCP_CREDENTIAL }}"
+          credentials_json: ${{ secrets.GCP_CREDENTIAL }}
       - run: yarn install
       - uses: pulumi/actions@v3
         with:
+          cloud-url: gs://bos-pulumi-state-bucket
           command: up
-          stack-name: production
           comment-on-pr: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          cloud-url: gs://bos-pulumi-state-bucket
+          stack-name: production
+          work-dir: infrastructure
