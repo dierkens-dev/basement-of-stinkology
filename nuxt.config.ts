@@ -5,7 +5,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineNuxtConfig({
   auth: {
     globalAppMiddleware: true,
-    origin: process.env.BOS_FIREBASE_AUTH_DOMAIN,
   },
   build: {
     transpile: ["oh-vue-icons"],
@@ -38,5 +37,12 @@ export default defineNuxtConfig({
         ],
       }),
     ],
+    resolve: {
+      // https://github.com/prisma/prisma/issues/12504#issuecomment-1285883083
+      alias: {
+        ".prisma/client/index-browser":
+          "./node_modules/.prisma/client/index-browser.js",
+      },
+    },
   },
 });
