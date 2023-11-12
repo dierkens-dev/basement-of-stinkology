@@ -72,6 +72,14 @@ const serviceAccountSqlClientIAMBinding = new gcp.projects.IAMBinding(
   },
 );
 
+new gcp.storage.BucketIAMBinding("bos-asset-bucket-web-service-iam-binding", {
+  bucket: bosAssetBucket.name,
+  role: "roles/storage.objectUser",
+  members: [
+    pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
+  ],
+});
+
 export const webService = new gcp.cloudrun.Service(
   "bos-web-service",
   {
