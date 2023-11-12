@@ -1,6 +1,6 @@
 name: nuxt-gcp
 on:
-  pull_request:
+  push:
     branches:
       - nuxt-gcp
 jobs:
