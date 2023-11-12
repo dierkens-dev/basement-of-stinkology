@@ -4,8 +4,8 @@ on:
     branches:
       - nuxt-gcp
 jobs:
-  preview:
-    name: Preview
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,7 +15,7 @@ jobs:
       - id: "auth"
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+          credentials_json: ${{ secrets.GCP_CREDENTIAL }}"
       - run: yarn install
       - uses: pulumi/actions@v3
         with:
