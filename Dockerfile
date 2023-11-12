@@ -31,4 +31,9 @@ COPY --from=dependencies /dependencies/node_modules ./node_modules
 # Copy built application code
 COPY --from=build /build/.output ./.output
 
+EXPOSE 8080
+
+ENV HOST=0.0.0.0
+ENV PORT=8080
+
 ENTRYPOINT [ "yarn", "start" ]
