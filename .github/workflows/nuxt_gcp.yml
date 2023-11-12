@@ -1,4 +1,4 @@
-name: Pulumi
+name: nuxt-gcp
 on:
   pull_request:
     branches:
