@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isEditor } from "~/services/prisma";
+import { isEditor } from "~/services/prisma.client";
 
 useSeoMeta({
   title: "Watch List - Basement of Stinkology",

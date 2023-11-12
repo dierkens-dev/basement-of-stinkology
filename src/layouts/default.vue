@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isAdmin, isEditor } from "~/services/prisma";
+import { isAdmin, isEditor } from "~/services/prisma.client";
 
 const { data } = useAuth();
 const { fullPath } = useRoute();

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RoleLevel } from "~/services/prisma";
+import { RoleLevel } from "~/services/prisma.client";
 
 // [string, ...string[]] tels TypeScript that the array has at least 1 string.
 const keys = Object.keys(RoleLevel) as [string, ...string[]];

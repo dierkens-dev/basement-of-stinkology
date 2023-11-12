@@ -7,7 +7,7 @@ import {
   AdminUsersPatchErrors,
   adminUsersPatchBodySchema,
 } from "~/server/api/admin/users/-[id].patch.schema";
-import { RoleLevel } from "~/services/prisma";
+import { RoleLevel } from "~/services/prisma.client";
 
 const { query } = useRoute();
 const id = query.id;

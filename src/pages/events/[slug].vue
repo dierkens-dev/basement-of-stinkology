@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isEditor } from "~/services/prisma";
+import { isEditor } from "~/services/prisma.client";
 
 const { params, hash } = useRoute();
 
