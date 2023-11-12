@@ -92,7 +92,7 @@ export const webService = new gcp.cloudrun.Service(
                 value: BOS_FIREBASE_AUTH_DOMAIN,
               },
               {
-                name: "AUTH_NO_ORIGIN",
+                name: "AUTH_ORIGIN",
                 value: BOS_FIREBASE_AUTH_DOMAIN,
               },
               {
