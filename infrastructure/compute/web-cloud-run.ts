@@ -22,7 +22,9 @@ const BOS_FIREBASE_AUTH_DOMAIN = config.getSecret("BOS_FIREBASE_AUTH_DOMAIN");
 const BOS_SESSION_STORAGE_SECRET = config.getSecret(
   "BOS_SESSION_STORAGE_SECRET",
 );
-const BOS_THE_MOVIE_DB_API_KEY = config.getSecret("BOS_THE_MOVIE_DB_API_KEY");
+const BOS_THE_MOVIE_DB_API_TOKEN = config.getSecret(
+  "BOS_THE_MOVIE_DB_API_TOKEN",
+);
 
 const BOS_POSTGRES_PASSWORD = config.getSecret("BOS_POSTGRES_PASSWORD");
 const BOS_POSTGRES_USER = config.getSecret("BOS_POSTGRES_USER");
@@ -93,7 +95,8 @@ export const webService = new gcp.cloudrun.Service(
               },
               {
                 name: "AUTH_ORIGIN",
-                value: BOS_FIREBASE_AUTH_DOMAIN,
+                value:
+                  "https://bos-web-service-a446c21-eydvcqdlla-uc.a.run.app/",
               },
               {
                 name: "BOS_SESSION_STORAGE_SECRET",
@@ -108,8 +111,8 @@ export const webService = new gcp.cloudrun.Service(
                 value: BOS_SHADOW_DATABASE_URL,
               },
               {
-                name: "BOS_THE_MOVIE_DB_API_KEY",
-                value: BOS_THE_MOVIE_DB_API_KEY,
+                name: "BOS_THE_MOVIE_DB_API_TOKEN",
+                value: BOS_THE_MOVIE_DB_API_TOKEN,
               },
               {
                 name: "BOS_TENANT_ID",
@@ -149,13 +152,13 @@ new gcp.cloudrun.IamMember("bos-web-service-iam-member", {
   member: "allUsers",
 });
 
-new gcp.cloudrun.DomainMapping("box-web-domain-mapping", {
-  location,
-  name: "basementofstinkology.app",
-  metadata: {
-    namespace: gcp.config.project,
-  },
-  spec: {
-    routeName: webService.name,
-  },
-});
+// new gcp.cloudrun.DomainMapping("box-web-domain-mapping", {
+//   location,
+//   name: "basementofstinkology.app",
+//   metadata: {
+//     namespace: gcp.config.project,
+//   },
+//   spec: {
+//     routeName: webService.name,
+//   },
+// });

@@ -14,5 +14,7 @@ config:
   basement-of-stinkology:BOS_TENANT_ID: production-i8tyq
   basement-of-stinkology:BOS_THE_MOVIE_DB_API_KEY:
     secure: v1:ahoR48/gVXmHLpTE:43sFOV2CM1QHhAco4+ZsXSxEHhhHbi65ka8r1VAdddJWliIdbcKu2/Wu7Zq+EXGL
+  basement-of-stinkology:BOS_THE_MOVIE_DB_API_TOKEN:
+    secure: v1:ZyUUsJpldY2d6ZLV:y9AoAQbNl4ksdQr6wYVN1pidJ76gw11zH5bpbYul7HJPxjXyYIpbKlFm8cD2h+E1xKy7ytGD6ABRG6pADxodiwbwFSPivN5O3vCUhhieef/USQ37nVKmrpTZLUQ1LOguOGifaxbEgBLnhViXY4fgVreXtrcKE29Mp2LxX79ArOAZaa5/GPhxpFWpmjGcaC8X56US/6SjibL8QmSKYEAGRxRe9p4PazDXKVWqUDcp62Vt2GuLF3tdl+SHK/9g2FdbN6LOmIRq37v9tHpWPxNPuteAIOP2JedRdly/k145lbxuu3A=
   gcp:project: basement-of-stinkology
   gcp:region: us-central1
