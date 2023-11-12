@@ -80,6 +80,30 @@ new gcp.storage.BucketIAMBinding("bos-asset-bucket-web-service-iam-binding", {
   ],
 });
 
+new gcp.projects.IAMBinding(`bos-auth-admin-role`, {
+  project: gcp.config.project,
+  role: "roles/firebaseauth.admin",
+  members: [
+    pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
+  ],
+});
+
+new gcp.projects.IAMBinding(`bos-identity-platform-admin-role`, {
+  project: gcp.config.project,
+  role: "roles/identityplatform.admin",
+  members: [
+    pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
+  ],
+});
+
+new gcp.projects.IAMBinding(`bos-service-account-token-creator-role`, {
+  project: gcp.config.project,
+  role: "roles/iam.serviceAccountTokenCreator",
+  members: [
+    pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
+  ],
+});
+
 export const webService = new gcp.cloudrun.Service(
   "bos-web-service",
   {
