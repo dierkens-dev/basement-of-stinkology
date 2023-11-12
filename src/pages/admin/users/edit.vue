@@ -7,7 +7,7 @@ import {
   AdminUsersPatchErrors,
   adminUsersPatchBodySchema,
 } from "~/server/api/admin/users/-[id].patch.schema";
-import { Role } from "~/services/prisma";
+import { RoleLevel } from "~/services/prisma";
 
 const { query } = useRoute();
 const id = query.id;
@@ -88,7 +88,7 @@ const onSubmit = handleSubmit(async (values) => {
 
         <Select v-bind="role" label="Role" name="role">
           <option
-            v-for="roleOption in Object.values(Role)"
+            v-for="roleOption in Object.keys(RoleLevel)"
             :key="roleOption"
             :selected="role.value === roleOption"
           >

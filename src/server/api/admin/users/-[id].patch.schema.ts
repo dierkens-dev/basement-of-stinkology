@@ -1,8 +1,11 @@
 import { z } from "zod";
-import { Role } from "~/services/prisma";
+import { RoleLevel } from "~/services/prisma";
+
+// [string, ...string[]] tels TypeScript that the array has at least 1 string.
+const keys = Object.keys(RoleLevel) as [string, ...string[]];
 
 export const adminUsersPatchBodySchema = z.object({
-  role: z.enum([Role.ADMIN, Role.EDITOR, Role.VIEWER]).optional(),
+  role: z.enum(keys).optional(),
   name: z.string().optional(),
 });
 
