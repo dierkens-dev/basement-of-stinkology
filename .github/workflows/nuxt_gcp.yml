@@ -12,11 +12,12 @@ jobs:
       - uses: actions/setup-node@v3.5.0
         with:
           node-version-file: .nvmrc
+      - run: yarn install
       - id: "auth"
         uses: "google-github-actions/auth@v1"
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIAL }}
-      - run: yarn install
+      - run: gcloud auth configure-docker gcr.io
       - uses: pulumi/actions@v3
         with:
           cloud-url: gs://bos-pulumi-state-bucket
