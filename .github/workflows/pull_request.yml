@@ -1,0 +1,26 @@
+name: Pulumi
+on:
+  pull_request:
+    branches:
+      - nuxt-gcp
+jobs:
+  preview:
+    name: Preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3.5.0
+        with:
+          node-version-file: .nvmrc
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - run: yarn install
+      - uses: pulumi/actions@v3
+        with:
+          command: up
+          stack-name: production
+          comment-on-pr: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          cloud-url: gs://bos-pulumi-state-bucket
