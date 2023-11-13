@@ -118,6 +118,8 @@ new gcp.projects.IAMBinding(`bos-service-account-token-creator-role`, {
   ],
 });
 
+const stack = pulumi.getStack();
+
 export const webService = new gcp.cloudrun.Service(
   "bos-web-service",
   {
@@ -142,7 +144,9 @@ export const webService = new gcp.cloudrun.Service(
               {
                 name: "AUTH_ORIGIN",
                 value:
-                  "https://bos-web-service-a446c21-eydvcqdlla-uc.a.run.app/",
+                  stack === "production"
+                    ? "basementofstinkology.app"
+                    : "development.basementofstinkology.app",
               },
               {
                 name: "BOS_SESSION_STORAGE_SECRET",
@@ -188,7 +192,6 @@ new gcp.cloudrun.IamMember("bos-web-service-iam-member", {
   member: "allUsers",
 });
 
-// const stack = pulumi.getStack();
 // const domain =
 //   stack === "production"
 //     ? "basementofstinkology.app"
@@ -197,6 +200,7 @@ new gcp.cloudrun.IamMember("bos-web-service-iam-member", {
 // new gcp.cloudrun.DomainMapping("bos-web-domain-mapping", {
 //   location,
 //   name: domain,
+
 //   metadata: {
 //     namespace: gcp.config.project,
 //   },
