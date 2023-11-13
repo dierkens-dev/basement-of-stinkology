@@ -60,7 +60,7 @@ const webImage = new docker.Image("bos-web-image", {
         "src/**/*",
       ],
     },
-  })}`,
+  }).then(({ hash }) => hash)}`,
   build: {
     args: { BUILDKIT_INLINE_CACHE: "1" },
     builderVersion: "BuilderBuildKit",
