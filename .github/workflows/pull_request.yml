@@ -21,5 +21,5 @@ jobs:
           command: preview
           comment-on-pr: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          stack-name: development
+          stack-name: dev
           work-dir: infrastructure/app

@@ -148,7 +148,7 @@ export const webService = new gcp.cloudrun.Service(
                 value:
                   stack === "production"
                     ? "basementofstinkology.app"
-                    : "development.basementofstinkology.app",
+                    : "dev.basementofstinkology.app",
               },
               {
                 name: "BOS_SESSION_STORAGE_SECRET",
