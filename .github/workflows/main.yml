@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - nuxt-gcp
 jobs:
   deploy:
     name: Deploy Development
@@ -24,5 +23,5 @@ jobs:
         with:
           cloud-url: gs://bos-pulumi-state-bucket
           command: up
-          stack-name: production
+          stack-name: dev
           work-dir: infrastructure/app
