@@ -5,8 +5,8 @@ const { params, hash } = useRoute();
 
 const slug = params.slug;
 
-useSeoMeta({
-  title: `${slug} - Events - Basement of Stinkology`,
+useHead({
+  title: () => `${slug} - Events - Basement of Stinkology`,
 });
 
 const { data: event } = useFetch(`/api/events/${slug}`, {

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-useSeoMeta({
-  title: "Basement of Stinkology",
+useHead({
+  title: () => "Basement of Stinkology",
 });
 
 const { data } = useFetch("/api/events");

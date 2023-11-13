@@ -14,8 +14,8 @@ import {
   passwordSchema,
 } from "~/features/forms";
 
-useSeoMeta({
-  title: "Sign In - Basement of Stinkology",
+useHead({
+  title: () => "Sign In - Basement of Stinkology",
 });
 
 const validationSchema = toTypedSchema(

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { isEditor } from "~/services/prisma.client";
 
-useSeoMeta({
-  title: `Events - Basement of Stinkology`,
+useHead({
+  title: () => `Events - Basement of Stinkology`,
 });
 
 const { data: events } = useFetch(`/api/events`);
