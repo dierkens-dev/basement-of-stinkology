@@ -188,19 +188,19 @@ new gcp.cloudrun.IamMember("bos-web-service-iam-member", {
   member: "allUsers",
 });
 
-const stack = pulumi.getStack();
-const domain =
-  stack === "production"
-    ? "basementofstinkology.app"
-    : `${stack}."basementofstinkology.app"`;
+// const stack = pulumi.getStack();
+// const domain =
+//   stack === "production"
+//     ? "basementofstinkology.app"
+//     : `${stack}."basementofstinkology.app"`;
 
-new gcp.cloudrun.DomainMapping("bos-web-domain-mapping", {
-  location,
-  name: domain,
-  metadata: {
-    namespace: gcp.config.project,
-  },
-  spec: {
-    routeName: webService.name,
-  },
-});
+// new gcp.cloudrun.DomainMapping("bos-web-domain-mapping", {
+//   location,
+//   name: domain,
+//   metadata: {
+//     namespace: gcp.config.project,
+//   },
+//   spec: {
+//     routeName: webService.name,
+//   },
+// });
