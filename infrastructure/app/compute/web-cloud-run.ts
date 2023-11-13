@@ -48,9 +48,18 @@ const BOS_ASSET_BUCKET_NAME = pulumi.interpolate`${bosAssetBucket.name}`;
 const webImage = new docker.Image("bos-web-image", {
   imageName: pulumi.interpolate`gcr.io/${
     gcp.config.project
-  }/bos-web-${stack}:${hashElement("../../src", {
+  }/bos-web-${stack}:${hashElement("../../", {
     algo: "md5",
     encoding: "hex",
+    files: {
+      include: [
+        "yarn.lock",
+        "Dockerfile",
+        "prisma/schema.prisma",
+        "next.config.ts",
+        "src/**/*",
+      ],
+    },
   })}`,
   build: {
     args: { BUILDKIT_INLINE_CACHE: "1" },
