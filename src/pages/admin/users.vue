@@ -1,6 +1,6 @@
 <script setup lang="ts">
-useSeoMeta({
-  title: `Users - Admin - Basement of Stinkology`,
+useHead({
+  title: () => `Users - Admin - Basement of Stinkology`,
 });
 
 const { data, pending, error } = useFetch("/api/admin/users", {

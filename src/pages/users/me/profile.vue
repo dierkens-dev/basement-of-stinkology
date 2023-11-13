@@ -1,6 +1,6 @@
 <script setup lang="ts">
-useSeoMeta({
-  title: "Profile - Basement of Stinkology",
+useHead({
+  title: () => "Profile - Basement of Stinkology",
 });
 
 const { data: user } = await useFetch("/api/users/me", {

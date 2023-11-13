@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-useSeoMeta({
-  title: "Add Movie - Watch List - Basement of Stinkology",
+useHead({
+  title: () => "Add Movie - Watch List - Basement of Stinkology",
 });
 
 const search = ref("");

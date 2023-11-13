@@ -8,8 +8,8 @@ import {
   usersMePatchBodySchema,
 } from "~/server/api/users/-me.patch.schema";
 
-useSeoMeta({
-  title: "Edit - Profile - Basement of Stinkology",
+useHead({
+  title: () => "Edit - Profile - Basement of Stinkology",
 });
 
 const { data: user } = await useFetch(`/api/users/me`);

@@ -7,8 +7,8 @@ import { emailSchema, passwordSchema } from "~/features/forms";
 import { SignUpErrors } from "~/server/api/auth/sign-up.post";
 import { readFetchError } from "~/utils/read-fetch-error.util";
 
-useSeoMeta({
-  title: "Sign Up - Basement of Stinkology",
+useHead({
+  title: () => "Sign Up - Basement of Stinkology",
 });
 
 definePageMeta({

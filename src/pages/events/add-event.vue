@@ -8,8 +8,8 @@ import { FetchError } from "ofetch";
 import { componentBindsConfig } from "~/features/forms";
 import { useForm } from "vee-validate";
 
-useSeoMeta({
-  title: `Add Event - Basement of Stinkology`,
+useHead({
+  title: () => `Add Event - Basement of Stinkology`,
 });
 
 const validationSchema = toTypedSchema(eventsPostBodySchema);

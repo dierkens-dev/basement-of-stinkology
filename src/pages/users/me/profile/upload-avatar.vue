@@ -4,8 +4,8 @@ import { FetchError } from "ofetch";
 import { useForm } from "vee-validate";
 import { z } from "zod";
 
-useSeoMeta({
-  title: "Upload Avatar - Profile - Basement of Stinkology",
+useHead({
+  title: () => "Upload Avatar - Profile - Basement of Stinkology",
 });
 
 const validationSchema = toTypedSchema(
