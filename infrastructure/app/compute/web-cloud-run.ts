@@ -1,7 +1,7 @@
 import * as docker from "@pulumi/docker";
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
-import { randomBytes } from "node:crypto";
+import { hashElement } from "folder-hash";
 import { bosAssetBucket } from "../storage/asset-bucket";
 
 if (!gcp.config.project) {
@@ -48,7 +48,10 @@ const BOS_ASSET_BUCKET_NAME = pulumi.interpolate`${bosAssetBucket.name}`;
 const webImage = new docker.Image("bos-web-image", {
   imageName: pulumi.interpolate`gcr.io/${
     gcp.config.project
-  }/bos-web-${stack}:${randomBytes(8).toString("hex")}`,
+  }/bos-web-${stack}:${hashElement("../../src", {
+    algo: "md5",
+    encoding: "hex",
+  })}`,
   build: {
     args: { BUILDKIT_INLINE_CACHE: "1" },
     builderVersion: "BuilderBuildKit",
