@@ -35,6 +35,9 @@ const user = data.value?.user;
           <div class="hidden lg:flex">
             <ul class="menu menu-horizontal px-1 items-center gap-2">
               <li>
+                <NuxtLink to="/events">Events</NuxtLink>
+              </li>
+              <li>
                 <NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink>
               </li>
               <li v-if="isEditor(user)">
@@ -118,6 +121,10 @@ const user = data.value?.user;
 
         <li class="menu-title">
           <span class="divider my-1"></span>
+        </li>
+
+        <li>
+          <NuxtLink to="/events">Events</NuxtLink>
         </li>
 
         <li><NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink></li>

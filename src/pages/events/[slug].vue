@@ -24,7 +24,7 @@ const user = data.value?.user;
   <div>
     <NuxtPage />
 
-    <div v-if="isEditor(user)" class="fixed right-10 bottom-3 z-10 flex gap-3">
+    <div v-if="isEditor(user)" class="fixed right-3 bottom-3 z-10 flex gap-3">
       <NuxtLink
         class="btn btn-circle btn-secondary"
         :to="`/events/${slug}/upload-backdrop`"
