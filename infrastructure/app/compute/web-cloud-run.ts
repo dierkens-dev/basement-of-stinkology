@@ -8,6 +8,8 @@ if (!gcp.config.project) {
   throw new Error("Please set the project in the config.");
 }
 
+const stack = pulumi.getStack();
+
 const location = gcp.config.region || "us-central1";
 
 const config = new pulumi.Config();
@@ -46,12 +48,14 @@ const BOS_ASSET_BUCKET_NAME = pulumi.interpolate`${bosAssetBucket.name}`;
 const webImage = new docker.Image("bos-web-image", {
   imageName: pulumi.interpolate`gcr.io/${
     gcp.config.project
-  }/bos-web:${randomBytes(8).toString("hex")}`,
+  }/bos-web-${stack}:${randomBytes(8).toString("hex")}`,
   build: {
     args: { BUILDKIT_INLINE_CACHE: "1" },
     builderVersion: "BuilderBuildKit",
     cacheFrom: {
-      images: [pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web:latest`],
+      images: [
+        pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web-${stack}:latest`,
+      ],
     },
     context: "../../",
     platform: "linux/amd64",
@@ -61,7 +65,7 @@ const webImage = new docker.Image("bos-web-image", {
 export const bos_web_service_account = new gcp.serviceaccount.Account(
   "bos-web-service-account",
   {
-    accountId: `web-service-account`,
+    accountId: `web-service-account-${stack}`,
     displayName: "BOS Web Service Account",
   },
 );
@@ -117,8 +121,6 @@ new gcp.projects.IAMBinding(`bos-service-account-token-creator-role`, {
     pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
   ],
 });
-
-const stack = pulumi.getStack();
 
 export const webService = new gcp.cloudrun.Service(
   "bos-web-service",
