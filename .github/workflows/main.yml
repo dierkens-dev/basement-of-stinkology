@@ -1,11 +1,11 @@
-name: nuxt-gcp
+name: Main
 on:
   push:
     branches:
-      - nuxt-gcp
+      - main
 jobs:
   deploy:
-    name: Deploy
+    name: Deploy Development
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,7 +22,5 @@ jobs:
         with:
           cloud-url: gs://bos-pulumi-state-bucket
           command: up
-          comment-on-pr: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          stack-name: production
+          stack-name: development
           work-dir: infrastructure

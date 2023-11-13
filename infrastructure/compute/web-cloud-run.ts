@@ -1,11 +1,12 @@
 import * as docker from "@pulumi/docker";
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
+import crypto from "node:crypto";
 import { enableCloudRun } from "../apis/enable-cloud-run";
 import {
   bosPostgresDatabase,
+  bosPostgresDevelopmentDatabase,
   bosPostgresInstance,
-  bosPostgresShadowDatabase,
   bosPostgresUser,
 } from "../database/bos-postgresql";
 import { bosAssetBucket } from "../storage/asset-bucket";
@@ -29,15 +30,21 @@ const BOS_THE_MOVIE_DB_API_TOKEN = config.getSecret(
 const BOS_POSTGRES_PASSWORD = config.getSecret("BOS_POSTGRES_PASSWORD");
 const BOS_POSTGRES_USER = config.getSecret("BOS_POSTGRES_USER");
 
-const BOS_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstance.publicIpAddress}:5432/${bosPostgresDatabase.name}?host=/cloudsql/${bosPostgresInstance.connectionName}`;
+const stack = pulumi.getStack();
+const database =
+  stack === "production"
+    ? bosPostgresDatabase.name
+    : bosPostgresDevelopmentDatabase.name;
 
-const BOS_SHADOW_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstance.publicIpAddress}:5432/${bosPostgresShadowDatabase.name}?host=/cloudsql/${bosPostgresInstance.connectionName}`;
+const BOS_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstance.publicIpAddress}:5432/${database}?host=/cloudsql/${bosPostgresInstance.connectionName}`;
 
 const BOS_TENANT_ID = config.get("BOS_TENANT_ID");
 const BOS_ASSET_BUCKET_NAME = pulumi.interpolate`${bosAssetBucket.name}`;
 
 const webImage = new docker.Image("bos-web-image", {
-  imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web`,
+  imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web:${crypto
+    .randomBytes(8)
+    .toString("hex")}`,
   build: {
     context: "../",
     platform: "linux/amd64",
@@ -137,10 +144,6 @@ export const webService = new gcp.cloudrun.Service(
               {
                 name: "BOS_DATABASE_URL",
                 value: BOS_DATABASE_URL,
-              },
-              {
-                name: "BOS_SHADOW_DATABASE_URL",
-                value: BOS_SHADOW_DATABASE_URL,
               },
               {
                 name: "BOS_THE_MOVIE_DB_API_TOKEN",

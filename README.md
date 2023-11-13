@@ -21,15 +21,19 @@ yarn install
 ##### Create a `.env` file
 
 ```
+BOS_ASSET_BUCKET_NAME=bos-asset-bucket-494fbc7
+BOS_DATABASE_URL=<bos-development-database-url>
 BOS_FIREBASE_API_KEY=<bos-firebase-api-key>
 BOS_FIREBASE_AUTH_DOMAIN=<bos-firebase-auth-domain>
 BOS_POSTGRES_PASSWORD=<bos-postgres-password>
 BOS_POSTGRES_USER=<bos-postgres-user>
 BOS_SESSION_STORAGE_SECRET=<bos-session-storage-secret>
-BOS_THE_MOVIE_DB_API_KEY=<bos-the-movie-db-api-key>
+BOS_SHADOW_DATABASE_URL=<bos-development-shadow-database-url>
+BOS_TENANT_ID="development-41vl2"
+BOS_THE_MOVIE_DB_API_TOKEN=<bos-the-movie-db-api-key>
 ```
 
-> Note: You can pull these from the pulumi config if you have that setup with `pulumi config get KEY`
+> Note: You can pull some of these from the pulumi config if you have that setup with `pulumi config get KEY`
 
 #### Commands
 
@@ -65,7 +69,7 @@ gcloud auth application-default login
 
 ```
 pulumi login gs://bos-pulumi-state-bucket
-yarn pulumi stack select production
+yarn pulumi stack select development
 ```
 
 #### Commands
