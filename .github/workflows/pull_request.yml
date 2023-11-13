@@ -1,34 +1,25 @@
----
 name: Pull Request
-
-on: [pull_request]
-
+on: pull_request
 jobs:
-  test:
+  deploy:
+    name: Preview Development
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3.5.0
         with:
-          node-version: '14'
-      - name: Test
-        run: |
-          yarn install --frozen-lockfile
-          yarn test
-
-  test-e2e:
-    runs-on: ubuntu-latest
-
-    env:
-      BOS_JWT_SECRET: 'ci-secret'
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+          node-version-file: .nvmrc
+      - run: yarn install
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
         with:
-          node-version: '14'
-      - name: Test e2e
-        run: |
-          yarn install --frozen-lockfile
-          yarn test:e2e
+          credentials_json: ${{ secrets.GCP_CREDENTIAL }}
+      - run: gcloud auth configure-docker gcr.io
+      - uses: pulumi/actions@v3
+        with:
+          cloud-url: gs://bos-pulumi-state-bucket
+          command: preview
+          comment-on-pr: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          stack-name: dev
+          work-dir: infrastructure/app

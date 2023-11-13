@@ -1,0 +1,1 @@
+ALTER TABLE "MovieView" RENAME COLUMN "view" TO "viewDateTime";

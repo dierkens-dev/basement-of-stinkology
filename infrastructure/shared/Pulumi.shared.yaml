@@ -1,0 +1,9 @@
+secretsprovider: gcpkms://projects/basement-of-stinkology/locations/us-east5/keyRings/bos-key-ring/cryptoKeys/bos-key
+encryptedkey: CiQAXFLC2pKkcYMv/T/OCqUBjK1Ml0D5wPsGxB0oz8A1exOB53kSSQCSr65jT9LvlavVO/PR/3ura5+nkB1TQ0DKBsqJxynkWOTIylH8JlR7fWwo9hhs/FldGagSDgZGkGj8f/ME/s/E/fCvXEXmFZY=
+config:
+  basement-of-stinkology:BOS_POSTGRES_PASSWORD:
+    secure: v1:v/biIjdhN5DI7nWG:nkohIto5kjc5eS1c47kXyRFqH8PeVEmn3ydX7g==
+  basement-of-stinkology:BOS_POSTGRES_USER:
+    secure: v1:HLoJDKau3mET5wTi:cfZDIfKqtC0W+IUCftTvmdIxNuOZiuYY2T/pKQ53+PM7
+  gcp:project: basement-of-stinkology
+  gcp:region: us-central1

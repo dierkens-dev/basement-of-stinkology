@@ -1,0 +1,11 @@
+export default defineComponent({
+  setup(_, context) {
+    return () => {
+      return (
+        <div class="flex gap-1">
+          {context.slots.default && context.slots.default()}
+        </div>
+      );
+    };
+  },
+});

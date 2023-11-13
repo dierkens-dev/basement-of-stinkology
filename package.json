@@ -1,29 +1,78 @@
 {
   "name": "basement-of-stinkology",
-  "description": "Root package for basement of stinkology app.",
-  "repository": "git@github.com:sonofab1rd/basement-of-stinkology.git",
-  "license": "UNLICENSED",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "lerna run start --parallel",
-    "build": "lerna run build --stream",
-    "deploy": "lerna run deploy --stream",
-    "dev": "lerna run dev --parallel",
-    "test": "lerna run test --stream",
-    "test:e2e": "lerna run test:e2e --stream"
+    "pulumi": "pulumi --cwd infrastructure/app",
+    "build": "nuxt build",
+    "predev": "yarn codegen",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs",
+    "typecheck": "nuxi typecheck",
+    "precodegen": "rimraf src/features/movies/lib/moviedb",
+    "codegen": "openapi -i \"https://developer.themoviedb.org/openapi/64542913e1f86100738e227f\" -o src/features/movies/lib/moviedb --useOptions --useUnionTypes --name MovieDbClient",
+    "prepare": "husky install"
   },
-  "workspaces": {
-    "packages": [
-      "api",
-      "web"
-    ],
-    "nohoist": [
-      "**"
-    ]
+  "devDependencies": {
+    "@nuxt/devtools": "1.0.0-beta.0",
+    "@nuxt/eslint-config": "^0.2.0",
+    "@nuxtjs/tailwindcss": "^6.8.0",
+    "@pulumi/docker": "4.4.4",
+    "@pulumi/gcp": "6.67.0",
+    "@pulumi/pulumi": "3.91.1",
+    "@sidebase/nuxt-auth": "^0.6.0-rc.1",
+    "@total-typescript/ts-reset": "0.5.1",
+    "@types/node": "^18.17.1",
+    "@vueuse/core": "10.5.0",
+    "@vueuse/nuxt": "10.5.0",
+    "daisyui": "^3.9.2",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "openapi-typescript-codegen": "0.25.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "3.2.3",
+    "promise-limit": "2.7.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "5.2.2",
+    "vite": "^4.4.11",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vue-eslint-parser": "^9.3.2",
+    "webpack": "^5.88.2"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "volta": {
+    "node": "18.13.0",
+    "yarn": "1.22.19"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown",
+    "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "dependencies": {
-    "lerna": "4.0.0",
-    "prettier": "2.5.1",
-    "serverless": "2.68.0"
+    "@cssninja/nuxt-toaster": "0.3.12",
+    "@google-cloud/storage": "7.5.0",
+    "@nuxt/image": "1.0.0",
+    "@prisma/client": "^5.4.2",
+    "@tailwindcss/typography": "0.5.10",
+    "@vee-validate/zod": "4.11.8",
+    "clsx": "^2.0.0",
+    "firebase": "^10.4.0",
+    "firebase-admin": "11.11.0",
+    "moviedb-promise": "4.0.3",
+    "next-auth": "4.21.1",
+    "nuxt": "^3.7.4",
+    "oh-vue-icons": "1.0.0-rc3",
+    "postcss-custom-properties": "13.3.2",
+    "prisma": "^5.4.2",
+    "rimraf": "5.0.5",
+    "vee-validate": "4.11.8",
+    "zod": "3.22.4"
   }
 }

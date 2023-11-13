@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("BOS_DATABASE_URL")
+  shadowDatabaseUrl = env("BOS_SHADOW_DATABASE_URL")
+}
+
+enum Role {
+  VIEWER
+  EDITOR
+  ADMIN
+}
+
+model User {
+  id            String  @id @default(uuid()) @db.Uuid
+  avatar        String?
+  email         String  @unique
+  emailVerified Boolean @default(false)
+  name          String?
+  nickname      String?
+  role          Role    @default(VIEWER)
+
+  watchListMovies UserWatchListMovie[]
+}
+
+model UserWatchListMovie {
+  id String @id @default(uuid()) @db.Uuid
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+
+  movie   Movie  @relation(fields: [movieId], references: [id])
+  movieId String @db.Uuid
+}
+
+model Event {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  // TODO: Make this work (it threw an error)
+  // updatedAt DateTime @updatedAt
+
+  slug        String    @unique
+  name        String
+  date        DateTime?
+  backdropUrl String?
+
+  // TODO Lowercase this
+  MovieViews MovieView[]
+}
+
+model Movie {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // TODO Lowercase this
+  MovieViews MovieView[]
+
+  moviedbJson Json?
+
+  themoviedbId    Int                  @unique
+  watchListMovies UserWatchListMovie[]
+}
+
+model MovieView {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  viewDateTime DateTime
+
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String @db.Uuid
+
+  movie   Movie  @relation(fields: [movieId], references: [id])
+  movieId String @db.Uuid
+}

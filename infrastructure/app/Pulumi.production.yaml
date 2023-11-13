@@ -1,0 +1,18 @@
+secretsprovider: gcpkms://projects/basement-of-stinkology/locations/us-east5/keyRings/bos-key-ring/cryptoKeys/bos-key
+encryptedkey: CiQAXFLC2gahY9QKyfA2Oxy9iBCFMqAQNwkaxiOpAe1FR0WgpRQSSQBYsDtoqqpaph5KNP+iVDcnZXCCuomRUHHDzp7QnIK7UrhCGwwrlfdnbN5ZgyoA+JVM1xmVajQ7c6bEsrtebNvHM4aE1MuLwOU=
+config:
+  basement-of-stinkology-app:BOS_FIREBASE_API_KEY:
+    secure: v1:ILPT14XUlOD1Xi4/:koe+mPR8L6ywIO9Y/o4QBkM4Avu2t/2eTfZO6zscZ2L+UiGoRXDmfI6tobj6V7/YBQoeONAd4w==
+  basement-of-stinkology-app:BOS_FIREBASE_AUTH_DOMAIN:
+    secure: v1:1LZHx9zcxEJ045Ik:FrkdqQvvlQNC3lk6GJOPTZ0g0BTftPQNbDPewfPx+IIpyjRRpurVm8P9D9hAmIeU+LvCHcj8
+  basement-of-stinkology-app:BOS_POSTGRES_PASSWORD:
+    secure: v1:l/ItCGSDKMRufvSZ:zR+nSJKWqWmleYMJlOP3djTfor12EjMzGyO4XQ==
+  basement-of-stinkology-app:BOS_POSTGRES_USER:
+    secure: v1:9GrbzE/Zy8YIDxXu:tG4lHlnXBw50R8abMjXp1CIwZoHYV6mocdgKzDG3EvzF
+  basement-of-stinkology-app:BOS_SESSION_STORAGE_SECRET:
+    secure: v1:yfCsv0NhHddGoGwA:AwMPnImDh4wlICAqtdF9sARRm+pBk/TVkyc=
+  basement-of-stinkology-app:BOS_TENANT_ID: development-41vl2
+  basement-of-stinkology-app:BOS_THE_MOVIE_DB_API_TOKEN:
+    secure: v1:xhooYXt4N+amNaWZ:SKg3GLMT1dx5nwZ81xo57x+Y5KcqCKYvnEBGrQ8niGRc0dncVA3pvympvBbSUFZzqtRXboKxc2EQRgf34TbSLheVLDLv7Rd69tevvxtjuZYUF/oiT2oE8KEcWjvAUlngV4A/NLeYgnyEmMCxCGxCXW/EHPha2kZZVnQKyPEZABp3IvvrJRHU6P+mI9SZh4tBqjVNBoMzyFcmSI2edDer7IaEok11xoQG5s09hzotCiIW2Dtz/Vdxln9hFu6ZqMijnN4oaqr9fJ3YmVfxmRtAHHwIi9r5c5/UNbBhvz+nGkNG2CU=
+  gcp:project: basement-of-stinkology
+  gcp:region: us-central1
