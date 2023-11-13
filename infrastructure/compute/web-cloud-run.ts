@@ -1,7 +1,7 @@
 import * as docker from "@pulumi/docker";
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
-import crypto from "node:crypto";
+import { randomBytes } from "node:crypto";
 import { enableCloudRun } from "../apis/enable-cloud-run";
 import {
   bosPostgresDatabase,
@@ -42,9 +42,9 @@ const BOS_TENANT_ID = config.get("BOS_TENANT_ID");
 const BOS_ASSET_BUCKET_NAME = pulumi.interpolate`${bosAssetBucket.name}`;
 
 const webImage = new docker.Image("bos-web-image", {
-  imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web:${crypto
-    .randomBytes(8)
-    .toString("hex")}`,
+  imageName: pulumi.interpolate`gcr.io/${
+    gcp.config.project
+  }/bos-web:${randomBytes(8).toString("hex")}`,
   build: {
     context: "../",
     platform: "linux/amd64",
