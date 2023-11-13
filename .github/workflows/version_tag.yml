@@ -3,10 +3,31 @@ on:
   push:
     tags:
       - v[12].[0-9]+.[0-9]+
+    branches:
+      - 195-migrations
 jobs:
+  migrate:
+    name: Migrate Production
+    runs-on: ubuntu-latest
+    if: false
+    env:
+      BOS_DATABASE_URL: ${{ secrets.BOS_DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3.5.0
+        with:
+          node-version-file: .nvmrc
+      - id: "cloudsql-proxy"
+        uses: mattes/gce-cloudsql-proxy-action@v1
+        with:
+          creds: ${{ secrets.GCP_CREDENTIAL }}
+          instance: basement-of-stinkology:us-central1:bos-postgres-instance-a04d6d6
+      - run: yarn install
+      - run: yarn prisma migrate deploy
   deploy:
     name: Deploy Production
     runs-on: ubuntu-latest
+    needs: migrate
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3.5.0
