@@ -1,9 +1,9 @@
 import * as gcp from "@pulumi/gcp";
 
-export const enableCloudRun = new gcp.projects.Service(
-  "EnableCloudRun",
+export const enableIam = new gcp.projects.Service(
+  "EnableIam",
   {
-    service: "run.googleapis.com",
+    service: "iam.googleapis.com",
     disableDependentServices: false,
     disableOnDestroy: false,
   },

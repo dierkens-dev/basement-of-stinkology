@@ -3,6 +3,7 @@ import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import { randomBytes } from "node:crypto";
 import { enableCloudRun } from "../apis/enable-cloud-run";
+import { enableIam } from "../apis/enable-iam";
 import {
   bosPostgresDatabase,
   bosPostgresDevelopmentDatabase,
@@ -177,6 +178,7 @@ export const webService = new gcp.cloudrun.Service(
   {
     dependsOn: [
       enableCloudRun,
+      enableIam,
       serviceAccountUserBinding,
       bosPostgresDatabase,
       bosPostgresUser,
@@ -192,13 +194,18 @@ new gcp.cloudrun.IamMember("bos-web-service-iam-member", {
   member: "allUsers",
 });
 
-// new gcp.cloudrun.DomainMapping("box-web-domain-mapping", {
-//   location,
-//   name: "basementofstinkology.app",
-//   metadata: {
-//     namespace: gcp.config.project,
-//   },
-//   spec: {
-//     routeName: webService.name,
-//   },
-// });
+const domain =
+  stack === "production"
+    ? "basementofstinkology.app"
+    : `${stack}."basementofstinkology.app"`;
+
+new gcp.cloudrun.DomainMapping("box-web-domain-mapping", {
+  location,
+  name: domain,
+  metadata: {
+    namespace: gcp.config.project,
+  },
+  spec: {
+    routeName: webService.name,
+  },
+});
