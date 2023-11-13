@@ -1,0 +1,6 @@
+name: basement-of-stinkology-app
+runtime:
+  name: nodejs
+  options:
+    nodeargs: "--loader ts-node/esm --no-warnings"
+description: Basement of Stinkology

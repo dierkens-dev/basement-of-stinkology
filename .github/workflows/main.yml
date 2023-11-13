@@ -25,4 +25,4 @@ jobs:
           cloud-url: gs://bos-pulumi-state-bucket
           command: up
           stack-name: development
-          work-dir: infrastructure
+          work-dir: infrastructure/app

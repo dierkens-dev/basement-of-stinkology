@@ -2,14 +2,6 @@ import * as docker from "@pulumi/docker";
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import { randomBytes } from "node:crypto";
-import { enableCloudRun } from "../apis/enable-cloud-run";
-import { enableIam } from "../apis/enable-iam";
-import {
-  bosPostgresDatabase,
-  bosPostgresDevelopmentDatabase,
-  bosPostgresInstance,
-  bosPostgresUser,
-} from "../database/bos-postgresql";
 import { bosAssetBucket } from "../storage/asset-bucket";
 
 if (!gcp.config.project) {
@@ -31,13 +23,22 @@ const BOS_THE_MOVIE_DB_API_TOKEN = config.getSecret(
 const BOS_POSTGRES_PASSWORD = config.getSecret("BOS_POSTGRES_PASSWORD");
 const BOS_POSTGRES_USER = config.getSecret("BOS_POSTGRES_USER");
 
-const stack = pulumi.getStack();
-const database =
-  stack === "production"
-    ? bosPostgresDatabase.name
-    : bosPostgresDevelopmentDatabase.name;
+const shared = new pulumi.StackReference("shared");
 
-const BOS_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstance.publicIpAddress}:5432/${database}?host=/cloudsql/${bosPostgresInstance.connectionName}`;
+const database =
+  pulumi.getStack() === "production"
+    ? shared.getOutput("bosPostgresDatabaseName")
+    : shared.getOutput("bosPostgresDevelopmentDatabaseName");
+
+const bosPostgresInstancePublicIp = shared.getOutput(
+  "bosPostgresInstancePublicIp",
+);
+
+const bosPostgresInstanceConnectionName = shared.getOutput(
+  "bosPostgresInstanceConnectionName",
+);
+
+const BOS_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstancePublicIp}:5432/${database}?host=/cloudsql/${bosPostgresInstanceConnectionName}`;
 
 const BOS_TENANT_ID = config.get("BOS_TENANT_ID");
 const BOS_ASSET_BUCKET_NAME = pulumi.interpolate`${bosAssetBucket.name}`;
@@ -52,7 +53,7 @@ const webImage = new docker.Image("bos-web-image", {
     cacheFrom: {
       images: [pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web:latest`],
     },
-    context: "../",
+    context: "../../",
     platform: "linux/amd64",
   },
 });
@@ -170,20 +171,13 @@ export const webService = new gcp.cloudrun.Service(
       metadata: {
         annotations: {
           "run.googleapis.com/cloudsql-instances":
-            bosPostgresInstance.connectionName,
+            bosPostgresInstanceConnectionName,
         },
       },
     },
   },
   {
-    dependsOn: [
-      enableCloudRun,
-      enableIam,
-      serviceAccountUserBinding,
-      bosPostgresDatabase,
-      bosPostgresUser,
-      serviceAccountSqlClientIAMBinding,
-    ],
+    dependsOn: [serviceAccountUserBinding, serviceAccountSqlClientIAMBinding],
   },
 );
 
@@ -194,12 +188,13 @@ new gcp.cloudrun.IamMember("bos-web-service-iam-member", {
   member: "allUsers",
 });
 
+const stack = pulumi.getStack();
 const domain =
   stack === "production"
     ? "basementofstinkology.app"
     : `${stack}."basementofstinkology.app"`;
 
-new gcp.cloudrun.DomainMapping("box-web-domain-mapping", {
+new gcp.cloudrun.DomainMapping("bos-web-domain-mapping", {
   location,
   name: domain,
   metadata: {

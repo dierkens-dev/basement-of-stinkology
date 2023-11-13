@@ -22,4 +22,4 @@ jobs:
           comment-on-pr: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           stack-name: development
-          work-dir: infrastructure
+          work-dir: infrastructure/app

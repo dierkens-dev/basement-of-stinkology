@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "pulumi": "pulumi --cwd infrastructure",
+    "pulumi": "pulumi --cwd infrastructure/app",
     "build": "nuxt build",
     "predev": "yarn codegen",
     "dev": "nuxt dev",
