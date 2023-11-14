@@ -19,7 +19,6 @@ jobs:
         with:
           cloud-url: gs://bos-pulumi-state-bucket
           command: preview
-          comment-on-pr: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-on-pr: false
           stack-name: dev
           work-dir: infrastructure/app
