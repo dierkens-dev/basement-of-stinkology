@@ -32,6 +32,31 @@ export default defineEventHandler(async () => {
     },
   });
 
+  watchListMovies.sort((a, b) => {
+    if (
+      typeof a.movie.voteAverage !== "number" &&
+      typeof b.movie.voteAverage === "number"
+    ) {
+      return 1;
+    }
+
+    if (
+      typeof a.movie.voteAverage === "number" &&
+      typeof b.movie.voteAverage !== "number"
+    ) {
+      return -1;
+    }
+
+    if (
+      typeof a.movie.voteAverage === "number" &&
+      typeof b.movie.voteAverage === "number"
+    ) {
+      return b.movie.voteAverage - a.movie.voteAverage;
+    }
+
+    return 0;
+  });
+
   type WatchListMovie = (typeof watchListMovies)[number];
 
   type Result = Omit<(typeof watchListMovies)[number], "user"> & {
