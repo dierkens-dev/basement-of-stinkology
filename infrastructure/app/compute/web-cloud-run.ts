@@ -62,7 +62,10 @@ const webImage = new docker.Image("bos-web-image", {
     },
   }).then(({ hash }) => hash)}`,
   build: {
-    args: { BUILDKIT_INLINE_CACHE: "1" },
+    args: {
+      BUILDKIT_INLINE_CACHE: "1",
+      "--tag": pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web-${stack}:latest`,
+    },
     builderVersion: "BuilderBuildKit",
     cacheFrom: {
       images: [
