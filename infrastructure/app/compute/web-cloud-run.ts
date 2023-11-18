@@ -75,7 +75,7 @@ const webImage = new docker.Image("bos-web-image", {
 });
 
 export const bos_web_service_account = new gcp.serviceaccount.Account(
-  "bos-web-service-account",
+  `bos-web-service-account-${stack}`,
   {
     accountId: `web-service-account-${stack}`,
     displayName: "BOS Web Service Account",
@@ -83,7 +83,7 @@ export const bos_web_service_account = new gcp.serviceaccount.Account(
 );
 
 const serviceAccountUserBinding = new gcp.serviceaccount.IAMBinding(
-  "bos-service-account-user-role",
+  `bos-service-account-user-role-${stack}`,
   {
     serviceAccountId: bos_web_service_account.name,
     role: "roles/iam.serviceAccountUser",
@@ -92,7 +92,7 @@ const serviceAccountUserBinding = new gcp.serviceaccount.IAMBinding(
 );
 
 const serviceAccountSqlClientIAMBinding = new gcp.projects.IAMBinding(
-  `bos-cloudsql-client-role`,
+  `bos-cloudsql-client-role-${stack}`,
   {
     project: gcp.config.project,
     role: "roles/cloudsql.client",
@@ -110,7 +110,7 @@ new gcp.storage.BucketIAMBinding("bos-asset-bucket-web-service-iam-binding", {
   ],
 });
 
-new gcp.projects.IAMBinding(`bos-auth-admin-role`, {
+new gcp.projects.IAMBinding(`bos-auth-admin-role-${stack}`, {
   project: gcp.config.project,
   role: "roles/firebaseauth.admin",
   members: [
@@ -118,7 +118,7 @@ new gcp.projects.IAMBinding(`bos-auth-admin-role`, {
   ],
 });
 
-new gcp.projects.IAMBinding(`bos-identity-platform-admin-role`, {
+new gcp.projects.IAMBinding(`bos-identity-platform-admin-role-${stack}`, {
   project: gcp.config.project,
   role: "roles/identityplatform.admin",
   members: [
@@ -126,7 +126,7 @@ new gcp.projects.IAMBinding(`bos-identity-platform-admin-role`, {
   ],
 });
 
-new gcp.projects.IAMBinding(`bos-service-account-token-creator-role`, {
+new gcp.projects.IAMBinding(`bos-service-account-token-creator-role-${stack}`, {
   project: gcp.config.project,
   role: "roles/iam.serviceAccountTokenCreator",
   members: [
