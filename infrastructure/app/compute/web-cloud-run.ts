@@ -82,56 +82,46 @@ export const bos_web_service_account = new gcp.serviceaccount.Account(
   },
 );
 
-const serviceAccountUserBinding = new gcp.serviceaccount.IAMBinding(
+const serviceAccountUserMember = new gcp.serviceaccount.IAMMember(
   `bos-service-account-user-role-${stack}`,
   {
     serviceAccountId: bos_web_service_account.name,
     role: "roles/iam.serviceAccountUser",
-    members: ["allUsers"],
+    member: "allUsers",
   },
 );
 
-const serviceAccountSqlClientIAMBinding = new gcp.projects.IAMBinding(
+const serviceAccountSqlClientIAMMember = new gcp.projects.IAMMember(
   `bos-cloudsql-client-role-${stack}`,
   {
     project: gcp.config.project,
     role: "roles/cloudsql.client",
-    members: [
-      pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
-    ],
+    member: pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
   },
 );
 
-new gcp.storage.BucketIAMBinding("bos-asset-bucket-web-service-iam-binding", {
+new gcp.storage.BucketIAMMember("bos-asset-bucket-web-service-iam-binding", {
   bucket: bosAssetBucket.name,
   role: "roles/storage.objectUser",
-  members: [
-    pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
-  ],
+  member: pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
 });
 
-new gcp.projects.IAMBinding(`bos-auth-admin-role-${stack}`, {
+new gcp.projects.IAMMember(`bos-auth-admin-role-${stack}`, {
   project: gcp.config.project,
   role: "roles/firebaseauth.admin",
-  members: [
-    pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
-  ],
+  member: pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
 });
 
-new gcp.projects.IAMBinding(`bos-identity-platform-admin-role-${stack}`, {
+new gcp.projects.IAMMember(`bos-identity-platform-admin-role-${stack}`, {
   project: gcp.config.project,
   role: "roles/identityplatform.admin",
-  members: [
-    pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
-  ],
+  member: pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
 });
 
-new gcp.projects.IAMBinding(`bos-service-account-token-creator-role-${stack}`, {
+new gcp.projects.IAMMember(`bos-service-account-token-creator-role-${stack}`, {
   project: gcp.config.project,
   role: "roles/iam.serviceAccountTokenCreator",
-  members: [
-    pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
-  ],
+  member: pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
 });
 
 export const webService = new gcp.cloudrun.Service(
@@ -195,7 +185,7 @@ export const webService = new gcp.cloudrun.Service(
     },
   },
   {
-    dependsOn: [serviceAccountUserBinding, serviceAccountSqlClientIAMBinding],
+    dependsOn: [serviceAccountUserMember, serviceAccountSqlClientIAMMember],
   },
 );
 
