@@ -84,7 +84,7 @@ const webImageLatestTag = new docker.Tag("bos-web-image-latest-tag", {
 const webImagePushCommand = new local.Command(
   "push-web-image-command",
   {
-    create: pulumi.interpolate`docker push ${pulumi.interpolate`${imageName}`}`,
+    create: pulumi.interpolate`docker image push --all-tags ${imageName}}`,
   },
   { dependsOn: [webImageLatestTag] },
 );
