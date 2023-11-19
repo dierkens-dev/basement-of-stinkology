@@ -1,3 +1,4 @@
+import { local } from "@pulumi/command";
 import * as docker from "@pulumi/docker";
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
@@ -45,10 +46,10 @@ const BOS_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${
 const BOS_TENANT_ID = config.get("BOS_TENANT_ID");
 const BOS_ASSET_BUCKET_NAME = pulumi.interpolate`${bosAssetBucket.name}`;
 
+const imageName = pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web-${stack}`;
+
 const webImage = new docker.Image("bos-web-image", {
-  imageName: pulumi.interpolate`gcr.io/${
-    gcp.config.project
-  }/bos-web-${stack}:${hashElement("../../", {
+  imageName: pulumi.interpolate`${imageName}:${hashElement("../../", {
     algo: "md5",
     encoding: "hex",
     files: {
@@ -64,18 +65,29 @@ const webImage = new docker.Image("bos-web-image", {
   build: {
     args: {
       BUILDKIT_INLINE_CACHE: "1",
-      "--tag": pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web-${stack}:latest`,
     },
     builderVersion: "BuilderBuildKit",
     cacheFrom: {
-      images: [
-        pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web-${stack}:latest`,
-      ],
+      images: [pulumi.interpolate`${imageName}:latest`],
     },
     context: "../../",
     platform: "linux/amd64",
   },
+  skipPush: true,
 });
+
+const webImageLatestTag = new docker.Tag("bos-web-image-latest-tag", {
+  sourceImage: webImage.imageName,
+  targetImage: pulumi.interpolate`${pulumi.interpolate`${imageName}:latest`}:latest`,
+});
+
+const webImagePushCommand = new local.Command(
+  "push-web-image-command",
+  {
+    create: pulumi.interpolate`docker push ${pulumi.interpolate`${imageName}`}`,
+  },
+  { dependsOn: [webImageLatestTag] },
+);
 
 export const bos_web_service_account = new gcp.serviceaccount.Account(
   `bos-web-service-account-${stack}`,
@@ -188,7 +200,11 @@ export const webService = new gcp.cloudrun.Service(
     },
   },
   {
-    dependsOn: [serviceAccountUserMember, serviceAccountSqlClientIAMMember],
+    dependsOn: [
+      serviceAccountUserMember,
+      serviceAccountSqlClientIAMMember,
+      webImagePushCommand,
+    ],
   },
 );
 
