@@ -149,10 +149,6 @@ export const webService = new gcp.cloudrunv2.Service(
   {
     location,
     template: {
-      annotations: {
-        "run.googleapis.com/cloudsql-instances":
-          bosPostgresInstanceConnectionName,
-      },
       containers: [
         {
           image: webImage.imageName,
@@ -196,6 +192,14 @@ export const webService = new gcp.cloudrunv2.Service(
         },
       ],
       serviceAccount: bos_web_service_account.email,
+      volumes: [
+        {
+          name: "cloudsql",
+          cloudSqlInstance: {
+            instances: [bosPostgresInstanceConnectionName],
+          },
+        },
+      ],
       vpcAccess: {
         networkInterfaces: [
           {
