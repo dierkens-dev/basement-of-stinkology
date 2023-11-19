@@ -1,13 +1,10 @@
-import {
-  sendEmailVerification,
-  signInWithCustomToken,
-  signOut,
-} from "firebase/auth";
-import { adminAuth, auth } from "~/features/auth";
+import { adminAuth } from "~/features/auth";
+import { transport } from "~/services/nodemailer";
 import { prisma } from "~/services/prisma.server";
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, "id");
+  const host = getRequestHost(event);
 
   const user = await prisma.user.findFirstOrThrow({
     where: {
@@ -19,9 +16,17 @@ export default defineEventHandler(async (event) => {
     throw createError({ status: 400, statusMessage: "Bad Request" });
   }
 
-  const providerUser = await adminAuth.getUserByEmail(user.email);
-  const customToken = await adminAuth.createCustomToken(providerUser.uid);
-  const userCredential = await signInWithCustomToken(auth, customToken);
-  await sendEmailVerification(userCredential.user);
-  await signOut(auth);
+  const emailVerificationLink = await adminAuth.generateEmailVerificationLink(
+    user.email,
+  );
+
+  const url = new URL(emailVerificationLink);
+  url.host = host;
+
+  return await transport.sendMail({
+    from: "Basement of Stinkology noreply@basementofstinkology.app",
+    to: user.email,
+    subject: "Verify your email for Basement of Stinkology",
+    text: `Hello!\n\nPlease verify your email by clicking on the following link:\n\n${url.toString()}\n\nThanks!\n\nThe Basement of Stinkology Team`,
+  });
 });

@@ -3,6 +3,7 @@ import * as docker from "@pulumi/docker";
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import { hashElement } from "folder-hash";
+import { bosNetwork } from "../network/bos.network";
 import { bosAssetBucket } from "../storage/asset-bucket";
 
 if (!gcp.config.project) {
@@ -143,63 +144,64 @@ new gcp.projects.IAMMember(`bos-service-account-token-creator-role-${stack}`, {
   member: pulumi.interpolate`serviceAccount:${bos_web_service_account.email}`,
 });
 
-export const webService = new gcp.cloudrun.Service(
+export const webService = new gcp.cloudrunv2.Service(
   "bos-web-service",
   {
     location,
-    // https://github.com/hashicorp/terraform-provider-google/issues/5898
-    autogenerateRevisionName: true,
     template: {
-      spec: {
-        serviceAccountName: bos_web_service_account.email,
-        containers: [
+      annotations: {
+        "run.googleapis.com/cloudsql-instances":
+          bosPostgresInstanceConnectionName,
+      },
+      containers: [
+        {
+          image: webImage.imageName,
+          envs: [
+            {
+              name: "BOS_FIREBASE_API_KEY",
+              value: BOS_FIREBASE_API_KEY,
+            },
+            {
+              name: "BOS_FIREBASE_AUTH_DOMAIN",
+              value: BOS_FIREBASE_AUTH_DOMAIN,
+            },
+            {
+              name: "AUTH_ORIGIN",
+              value:
+                stack === "production"
+                  ? "basementofstinkology.app"
+                  : "dev.basementofstinkology.app",
+            },
+            {
+              name: "BOS_SESSION_STORAGE_SECRET",
+              value: BOS_SESSION_STORAGE_SECRET,
+            },
+            {
+              name: "BOS_DATABASE_URL",
+              value: BOS_DATABASE_URL,
+            },
+            {
+              name: "BOS_THE_MOVIE_DB_API_TOKEN",
+              value: BOS_THE_MOVIE_DB_API_TOKEN,
+            },
+            {
+              name: "BOS_TENANT_ID",
+              value: BOS_TENANT_ID,
+            },
+            {
+              name: "BOS_ASSET_BUCKET_NAME",
+              value: BOS_ASSET_BUCKET_NAME,
+            },
+          ],
+        },
+      ],
+      serviceAccount: bos_web_service_account.email,
+      vpcAccess: {
+        networkInterfaces: [
           {
-            image: webImage.imageName,
-            envs: [
-              {
-                name: "BOS_FIREBASE_API_KEY",
-                value: BOS_FIREBASE_API_KEY,
-              },
-              {
-                name: "BOS_FIREBASE_AUTH_DOMAIN",
-                value: BOS_FIREBASE_AUTH_DOMAIN,
-              },
-              {
-                name: "AUTH_ORIGIN",
-                value:
-                  stack === "production"
-                    ? "basementofstinkology.app"
-                    : "dev.basementofstinkology.app",
-              },
-              {
-                name: "BOS_SESSION_STORAGE_SECRET",
-                value: BOS_SESSION_STORAGE_SECRET,
-              },
-              {
-                name: "BOS_DATABASE_URL",
-                value: BOS_DATABASE_URL,
-              },
-              {
-                name: "BOS_THE_MOVIE_DB_API_TOKEN",
-                value: BOS_THE_MOVIE_DB_API_TOKEN,
-              },
-              {
-                name: "BOS_TENANT_ID",
-                value: BOS_TENANT_ID,
-              },
-              {
-                name: "BOS_ASSET_BUCKET_NAME",
-                value: BOS_ASSET_BUCKET_NAME,
-              },
-            ],
+            network: bosNetwork.name,
           },
         ],
-      },
-      metadata: {
-        annotations: {
-          "run.googleapis.com/cloudsql-instances":
-            bosPostgresInstanceConnectionName,
-        },
       },
     },
   },
