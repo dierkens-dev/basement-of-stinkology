@@ -37,9 +37,10 @@ jobs:
           credentials_json: ${{ secrets.GCP_CREDENTIAL }}
       - run: gcloud auth configure-docker gcr.io
       - uses: docker/setup-buildx-action@v3
-      - uses: pulumi/actions@v3
+      - uses: pulumi/actions@v4
         with:
           cloud-url: gs://bos-pulumi-state-bucket
           command: up
+          refresh: true
           stack-name: production
           work-dir: infrastructure/app
