@@ -148,10 +148,8 @@ export const webService = new gcp.cloudrunv2.Service(
   "bos-web-service",
   {
     location,
+    launchStage: "BETA",
     template: {
-      annotations: {
-        "run.googleapis.com/launch-stage": "BETA",
-      },
       containers: [
         {
           image: webImage.imageName,
