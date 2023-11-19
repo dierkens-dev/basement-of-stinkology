@@ -76,10 +76,14 @@ const webImage = new docker.Image("bos-web-image", {
   skipPush: true,
 });
 
-const webImageLatestTag = new docker.Tag("bos-web-image-latest-tag", {
-  sourceImage: webImage.imageName,
-  targetImage: pulumi.interpolate`${imageName}:latest`,
-});
+const webImageLatestTag = new docker.Tag(
+  "bos-web-image-latest-tag",
+  {
+    sourceImage: webImage.imageName,
+    targetImage: pulumi.interpolate`${imageName}:latest`,
+  },
+  { dependsOn: [webImage] },
+);
 
 const webImagePushCommand = new local.Command(
   "push-web-image-command",
