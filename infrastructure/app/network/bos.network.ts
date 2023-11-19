@@ -7,6 +7,7 @@ export const bosNetwork = new gcp.compute.Network("bos-network", {
 
 new gcp.compute.Firewall("bos-firewall", {
   network: bosNetwork.name,
+  direction: "EGRESS",
   allows: [
     {
       protocol: "tcp",
