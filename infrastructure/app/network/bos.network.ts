@@ -10,7 +10,7 @@ new gcp.compute.Firewall("bos-firewall", {
   allows: [
     {
       protocol: "tcp",
-      ports: ["80", "8080", "443", "2525"],
+      ports: ["80", "8080", "443", "2525", "5432"],
     },
   ],
 });
