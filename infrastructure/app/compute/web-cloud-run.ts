@@ -199,6 +199,14 @@ export const webService = new gcp.cloudrunv2.Service(
           },
         ],
       },
+      volumes: [
+        {
+          name: "cloudsql",
+          cloudSqlInstance: {
+            instances: [bosPostgresInstanceConnectionName],
+          },
+        },
+      ],
     },
   },
   {
