@@ -150,6 +150,10 @@ export const webService = new gcp.cloudrunv2.Service(
   "bos-web-service",
   {
     location,
+    labels: {
+      stack,
+      iac: "pulumi",
+    },
     launchStage: "BETA",
     template: {
       containers: [
