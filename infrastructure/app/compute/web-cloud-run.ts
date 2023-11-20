@@ -74,7 +74,6 @@ const webImage = new docker.Image("bos-web-image", {
     context: "../../",
     platform: "linux/amd64",
   },
-  skipPush: true,
 });
 
 const webImageLatestTag = new docker.Tag(
