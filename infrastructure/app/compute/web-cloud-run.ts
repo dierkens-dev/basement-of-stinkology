@@ -24,6 +24,9 @@ const BOS_THE_MOVIE_DB_API_TOKEN = config.getSecret(
   "BOS_THE_MOVIE_DB_API_TOKEN",
 );
 
+const BOS_MAILJET_API_SECRET = config.getSecret("BOS_MAILJET_API_SECRET");
+const BOS_MAILJET_API_KEY = config.getSecret("BOS_MAILJET_API_KEY");
+
 const BOS_POSTGRES_PASSWORD = config.getSecret("BOS_POSTGRES_PASSWORD");
 const BOS_POSTGRES_USER = config.getSecret("BOS_POSTGRES_USER");
 
@@ -187,6 +190,14 @@ export const webService = new gcp.cloudrunv2.Service(
             {
               name: "BOS_ASSET_BUCKET_NAME",
               value: BOS_ASSET_BUCKET_NAME,
+            },
+            {
+              name: "BOS_MAILJET_API_KEY",
+              value: BOS_MAILJET_API_KEY,
+            },
+            {
+              name: "BOS_MAILJET_API_SECRET",
+              value: BOS_MAILJET_API_SECRET,
             },
           ],
         },

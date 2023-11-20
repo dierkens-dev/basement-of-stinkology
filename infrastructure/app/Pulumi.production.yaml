@@ -5,6 +5,10 @@ config:
     secure: v1:ILPT14XUlOD1Xi4/:koe+mPR8L6ywIO9Y/o4QBkM4Avu2t/2eTfZO6zscZ2L+UiGoRXDmfI6tobj6V7/YBQoeONAd4w==
   basement-of-stinkology-app:BOS_FIREBASE_AUTH_DOMAIN:
     secure: v1:1LZHx9zcxEJ045Ik:FrkdqQvvlQNC3lk6GJOPTZ0g0BTftPQNbDPewfPx+IIpyjRRpurVm8P9D9hAmIeU+LvCHcj8
+  basement-of-stinkology-app:BOS_MAILJET_API_KEY:
+    secure: v1:vKuvU8RKlwXn3d4Y:DmyIbmGaDiZCj8COqmpP3lRdrlX85dFCeUL7IP1awtKx8j1ZBJ4Cb4DRxm1NCI8w
+  basement-of-stinkology-app:BOS_MAILJET_API_SECRET:
+    secure: v1:Dauq33VlMlzv6xME:9KUbVll/YAJspi+qSF+DgA/jt1Mvl2XVLPKDzvmqe/ZH6gUfRmB8KocUoRf4MoN4
   basement-of-stinkology-app:BOS_POSTGRES_PASSWORD:
     secure: v1:l/ItCGSDKMRufvSZ:zR+nSJKWqWmleYMJlOP3djTfor12EjMzGyO4XQ==
   basement-of-stinkology-app:BOS_POSTGRES_USER:
