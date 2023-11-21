@@ -232,7 +232,6 @@ export const webService = new gcp.cloudrunv2.Service(
       webImagePushCommand,
       webImage,
     ],
-    replaceOnChanges: ["template.containers[0].image"],
   },
 );
 
