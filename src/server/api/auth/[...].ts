@@ -1,13 +1,16 @@
 import { NuxtAuthHandler } from "#auth";
 import { FirebaseError } from "firebase/app";
-import {
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import type { CredentialsProvider } from "next-auth/providers/credentials";
+import Credentials from "next-auth/providers/credentials";
 import { auth } from "~/features/auth";
+import { sendEmailVerification } from "~/utils/email.util";
 import { prisma } from "../../../services/prisma.server";
 import { invariant } from "../../../utils/invariant";
+
+const CredentialsProvider = (
+  Credentials as unknown as { default: CredentialsProvider }
+).default;
 
 export default NuxtAuthHandler({
   secret: process.env.BOS_SESSION_STORAGE_SECRET,
@@ -29,9 +32,15 @@ export default NuxtAuthHandler({
     },
   },
   providers: [
-    // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
-    CredentialsProvider.default({
-      async authorize(credentials: { email: string; password: string }) {
+    CredentialsProvider({
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        if (!credentials) {
+          throw new Error("No credentials");
+        }
         const { email, password } = credentials;
 
         try {
@@ -63,7 +72,10 @@ export default NuxtAuthHandler({
           });
 
           if (!user.emailVerified) {
-            await sendEmailVerification(userCredential.user);
+            await sendEmailVerification(
+              userCredential.user.email,
+              req?.headers?.host,
+            );
           }
 
           return user;

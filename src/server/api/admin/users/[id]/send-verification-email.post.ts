@@ -1,6 +1,5 @@
-import { adminAuth } from "~/features/auth";
-import { transport } from "~/services/nodemailer";
 import { prisma } from "~/services/prisma.server";
+import { sendEmailVerification } from "~/utils/email.util";
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, "id");
@@ -16,17 +15,5 @@ export default defineEventHandler(async (event) => {
     throw createError({ status: 400, statusMessage: "Bad Request" });
   }
 
-  const emailVerificationLink = await adminAuth.generateEmailVerificationLink(
-    user.email,
-  );
-
-  const url = new URL(emailVerificationLink);
-  url.host = host;
-
-  return await transport.sendMail({
-    from: "Basement of Stinkology noreply@basementofstinkology.app",
-    to: user.email,
-    subject: "Verify your email for Basement of Stinkology",
-    text: `Hello!\n\nPlease verify your email by clicking on the following link:\n\n${url.toString()}\n\nThanks!\n\nThe Basement of Stinkology Team`,
-  });
+  return await sendEmailVerification(user.email, host);
 });

@@ -1,10 +1,8 @@
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { z } from "zod";
 import { auth } from "~/features/auth";
 import { emailSchema, passwordSchema } from "~/features/forms";
+import { sendEmailVerification } from "~/utils/email.util";
 
 const schema = z.object({
   email: emailSchema,
@@ -17,14 +15,11 @@ export default defineValidatedEventHandler(
   schema,
   async (event): Promise<void | SignUpErrors> => {
     const { email, password } = await readBody(event);
+    const host = getRequestHost(event);
 
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
+    await createUserWithEmailAndPassword(auth, email, password);
 
-    await sendEmailVerification(userCredential.user);
+    await sendEmailVerification(email, host);
 
     setResponseStatus(event, 204, "No Content");
   },
