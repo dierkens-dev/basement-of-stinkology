@@ -92,6 +92,7 @@ const webImagePushCommand = new local.Command(
   "push-web-image-command",
   {
     create: pulumi.interpolate`docker image push --all-tags ${imageName}`,
+    triggers: [webImage.imageName],
   },
   { dependsOn: [webImageLatestTag] },
 );
@@ -231,6 +232,7 @@ export const webService = new gcp.cloudrunv2.Service(
       webImagePushCommand,
       webImage,
     ],
+    replaceOnChanges: ["template.containers[0].image"],
   },
 );
 
