@@ -1,8 +1,6 @@
-import { local } from "@pulumi/command";
 import * as docker from "@pulumi/docker";
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
-import { hashElement } from "folder-hash";
 import { bosNetwork } from "../network/bos.network";
 import { bosAssetBucket } from "../storage/asset-bucket";
 
@@ -50,52 +48,22 @@ const BOS_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${
 const BOS_TENANT_ID = config.get("BOS_TENANT_ID");
 const BOS_ASSET_BUCKET_NAME = pulumi.interpolate`${bosAssetBucket.name}`;
 
-const imageName = pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web-${stack}`;
+const imageName = pulumi.interpolate`gcr.io/${gcp.config.project}/bos-web-${stack}:latest`;
 
 const webImage = new docker.Image("bos-web-image", {
-  imageName: pulumi.interpolate`${imageName}:${hashElement("../../", {
-    algo: "md5",
-    encoding: "hex",
-    files: {
-      include: [
-        "yarn.lock",
-        "Dockerfile",
-        "prisma/schema.prisma",
-        "next.config.ts",
-        "src/**/*",
-      ],
-    },
-  }).then(({ hash }) => hash)}`,
+  imageName,
   build: {
     args: {
       BUILDKIT_INLINE_CACHE: "1",
     },
     builderVersion: "BuilderBuildKit",
     cacheFrom: {
-      images: [pulumi.interpolate`${imageName}:latest`],
+      images: [imageName],
     },
     context: "../../",
     platform: "linux/amd64",
   },
 });
-
-const webImageLatestTag = new docker.Tag(
-  "bos-web-image-latest-tag",
-  {
-    sourceImage: webImage.imageName,
-    targetImage: pulumi.interpolate`${imageName}:latest`,
-  },
-  { dependsOn: [webImage] },
-);
-
-const webImagePushCommand = new local.Command(
-  "push-web-image-command",
-  {
-    create: pulumi.interpolate`docker image push --all-tags ${imageName}`,
-    triggers: [webImage.imageName],
-  },
-  { dependsOn: [webImageLatestTag] },
-);
 
 export const bos_web_service_account = new gcp.serviceaccount.Account(
   `bos-web-service-account-${stack}`,
@@ -161,6 +129,10 @@ export const webService = new gcp.cloudrunv2.Service(
         {
           image: webImage.imageName,
           envs: [
+            {
+              name: "BOS_REVISION_TRIGGER",
+              value: webImage.repoDigest,
+            },
             {
               name: "BOS_FIREBASE_API_KEY",
               value: BOS_FIREBASE_API_KEY,
