@@ -201,7 +201,6 @@ export const webService = new gcp.cloudrunv2.Service(
     dependsOn: [
       serviceAccountUserMember,
       serviceAccountSqlClientIAMMember,
-      webImagePushCommand,
       webImage,
     ],
   },
