@@ -3,6 +3,8 @@ definePageMeta({
   auth: false,
 });
 
+const { query } = useRoute();
+
 useHead({
   title: () => "Email Verified - Basement of Stinkology",
 });
@@ -27,7 +29,11 @@ const { status } = useAuth();
             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <span>You're email has been verified.</span>
+        <span v-if="query.email"
+          ><span class="font-bold">{{ query.email }}</span> has been
+          verified.</span
+        >
+        <span v-else>You're email has been verified.</span>
       </div>
 
       <div v-if="status === 'unauthenticated'" class="flex justify-end gap-1">

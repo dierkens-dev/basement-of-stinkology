@@ -8,6 +8,10 @@ export async function sendEmailVerification(email: string, host: string) {
   const url = new URL(emailVerificationLink);
   url.host = host;
 
+  if (host.startsWith("localhost")) {
+    url.protocol = "http";
+  }
+
   return transport.sendMail({
     from: "Basement of Stinkology noreply@basementofstinkology.app",
     to: email,

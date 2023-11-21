@@ -21,6 +21,6 @@ export default defineValidatedEventHandler(
 
     await sendEmailVerification(email, host);
 
-    setResponseStatus(event, 204, "No Content");
+    sendNoContent(event);
   },
 );
