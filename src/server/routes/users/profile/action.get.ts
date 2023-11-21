@@ -1,6 +1,6 @@
-import { getServerSession } from "#auth";
-import { applyActionCode } from "firebase/auth";
-import { auth } from "~/features/auth";
+import { FirebaseError } from "firebase/app";
+import { applyActionCode, checkActionCode } from "firebase/auth";
+import { auth, getErrorMessage } from "~/features/auth";
 import { prisma } from "~/services/prisma.server";
 
 export default defineEventHandler(async (event) => {
@@ -20,17 +20,35 @@ export default defineEventHandler(async (event) => {
       return sendRedirect(event, `/password-update?${searchParams.toString()}`);
     }
     case "verifyEmail": {
-      await applyActionCode(auth, code);
+      try {
+        const { data } = await checkActionCode(auth, code);
+        await applyActionCode(auth, code);
 
-      const session = await getServerSession(event);
-      if (session) {
-        await prisma.user.update({
-          where: { id: session.user.id },
-          data: { emailVerified: true },
-        });
+        const searchParams = new URLSearchParams();
+
+        if (data.email) {
+          await prisma.user.update({
+            where: { email: data.email },
+            data: { emailVerified: true },
+          });
+
+          searchParams.set("email", data.email);
+        }
+
+        return sendRedirect(
+          event,
+          `/email-verified?${searchParams.toString()}`,
+        );
+      } catch (error) {
+        if (error instanceof FirebaseError) {
+          throw createError({
+            statusMessage: getErrorMessage(error.code),
+            statusCode: 400,
+          });
+        }
+
+        throw error;
       }
-
-      return sendRedirect(event, `/email-verified`);
     }
     default: {
       return createError({ statusMessage: "Bad Request", statusCode: 400 });

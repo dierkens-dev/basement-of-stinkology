@@ -17,6 +17,6 @@ export default defineValidatedEventHandler(
 
     await confirmPasswordReset(auth, code, password);
 
-    setResponseStatus(event, 204, "No Content");
+    sendNoContent(event);
   },
 );
