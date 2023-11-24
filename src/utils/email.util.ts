@@ -36,6 +36,8 @@ export async function sendEmailInvitation(email: string, host: string) {
     url.protocol = "http";
   }
 
+  url.searchParams.set("email", email);
+
   return transport.sendMail({
     from: "Basement of Stinkology noreply@basementofstinkology.app",
     to: email,

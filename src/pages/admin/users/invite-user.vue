@@ -7,6 +7,7 @@ import {
   AdminUsersPostErrors,
   adminUsersPostBodySchema,
 } from "~/server/api/admin/users/-[id].post.schema";
+import { RoleLevel } from "~/services/prisma.client";
 
 const validationSchema = toTypedSchema(adminUsersPostBodySchema);
 
@@ -17,6 +18,7 @@ const { defineComponentBinds, handleSubmit, isSubmitting, setErrors } = useForm(
 );
 
 const email = defineComponentBinds("email", componentBindsConfig);
+const role = defineComponentBinds("role", componentBindsConfig);
 
 const formErrors = ref<null | AdminUsersPostErrors["formErrors"]>(null);
 
@@ -62,6 +64,16 @@ const onSubmit = handleSubmit(async (values) => {
           type="text"
           auto-focus
         />
+
+        <Select v-bind="role" label="Role" name="role">
+          <option
+            v-for="roleOption in Object.keys(RoleLevel)"
+            :key="roleOption"
+            :selected="role.value === roleOption"
+          >
+            {{ roleOption }}
+          </option>
+        </Select>
 
         <P
           v-for="error in formErrors"
