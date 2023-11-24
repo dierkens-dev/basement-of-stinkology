@@ -1,6 +1,6 @@
 import { NuxtAuthHandler } from "#auth";
 import { FirebaseError } from "firebase/app";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithEmailLink } from "firebase/auth";
 import type { CredentialsProvider } from "next-auth/providers/credentials";
 import Credentials from "next-auth/providers/credentials";
 import { auth } from "~/features/auth";
@@ -33,6 +33,7 @@ export default NuxtAuthHandler({
   },
   providers: [
     CredentialsProvider({
+      id: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
@@ -77,6 +78,56 @@ export default NuxtAuthHandler({
               req?.headers?.host,
             );
           }
+
+          return user;
+        } catch (error) {
+          if (error instanceof FirebaseError) {
+            return null;
+          }
+
+          throw error;
+        }
+      },
+    }),
+    CredentialsProvider({
+      id: "email",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        emailLink: { label: "Email Link", type: "text" },
+      },
+      async authorize(credentials) {
+        if (!credentials) {
+          throw new Error("No credentials");
+        }
+        const { email, emailLink } = credentials;
+
+        try {
+          const userCredential = await signInWithEmailLink(
+            auth,
+            email,
+            emailLink,
+          );
+
+          invariant(
+            typeof userCredential.user.email === "string",
+            "Email not found on user credential.",
+          );
+
+          invariant(
+            typeof userCredential.user.tenantId === "string",
+            "Tenant not found on user credential.",
+          );
+
+          const user = await prisma.user.upsert({
+            where: {
+              email: userCredential.user.email,
+            },
+            update: { emailVerified: userCredential.user.emailVerified },
+            create: {
+              emailVerified: userCredential.user.emailVerified,
+              email: userCredential.user.email,
+            },
+          });
 
           return user;
         } catch (error) {

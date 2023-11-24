@@ -172,13 +172,13 @@ export class DefaultService {
          */
         withPeople?: string,
         /**
-         * can be a comma (`AND`) or pipe (`OR`) separated query, can be used in conjunction with `region`
+         * possible values are: [1, 2, 3, 4, 5, 6] can be a comma (`AND`) or pipe (`OR`) separated query, can be used in conjunction with `region`
          */
         withReleaseType?: number,
         withRuntimeGte?: number,
         withRuntimeLte?: number,
         /**
-         * use in conjunction with `watch_region`, can be a comma (`AND`) or pipe (`OR`) separated query
+         * possible values are: [flatrate, free, ads, rent, buy] use in conjunction with `watch_region`, can be a comma (`AND`) or pipe (`OR`) separated query
          */
         withWatchMonetizationTypes?: string,
         /**

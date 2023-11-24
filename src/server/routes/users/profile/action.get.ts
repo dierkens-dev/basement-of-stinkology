@@ -19,6 +19,12 @@ export default defineEventHandler(async (event) => {
     case "resetPassword": {
       return sendRedirect(event, `/password-update?${searchParams.toString()}`);
     }
+    case "signIn": {
+      return sendRedirect(
+        event,
+        `/sign-in-with-email?${searchParams.toString()}`,
+      );
+    }
     case "verifyEmail": {
       try {
         const { data } = await checkActionCode(auth, code);
