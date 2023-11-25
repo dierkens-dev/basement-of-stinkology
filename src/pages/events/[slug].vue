@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isEditor } from "~/services/prisma.client";
+import { isAdmin, isEditor } from "~/services/prisma.client";
 
 const { params, hash } = useRoute();
 
@@ -24,7 +24,19 @@ const user = data.value?.user;
   <div>
     <NuxtPage />
 
-    <div v-if="isEditor(user)" class="fixed right-3 bottom-3 z-10 flex gap-3">
+    <div
+      v-if="isEditor(user) && !event?.data?.isLocked"
+      class="fixed right-3 bottom-3 z-10 flex gap-3"
+    >
+      <NuxtLink
+        v-if="isAdmin(user)"
+        class="btn btn-circle btn-accent"
+        :to="`/events/${slug}/lock-event`"
+      >
+        <v-icon name="px-lock" />
+        <span class="sr-only">Lock Event</span>
+      </NuxtLink>
+
       <NuxtLink
         class="btn btn-circle btn-secondary"
         :to="`/events/${slug}/upload-backdrop`"
@@ -88,7 +100,7 @@ const user = data.value?.user;
             </span>
 
             <span
-              v-if="isEditor(user)"
+              v-if="isEditor(user) && !event?.data?.isLocked"
               class="gap-2 hidden group-hover:flex group-focus-within:flex"
             >
               <NuxtLink

@@ -3,16 +3,10 @@ import { prisma } from "~/services/prisma.server";
 export default defineEventHandler(async (event) => {
   const slug = getRouterParam(event, "slug");
 
-  const data = await prisma.event.findFirst({
+  const data = await prisma.event.update({
     where: { slug },
-    select: {
-      backdropUrl: true,
-      createdAt: true,
-      date: true,
-      id: true,
+    data: {
       isLocked: true,
-      name: true,
-      slug: true,
     },
   });
 

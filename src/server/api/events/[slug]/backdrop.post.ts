@@ -13,8 +13,29 @@ const storage = new Storage();
 const bucket = storage.bucket(process.env.BOS_ASSET_BUCKET_NAME);
 
 export default defineEventHandler(async (event) => {
-  const formData = await readMultipartFormData(event);
   const slug = getRouterParam(event, "slug");
+
+  const bosEvent = await prisma.event.findFirst({
+    where: {
+      slug,
+    },
+  });
+
+  if (!bosEvent) {
+    throw createError({
+      status: 404,
+      statusMessage: "Not Found",
+    });
+  }
+
+  if (bosEvent.isLocked) {
+    throw createError({
+      status: 403,
+      statusMessage: "Forbidden",
+    });
+  }
+
+  const formData = await readMultipartFormData(event);
 
   const file = formData?.find(({ name }) => name === "file");
 

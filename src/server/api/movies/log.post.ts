@@ -23,6 +23,13 @@ export default defineValidatedEventHandler(
       throw createError({ statusMessage: "Bad Request", statusCode: 400 });
     }
 
+    if (bosEvent.isLocked) {
+      throw createError({
+        status: 403,
+        statusMessage: "Forbidden",
+      });
+    }
+
     if (!movie) {
       const moviedbJson = await movieDbClient.default.movieDetails({
         movieId: moviedbId,

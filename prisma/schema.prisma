@@ -49,6 +49,7 @@ model Event {
   name        String
   date        DateTime?
   backdropUrl String?
+  isLocked    Boolean   @default(false)
 
   // TODO Lowercase this
   MovieViews MovieView[]
