@@ -31,16 +31,36 @@ const { data: session } = useAuth();
         <table class="table table-zebra">
           <thead>
             <tr>
+              <th class="w-8"></th>
               <th>Name</th>
               <th>Email</th>
               <th>Verified</th>
+              <th>Registered</th>
               <th>Role</th>
-              <th>Actions</th>
+              <th class="flex justify-end">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="user in data" :key="user.id">
-              <td>{{ user.name }}</td>
+              <td class="flex gap-3 items-center">
+                <div v-if="user.avatar">
+                  <div
+                    class="w-6 bg-base-100 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden"
+                  >
+                    <img :src="user.avatar" />
+                  </div>
+                </div>
+                <div v-else class="avatar placeholder">
+                  <div
+                    class="bg-neutral text-neutral-content rounded-full w-6 ring ring-primary ring-offset-base-100 ring-offset-2"
+                  >
+                    <span class="text-lg uppercase">{{ user.email[0] }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                {{ user.name }}
+              </td>
               <td>{{ user.email }}</td>
               <td>
                 <span v-if="user.emailVerified" class="rounded-full p-2">
@@ -61,8 +81,13 @@ const { data: session } = useAuth();
                 </NuxtLink>
                 <span class="sr-only">{{ user.emailVerified }}</span>
               </td>
+              <td>
+                <span v-if="user.isRegistered" class="rounded-full p-2">
+                  <v-icon name="px-check" class="text-success" />
+                </span>
+              </td>
               <td>{{ user.role }}</td>
-              <td class="flex gap-1">
+              <td class="flex gap-1 justify-end">
                 <NuxtLink
                   :to="{
                     path: '/admin/users/edit',

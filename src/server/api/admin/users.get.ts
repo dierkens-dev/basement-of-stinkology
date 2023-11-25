@@ -8,14 +8,14 @@ export default defineEventHandler(async () => {
     .map(({ email }) => email)
     .filter(Boolean);
 
-  return prisma.user.findMany({
-    where: {
-      email: {
-        in: emails,
-      },
-    },
+  const users = await prisma.user.findMany({
     orderBy: {
       email: "asc",
     },
   });
+
+  return users.map((user) => ({
+    ...user,
+    isRegistered: emails.includes(user.email),
+  }));
 });
