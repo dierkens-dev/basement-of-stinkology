@@ -2,7 +2,7 @@
 import { isAdmin, isEditor } from "~/services/prisma.client";
 
 const { data } = useAuth();
-const { fullPath } = useRoute();
+const route = useRoute();
 
 const user = data.value?.user;
 </script>
@@ -79,7 +79,7 @@ const user = data.value?.user;
                   <li>
                     <a
                       :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
-                        fullPath,
+                        route.fullPath,
                       )}`"
                       >Sign Out</a
                     >
@@ -151,7 +151,7 @@ const user = data.value?.user;
         <li v-if="user">
           <a
             :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
-              fullPath,
+              route.fullPath,
             )}`"
             >Sign Out</a
           >
