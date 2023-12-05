@@ -3,11 +3,7 @@
 declare global {
   namespace Cypress {
     interface Chainable {
-      login(
-        email: string,
-        password: string,
-        callBackUrl: string,
-      ): Chainable<void>;
+      login(email: string, password: string): Chainable<void>;
       getByDataCy(selector: string): Chainable<Element>;
       // drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
       // dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>

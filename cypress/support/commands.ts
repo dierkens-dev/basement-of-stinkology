@@ -11,22 +11,19 @@
 //
 //
 // -- This is a parent command --
-Cypress.Commands.add(
-  "login",
-  (email: string, password: string, callBackUrl: string) => {
-    cy.session([email, password], () => {
-      const baseUrl = Cypress.config("baseUrl");
+Cypress.Commands.add("login", (email: string, password: string) => {
+  cy.session([email, password], () => {
+    const baseUrl = Cypress.config("baseUrl");
 
-      cy.visit(`/sign-in?callbackUrl=${baseUrl}${callBackUrl}`);
+    cy.visit(`/sign-in?callbackUrl=${baseUrl}`);
 
-      cy.get("input[name=email]").type(email);
-      cy.get("input[name=password]").type(password);
-      cy.get("button[type=submit]").click();
+    cy.get("input[name=email]").type(email);
+    cy.get("input[name=password]").type(password);
+    cy.get("button[type=submit]").click();
 
-      cy.url().should("eq", `${baseUrl}${callBackUrl}`);
-    });
-  },
-);
+    cy.url().should("eq", `${baseUrl}/`);
+  });
+});
 
 Cypress.Commands.add("getByDataCy", (selector: string, ...args) => {
   cy.get(`[data-cy=${selector}]`, ...args);
