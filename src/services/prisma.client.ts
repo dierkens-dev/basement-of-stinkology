@@ -17,7 +17,7 @@ export function isAdmin(user?: User) {
 }
 
 export function isEditor(user?: User) {
-  return user && user.emailVerified && isRoleLevel(user, "ADMIN");
+  return user && user.emailVerified && isRoleLevel(user, "EDITOR");
 }
 
 export function isViewer(user?: User) {
