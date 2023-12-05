@@ -18,6 +18,7 @@ const user = data.value?.user;
               for="main-nav-drawer"
               aria-label="open sidebar"
               class="btn btn-square btn-ghost"
+              data-cy="main-nav-drawer"
             >
               <v-icon name="px-menu" />
               <span class="sr-only">Main Menu</span>
@@ -81,6 +82,7 @@ const user = data.value?.user;
                       :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
                         route.fullPath,
                       )}`"
+                      data-cy="sign-out"
                       >Sign Out</a
                     >
                   </li>
@@ -153,6 +155,7 @@ const user = data.value?.user;
             :href="`/api/auth/signout?callbackUrl=${encodeURIComponent(
               route.fullPath,
             )}`"
+            data-cy="sign-out-mobile"
             >Sign Out</a
           >
         </li>

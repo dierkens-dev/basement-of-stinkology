@@ -24,6 +24,10 @@ Cypress.Commands.add(
     });
   },
 );
+
+Cypress.Commands.add("getByDataCy", (selector: string, ...args) => {
+  cy.get(`[data-cy=${selector}]`, ...args);
+});
 //
 //
 // -- This is a child command --
