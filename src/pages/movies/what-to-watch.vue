@@ -40,10 +40,10 @@ watch(showWatched, (value) => {
         <div
           v-for="{ movie, users } in data.results"
           :key="movie.id"
-          class="card card-side bg-base-100 shadow-xl flex-col sm:flex-row basis-full lg:basis-5/12"
+          class="card card-side bg-base-100 shadow-xl flex-col sm:flex-row basis-full xl:basis-5/12"
           :class="
             clsx(
-              'card card-side bg-base-100 shadow-xl flex-col sm:flex-row basis-full lg:basis-5/12',
+              'card card-side bg-base-100 shadow-xl flex-col sm:flex-row basis-full xl:basis-5/12',
               {
                 'grayscale relative indicator opacity-50':
                   movie._count.MovieViews > 0,
@@ -131,7 +131,7 @@ watch(showWatched, (value) => {
                 {{ Math.floor(movie.voteAverage * 10) }}%
               </div>
 
-              <div class="flex -space-x-4">
+              <div class="flex -space-x-1">
                 <div
                   v-for="user in users"
                   :key="user.id"
@@ -141,14 +141,17 @@ watch(showWatched, (value) => {
                 >
                   <div v-if="user.avatar">
                     <div
-                      class="w-10 bg-base-100 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden"
+                      class="w-10 h-10 bg-base-100 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden"
                     >
-                      <img :src="user.avatar" />
+                      <img
+                        class="object-cover w-full h-full"
+                        :src="user.avatar"
+                      />
                     </div>
                   </div>
                   <div v-else class="avatar placeholder">
                     <div
-                      class="bg-neutral text-neutral-content rounded-full w-10 ring ring-primary ring-offset-base-100 ring-offset-2"
+                      class="bg-neutral text-neutral-content rounded-full w-10 h-10 ring ring-primary ring-offset-base-100 ring-offset-2"
                     >
                       <span class="text-xl uppercase">{{ user.email[0] }}</span>
                     </div>
