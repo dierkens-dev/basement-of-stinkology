@@ -6,10 +6,11 @@ useHead({
 const search = ref("");
 const selectedMovie = ref<Movie | null>(null);
 
-const { data } = useFetch(`/api/movies/search`, {
+const { data } = await useFetch(`/api/movies/search`, {
   query: {
     search,
   },
+  watch: [search],
 });
 
 function handleSearchUpdateValue(value: string) {
