@@ -27,7 +27,7 @@ const user = data.value?.user;
       <span class="sr-only">Add Movie</span>
     </NuxtLink>
 
-    <div class="container p-3 mx-auto mt-3 mb-14 w-screen sm:w-auto">
+    <div class="container p-3 mx-auto mb-14 w-screen sm:w-auto">
       <h1 class="text-3xl font-bold">My Watchlist</h1>
       <div class="divider"></div>
       <div v-if="watchListMovies" class="flex flex-wrap gap-3 justify-center">

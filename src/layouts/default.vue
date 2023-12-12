@@ -11,7 +11,7 @@ const user = data.value?.user;
   <div class="drawer h-full">
     <input id="main-nav-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col min-h-full">
-      <div v-if="user" class="navbar shadow bg-base-100">
+      <div v-if="user" class="navbar shadow bg-base-100 fixed z-10">
         <div class="navbar-start">
           <div class="flex-none lg:hidden">
             <label
@@ -104,10 +104,12 @@ const user = data.value?.user;
           </span>
         </span>
       </div>
-      <slot />
+      <div class="pt-16">
+        <slot />
+      </div>
     </div>
 
-    <div class="drawer-side lg:hidden">
+    <div class="drawer-side lg:hidden mt-16">
       <label
         for="main-nav-drawer"
         aria-label="close sidebar"
