@@ -53,7 +53,7 @@ const { data } = useFetch("/api/events");
       allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
       frameborder="0"
       sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-      src="https://embed.music.apple.com/us/playlist/the-greatest-playlist-in-the-world/pl.u-oZyl55WTRoyyaW"
+      src="https://embed.music.apple.com/us/playlist/coca-ursus-americanus/pl.u-kv9lGVlt7e33Dr"
     ></iframe>
   </div>
 </template>
