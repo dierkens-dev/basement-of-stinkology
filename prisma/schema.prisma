@@ -37,6 +37,8 @@ model UserWatchListMovie {
 
   movie   Movie  @relation(fields: [movieId], references: [id])
   movieId String @db.Uuid
+
+  @@unique([userId, movieId])
 }
 
 model Event {

@@ -16,7 +16,8 @@
     "typecheck": "nuxi typecheck",
     "precodegen": "rimraf src/features/movies/lib/moviedb",
     "codegen": "openapi -i \"https://developer.themoviedb.org/openapi/64542913e1f86100738e227f\" -o src/features/movies/lib/moviedb --useOptions --useUnionTypes --name MovieDbClient",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migrate": "prisma migrate dev"
   },
   "devDependencies": {
     "@nuxt/devtools": "1.0.0-beta.0",
