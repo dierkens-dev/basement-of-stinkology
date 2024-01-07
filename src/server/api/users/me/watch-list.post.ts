@@ -28,11 +28,15 @@ export default defineValidatedEventHandler(
       });
     }
 
-    const userWatchListMovie = await prisma.userWatchListMovie.create({
-      data: {
-        userId: event.context.user.id,
-        movieId: movie.id,
+    const userWatchListMovie = await prisma.userWatchListMovie.upsert({
+      where: {
+        userId_movieId: {
+          userId: event.context.user.id,
+          movieId: movie.id,
+        },
       },
+      update: {},
+      create: { userId: event.context.user.id, movieId: movie.id },
       select: {
         movie: {
           select: {
