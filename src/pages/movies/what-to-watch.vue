@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import clsx from "clsx";
-
 useHead({
   title: () => "What to Watch - Movies - Basement of Stinkology",
 });
 
-const { data } = useFetch(`/api/watch-lists/movies`);
+const { data, refresh } = useFetch(`/api/watch-lists/movies`);
 const { query } = useRoute();
 const { push } = useRouter();
+const auth = useAuth();
+const currentUser = auth.data.value?.user;
 
 const showWatched = ref(
   typeof query.showWatched === "string" && query.showWatched === "true",
@@ -21,6 +21,24 @@ watch(showWatched, (value) => {
     },
   });
 });
+
+const isSubmitting = ref<number | null>(null);
+async function handleAddMovieClick(moviedbId: number) {
+  isSubmitting.value = moviedbId;
+
+  try {
+    await $fetch("/api/users/me/watch-list", {
+      method: "POST",
+      body: {
+        moviedbId,
+      },
+    });
+
+    await refresh();
+  } finally {
+    isSubmitting.value = null;
+  }
+}
 </script>
 
 <template>
@@ -40,17 +58,12 @@ watch(showWatched, (value) => {
         <div
           v-for="{ movie, users } in data.results"
           :key="movie.id"
-          class="card card-side bg-base-100 shadow-xl flex-col sm:flex-row basis-full xl:basis-5/12"
-          :class="
-            clsx(
-              'card card-side bg-base-100 shadow-xl flex-col sm:flex-row basis-full xl:basis-5/12',
-              {
-                'grayscale relative indicator opacity-50':
-                  movie._count.MovieViews > 0,
-                hidden: !showWatched && movie._count.MovieViews > 0,
-              },
-            )
-          "
+          class="card card-side bg-base-100 shadow-xl flex-col grow xl:max-w-[50%] sm:flex-row basis-full xl:basis-5/12"
+          :class="{
+            'grayscale relative indicator opacity-50':
+              movie._count.MovieViews > 0,
+            hidden: !showWatched && movie._count.MovieViews > 0,
+          }"
         >
           <span
             v-if="movie._count.MovieViews > 0"
@@ -116,7 +129,7 @@ watch(showWatched, (value) => {
 
             <p class="italic">{{ movie.tagline }}</p>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 flex-wrap">
               <div
                 v-if="typeof movie.voteAverage === 'number'"
                 :class="{
@@ -157,6 +170,20 @@ watch(showWatched, (value) => {
                     </div>
                   </div>
                 </div>
+
+                <SubmitButton
+                  v-if="
+                    currentUser &&
+                    users.findIndex((user) => user.id === currentUser?.id) ===
+                      -1
+                  "
+                  :is-loading="isSubmitting === movie.themoviedbId"
+                  :disabled="isSubmitting === movie.themoviedbId"
+                  class="btn btn-circle btn-primary relative text-neutral-content rounded-full w-10 h-10 min-h-fit ring ring-primary ring-offset-base-100 ring-offset-2"
+                  @click="handleAddMovieClick(movie.themoviedbId)"
+                >
+                  <v-icon name="px-user-plus" scale="1" />
+                </SubmitButton>
               </div>
             </div>
           </div>
