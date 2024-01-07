@@ -15,6 +15,7 @@ import {
   PxTrash,
   PxUpload,
   PxUser,
+  PxUserPlus,
 } from "oh-vue-icons/icons";
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -34,6 +35,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     PxTrash,
     PxUpload,
     PxUser,
+    PxUserPlus,
   );
   nuxtApp.vueApp.component("v-icon", OhVueIcon);
 });

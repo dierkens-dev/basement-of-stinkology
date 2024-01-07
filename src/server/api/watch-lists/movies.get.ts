@@ -15,6 +15,7 @@ export default defineEventHandler(async () => {
           releaseDate: true,
           runtime: true,
           tagline: true,
+          themoviedbId: true,
           title: true,
           updatedAt: true,
           voteAverage: true,
