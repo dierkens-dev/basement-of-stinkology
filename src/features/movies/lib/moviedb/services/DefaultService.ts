@@ -139,11 +139,14 @@ export class DefaultService {
         region?: string,
         releaseDateGte?: string,
         releaseDateLte?: string,
-        sortBy?: 'popularity.asc' | 'popularity.desc' | 'revenue.asc' | 'revenue.desc' | 'primary_release_date.asc' | 'primary_release_date.desc' | 'vote_average.asc' | 'vote_average.desc' | 'vote_count.asc' | 'vote_count.desc',
+        sortBy?: 'original_title.asc' | 'original_title.desc' | 'popularity.asc' | 'popularity.desc' | 'revenue.asc' | 'revenue.desc' | 'primary_release_date.asc' | 'title.asc' | 'title.desc' | 'primary_release_date.desc' | 'vote_average.asc' | 'vote_average.desc' | 'vote_count.asc' | 'vote_count.desc',
         voteAverageGte?: number,
         voteAverageLte?: number,
         voteCountGte?: number,
         voteCountLte?: number,
+        /**
+         * use in conjunction with `with_watch_monetization_types ` or `with_watch_providers `
+         */
         watchRegion?: string,
         /**
          * can be a comma (`AND`) or pipe (`OR`) separated query
@@ -456,11 +459,17 @@ export class DefaultService {
         year,
     }: {
         query: string,
-        firstAirDateYear?: string,
+        /**
+         * Search only the first air date. Valid values are: 1000..9999
+         */
+        firstAirDateYear?: number,
         includeAdult?: boolean,
         language?: string,
         page?: number,
-        year?: string,
+        /**
+         * Search the first air date and all episode air dates. Valid values are: 1000..9999
+         */
+        year?: number,
     }): CancelablePromise<{
         page?: number;
         results?: Array<{
@@ -839,12 +848,15 @@ export class DefaultService {
         language?: string,
         page?: number,
         screenedTheatrically?: boolean,
-        sortBy?: 'popularity.asc' | 'popularity.desc' | 'revenue.asc' | 'revenue.desc' | 'primary_release_date.asc' | 'primary_release_date.desc' | 'vote_average.asc' | 'vote_average.desc' | 'vote_count.asc' | 'vote_count.desc',
+        sortBy?: 'first_air_date.asc' | 'first_air_date.desc' | 'name.asc' | 'name.desc' | 'original_name.asc' | 'original_name.desc' | 'popularity.asc' | 'popularity.desc' | 'vote_average.asc' | 'vote_average.desc' | 'vote_count.asc' | 'vote_count.desc',
         timezone?: string,
         voteAverageGte?: number,
         voteAverageLte?: number,
         voteCountGte?: number,
         voteCountLte?: number,
+        /**
+         * use in conjunction with `with_watch_monetization_types ` or `with_watch_providers `
+         */
         watchRegion?: string,
         /**
          * can be a comma (`AND`) or pipe (`OR`) separated query
@@ -1526,7 +1538,23 @@ export class DefaultService {
         endDate?: string,
         page?: number,
         startDate?: string,
-    }): CancelablePromise<any> {
+    }): CancelablePromise<{
+        changes?: Array<{
+            key?: string;
+            items?: Array<{
+                id?: string;
+                action?: string;
+                time?: string;
+                iso_639_1?: string;
+                iso_3166_1?: string;
+                value?: {
+                    poster?: {
+                        file_path?: string;
+                    };
+                };
+            }>;
+        }>;
+    }> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/3/movie/{movie_id}/changes',
@@ -1647,6 +1675,7 @@ export class DefaultService {
 
     /**
      * Lists
+     * Get the lists that a movie has been added to.
      * @returns any 200
      * @throws ApiError
      */
@@ -3793,7 +3822,18 @@ export class DefaultService {
         personId,
     }: {
         personId: number,
-    }): CancelablePromise<any> {
+    }): CancelablePromise<{
+        id?: number;
+        profiles?: Array<{
+            aspect_ratio?: number;
+            height?: number;
+            iso_639_1?: any;
+            file_path?: string;
+            vote_average?: number;
+            vote_count?: number;
+            width?: number;
+        }>;
+    }> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/3/person/{person_id}/images',
@@ -10260,6 +10300,49 @@ export class DefaultService {
             url: '/3/search/keyword',
             query: {
                 'query': query,
+                'page': page,
+            },
+        });
+    }
+
+    /**
+     * Lists
+     * Get the lists that a TV series has been added to.
+     * @returns any 200
+     * @throws ApiError
+     */
+    public listsCopy({
+        seriesId,
+        language = 'en-US',
+        page = 1,
+    }: {
+        seriesId: number,
+        language?: string,
+        page?: number,
+    }): CancelablePromise<{
+        id?: number;
+        page?: number;
+        results?: Array<{
+            description?: string;
+            favorite_count?: number;
+            id?: number;
+            item_count?: number;
+            iso_639_1?: string;
+            iso_3166_1?: string;
+            name?: string;
+            poster_path?: any;
+        }>;
+        total_pages?: number;
+        total_results?: number;
+    }> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/3/tv/{series_id}/lists',
+            path: {
+                'series_id': seriesId,
+            },
+            query: {
+                'language': language,
                 'page': page,
             },
         });
