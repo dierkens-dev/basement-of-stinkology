@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { isEditor } from "~/services/prisma.client";
+
 useHead({
   title: () => "What to Watch - Movies - Basement of Stinkology",
 });
@@ -43,6 +45,16 @@ async function handleAddMovieClick(moviedbId: number) {
 
 <template>
   <div>
+    <NuxtPage />
+
+    <NuxtLink
+      v-if="isEditor(currentUser)"
+      to="/movies/what-to-watch/add-movie"
+      class="btn btn-circle btn-primary fixed right-3 bottom-3 z-10"
+    >
+      <v-icon name="px-plus" />
+      <span class="sr-only">Add Movie</span>
+    </NuxtLink>
     <div class="container p-3 mx-auto my-3 w-screen sm:w-auto">
       <div class="flex justify-between">
         <h1 class="text-3xl font-bold">What to watch</h1>
