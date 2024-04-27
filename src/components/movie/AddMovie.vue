@@ -44,7 +44,7 @@ const input = ref();
 useFocus(input, { initialValue: true });
 const { path } = useRoute();
 
-const thePath = path.replace("/add-movie", "");
+const parentPath = path.replace("/add-movie", "");
 
 async function handleAddMovieClick() {
   if (!selectedMovie.value) {
@@ -63,7 +63,7 @@ async function handleAddMovieClick() {
 
     await navigateTo(
       {
-        path: thePath.value,
+        path: parentPath.value,
         hash: `#${movie.result.movie.id}`,
       },
       {
@@ -170,7 +170,7 @@ async function handleAddMovieClick() {
     </div>
 
     <div class="modal-backdrop bg-black bg-opacity-30">
-      <NuxtLink :to="thePath">Close Modal</NuxtLink>
+      <NuxtLink :to="parentPath">Close Modal</NuxtLink>
     </div>
   </dialog>
 </template>
