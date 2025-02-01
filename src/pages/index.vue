@@ -47,13 +47,11 @@ const { data } = useFetch("/api/events");
         </div>
       </div>
     </div>
-
     <iframe
-      class="w-full h-[450px] card card-bordered shadow"
       allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-      frameborder="0"
+      class="w-full h-[450px] card card-bordered shadow"
       sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-      src="https://embed.music.apple.com/us/playlist/coca-ursus-americanus/pl.u-kv9lGVlt7e33Dr"
+      src="https://embed.music.apple.com/us/playlist/stinkfest-25/pl.u-kv9lKEVC7e33Dr"
     ></iframe>
   </div>
 </template>
