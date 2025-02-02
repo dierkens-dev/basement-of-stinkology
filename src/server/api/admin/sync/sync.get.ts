@@ -13,25 +13,29 @@ export default defineEventHandler(async () => {
     );
   });
 
-  const movieDbJson = await Promise.all(jobs);
+  const movieDbJson = await Promise.allSettled(jobs);
 
   const updated = [];
   for (const json of movieDbJson) {
-    if (typeof json.id !== "number") {
-      continue;
+    try {
+      if (typeof json.value.id !== "number") {
+        continue;
+      }
+
+      const result = await prisma.movie.update({
+        where: {
+          themoviedbId: json.value.id,
+        },
+        data: {
+          moviedbJson: json.value,
+          ttl: Date.now() + 86400000,
+        },
+      });
+
+      updated.push(result);
+    } catch (e) {
+      //ignore
     }
-
-    const result = await prisma.movie.update({
-      where: {
-        themoviedbId: json.id,
-      },
-      data: {
-        moviedbJson: json,
-      },
-    });
-
-    updated.push(result);
   }
-
   return { updated };
 });

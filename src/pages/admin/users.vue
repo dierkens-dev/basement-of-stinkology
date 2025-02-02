@@ -27,7 +27,7 @@ const { data: session } = useAuth();
         class="loading loading-bars loading-lg"
       ></div>
 
-      <div v-if="data" class="overflow-x-auto w-full">
+      <div v-if="data" class="overflow-x-auto w-full mt-5">
         <table class="table table-zebra">
           <thead>
             <tr>
