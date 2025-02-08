@@ -30,7 +30,9 @@ const handleConfirm = async () => {
         You are about to lock the event <strong>{{ event.data.name }}.</strong>
       </p>
       <div class="modal-action">
-        <NuxtLink to="/admin/users" class="btn btn-secondary">Cancel</NuxtLink>
+        <NuxtLink :to="`/events/${event.data.slug}`" class="btn btn-secondary"
+          >Cancel</NuxtLink
+        >
         <SubmitButton
           ref="confirm"
           :is-loading="isSubmitting"
