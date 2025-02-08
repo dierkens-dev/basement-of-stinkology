@@ -4151,6 +4151,7 @@ export class DefaultService {
             english_name?: string;
             data?: {
                 biography?: string;
+                name?: string;
             };
         }>;
     }> {
@@ -6818,6 +6819,7 @@ export class DefaultService {
 
     /**
      * Details
+     * Get the public details of an account on TMDB.
      * @returns any 200
      * @throws ApiError
      */
@@ -6857,6 +6859,7 @@ export class DefaultService {
 
     /**
      * Lists
+     * Get a users list of custom lists.
      * @returns any 200
      * @throws ApiError
      */
@@ -6898,6 +6901,7 @@ export class DefaultService {
 
     /**
      * Favorite Movies
+     * Get a users list of favourite movies.
      * @returns any 200
      * @throws ApiError
      */
@@ -6951,6 +6955,7 @@ export class DefaultService {
 
     /**
      * Favorite TV
+     * Get a users list of favourite TV shows.
      * @returns any 200
      * @throws ApiError
      */
@@ -7004,6 +7009,7 @@ export class DefaultService {
 
     /**
      * Rated Movies
+     * Get a users list of rated movies.
      * @returns any 200
      * @throws ApiError
      */
@@ -7058,6 +7064,7 @@ export class DefaultService {
 
     /**
      * Rated TV
+     * Get a users list of rated TV shows.
      * @returns any 200
      * @throws ApiError
      */
@@ -7112,6 +7119,7 @@ export class DefaultService {
 
     /**
      * Rated TV Episodes
+     * Get a users list of rated TV episodes.
      * @returns any 200
      * @throws ApiError
      */
@@ -7164,6 +7172,7 @@ export class DefaultService {
 
     /**
      * Watchlist Movies
+     * Get a list of movies added to a users watchlist.
      * @returns any 200
      * @throws ApiError
      */
@@ -7217,6 +7226,7 @@ export class DefaultService {
 
     /**
      * Watchlist TV
+     * Get a list of TV shows added to a users watchlist.
      * @returns any 200
      * @throws ApiError
      */
@@ -7270,6 +7280,7 @@ export class DefaultService {
 
     /**
      * Add Favorite
+     * Mark a movie or TV show as a favourite.
      * @returns any 200
      * @throws ApiError
      */
@@ -7303,6 +7314,7 @@ export class DefaultService {
 
     /**
      * Add To Watchlist
+     * Add a movie or TV show to your watchlist.
      * @returns any 200
      * @throws ApiError
      */

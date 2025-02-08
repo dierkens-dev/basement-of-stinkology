@@ -5,6 +5,16 @@ const { data } = useAuth();
 const route = useRoute();
 
 const user = data.value?.user;
+const refresh = async (event: any) => {
+  try {
+    const { data, pending, error } = await useFetch(`/api/admin/sync/sync`, {
+      method: "GET",
+    });
+    console.log("data", data);
+  } catch (error) {
+    console.log("error", error);
+  }
+};
 </script>
 
 <template>
@@ -76,6 +86,9 @@ const user = data.value?.user;
                   <li><NuxtLink to="/users/me/profile">Profile</NuxtLink></li>
                   <li v-if="isAdmin(user)">
                     <NuxtLink to="/admin/users">Users</NuxtLink>
+                    <button @click="refresh">
+                      <span>Refresh Movie Json</span>
+                    </button>
                   </li>
                   <li>
                     <a
