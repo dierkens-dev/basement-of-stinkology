@@ -19,7 +19,6 @@ export default defineEventHandler(async () => {
           title: true,
           updatedAt: true,
           voteAverage: true,
-          ttl: true,
         },
       },
       user: true,

@@ -108,12 +108,6 @@ export const prisma = client.$extends({
             : [];
         },
       },
-      ttl: {
-        needs: {},
-        compute(movie) {
-          return String(movie.ttl);
-        },
-      },
     },
   },
 });

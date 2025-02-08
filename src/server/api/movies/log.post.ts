@@ -38,7 +38,6 @@ export default defineValidatedEventHandler(
       movie = await prisma.movie.create({
         data: {
           themoviedbId: moviedbId,
-          ttl: Date.now() + 86400000,
           moviedbJson,
         },
       });
