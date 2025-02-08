@@ -6,7 +6,7 @@ on:
 jobs:
   migrate:
     name: Migrate Production
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       BOS_DATABASE_URL: ${{ secrets.BOS_DATABASE_URL }}
     steps:
@@ -23,7 +23,7 @@ jobs:
       - run: yarn prisma migrate deploy
   deploy:
     name: Deploy Production
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: migrate
     steps:
       - uses: actions/checkout@v2
