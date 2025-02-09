@@ -7,7 +7,8 @@ import {
 import { FetchError } from "ofetch";
 import { componentBindsConfig } from "~/features/forms";
 import { useForm } from "vee-validate";
-
+import { escapeDialog } from "~/utils/escapeDialog";
+const { path } = useRoute();
 useHead({
   title: () => `Add Event - Basement of Stinkology`,
 });
@@ -56,7 +57,11 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <dialog class="modal modal-open modal-top sm:modal-middle" open>
+  <dialog
+    class="modal modal-open modal-top sm:modal-middle"
+    open
+    @keydown.esc="escapeDialog(path)"
+  >
     <div class="modal-box prose">
       <h2>Add Event</h2>
 

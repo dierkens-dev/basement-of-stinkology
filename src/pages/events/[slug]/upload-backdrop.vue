@@ -3,6 +3,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { FetchError } from "ofetch";
 import { useForm } from "vee-validate";
 import { z } from "zod";
+import { escapeDialog } from "~/utils/escapeDialog";
 
 const { params } = useRoute();
 const slug = params.slug;
@@ -61,10 +62,15 @@ const onSubmit = handleSubmit(async (values) => {
     throw error;
   }
 });
+const { path } = useRoute();
 </script>
 
 <template>
-  <dialog class="modal modal-open modal-top sm:modal-middle" open>
+  <dialog
+    class="modal modal-open modal-top sm:modal-middle"
+    open
+    @keydown.esc="escapeDialog(path)"
+  >
     <div class="modal-box prose">
       <h2>Upload Backdrop</h2>
 

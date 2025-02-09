@@ -7,6 +7,7 @@ import {
   UsersMePatchErrors,
   usersMePatchBodySchema,
 } from "~/server/api/users/-me.patch.schema";
+import { escapeDialog } from "~/utils/escapeDialog";
 
 useHead({
   title: () => "Edit - Profile - Basement of Stinkology",
@@ -71,10 +72,15 @@ const onSubmit = handleSubmit(async (values) => {
     throw error;
   }
 });
+const { path } = useRoute();
 </script>
 
 <template>
-  <dialog class="modal modal-open modal-top sm:modal-middle" open>
+  <dialog
+    class="modal modal-open modal-top sm:modal-middle"
+    open
+    @keydown.esc="escapeDialog(path)"
+  >
     <div v-if="user" class="modal-box prose">
       <h2>Edit {{ user?.email }}</h2>
 

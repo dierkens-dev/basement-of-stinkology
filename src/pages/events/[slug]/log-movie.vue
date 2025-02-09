@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { escapeDialog } from "~/utils/escapeDialog";
+
 const { params } = useRoute();
 
 const slug = params.slug;
@@ -74,10 +76,15 @@ async function handleLogMovieClick() {
     isSubmitting.value = false;
   }
 }
+const { path } = useRoute();
 </script>
 
 <template>
-  <dialog class="modal modal-open modal-top sm:modal-middle" open>
+  <dialog
+    class="modal modal-open modal-top sm:modal-middle"
+    open
+    @keydown.esc="escapeDialog(path)"
+  >
     <div class="modal-box">
       <TextField
         :auto-focus="true"
