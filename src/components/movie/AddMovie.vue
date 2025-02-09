@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { escapeDialog } from "~/utils/escapeDialog";
+
 useHead({
   title: () => "Add Movie - Basement of Stinkology",
 });
@@ -44,7 +46,7 @@ const input = ref();
 useFocus(input, { initialValue: true });
 const { path } = useRoute();
 
-const parentPath = path.replace("/add-movie", "");
+const parentPath = path.substring(0, path.lastIndexOf("/"));
 
 async function handleAddMovieClick() {
   if (!selectedMovie.value) {
@@ -63,7 +65,7 @@ async function handleAddMovieClick() {
 
     await navigateTo(
       {
-        path: parentPath.value,
+        path: parentPath,
         hash: `#${movie.result.movie.id}`,
       },
       {
@@ -78,7 +80,11 @@ async function handleAddMovieClick() {
 </script>
 
 <template>
-  <dialog class="modal modal-open modal-top sm:modal-middle" open>
+  <dialog
+    class="modal modal-open modal-top sm:modal-middle"
+    open
+    @keydown.esc="escapeDialog(path)"
+  >
     <div class="modal-box">
       <TextField
         :auto-focus="true"
