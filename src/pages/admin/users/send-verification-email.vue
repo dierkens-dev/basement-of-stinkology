@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { escapeDialog } from "~/utils/escapeDialog";
+
 const { query } = useRoute();
 
 const id = query.id;
@@ -30,10 +32,15 @@ async function handleConfirm() {
 
 const confirm = ref();
 useFocus(confirm, { initialValue: true });
+const { path } = useRoute();
 </script>
 
 <template>
-  <dialog class="modal modal-open modal-top sm:modal-middle" open>
+  <dialog
+    class="modal modal-open modal-top sm:modal-middle"
+    open
+    @keydown.esc="escapeDialog(path)"
+  >
     <div v-if="user" class="modal-box prose">
       <h2>Send Verification Email</h2>
       <p>

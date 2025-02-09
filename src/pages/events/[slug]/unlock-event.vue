@@ -9,7 +9,7 @@ const { data: event } = await useFetch(`/api/events/${slug}`);
 const isSubmitting = ref(false);
 const handleConfirm = async () => {
   isSubmitting.value = true;
-  await $fetch(`/api/events/${slug}/lock`, {
+  await $fetch(`/api/events/${slug}/unlock`, {
     method: "POST",
   });
 
@@ -31,10 +31,11 @@ const { path } = useRoute();
     @keydown.esc="escapeDialog(path)"
   >
     <div v-if="event?.data" class="modal-box prose">
-      <h2>Lock Event</h2>
+      <h2>Unlock Event</h2>
 
       <p>
-        You are about to lock the event <strong>{{ event.data.name }}.</strong>
+        You are about to unlock the event
+        <strong>{{ event.data.name }}.</strong>
       </p>
       <div class="modal-action">
         <NuxtLink :to="`/events/${event.data.slug}`" class="btn btn-secondary"
