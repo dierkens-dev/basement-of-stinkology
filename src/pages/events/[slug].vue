@@ -53,18 +53,6 @@ const user = data.value?.user;
         <span class="sr-only">Log Movie</span>
       </NuxtLink>
     </div>
-    <div
-      v-else-if="isAdmin(user) && event?.data?.isLocked"
-      class="fixed right-3 bottom-3 z-10 flex gap-3"
-    >
-      <NuxtLink
-        class="btn btn-circle btn-accent"
-        :to="`/events/${slug}/unlock-event`"
-      >
-        <v-icon name="px-lock" />
-        <span class="sr-only">Unlock Event</span>
-      </NuxtLink>
-    </div>
 
     <div
       v-if="event?.data"

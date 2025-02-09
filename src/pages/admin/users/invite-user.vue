@@ -8,7 +8,6 @@ import {
   adminUsersPostBodySchema,
 } from "~/server/api/admin/users/-[id].post.schema";
 import { RoleLevel } from "~/services/prisma.client";
-import { escapeDialog } from "~/utils/escapeDialog";
 
 const validationSchema = toTypedSchema(adminUsersPostBodySchema);
 
@@ -50,15 +49,10 @@ const onSubmit = handleSubmit(async (values) => {
     throw error;
   }
 });
-const { path } = useRoute();
 </script>
 
 <template>
-  <dialog
-    class="modal modal-open modal-top sm:modal-middle"
-    open
-    @keydown.esc="escapeDialog(path)"
-  >
+  <dialog class="modal modal-open modal-top sm:modal-middle" open>
     <div class="modal-box prose">
       <h2>Invite User</h2>
 

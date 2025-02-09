@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { escapeDialog } from "~/utils/escapeDialog";
-
 const { params } = useRoute();
 const slug = params.slug;
 
@@ -21,15 +19,10 @@ const handleConfirm = async () => {
 
   isSubmitting.value = false;
 };
-const { path } = useRoute();
 </script>
 
 <template>
-  <dialog
-    class="modal modal-open modal-top sm:modal-middle"
-    open
-    @keydown.esc="escapeDialog(path)"
-  >
+  <dialog class="modal modal-open modal-top sm:modal-middle" open>
     <div v-if="event?.data" class="modal-box prose">
       <h2>Lock Event</h2>
 

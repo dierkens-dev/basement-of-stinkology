@@ -8,7 +8,6 @@ export default defineEventHandler(async () => {
       id: true,
       name: true,
       slug: true,
-      isLocked: true,
       _count: {
         select: { MovieViews: true },
       },

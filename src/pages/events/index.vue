@@ -41,9 +41,6 @@ const user = data.value?.user;
                 })
               }}</span>
             </span>
-            <span v-if="event.isLocked"
-              ><v-icon scale="1.15" name="px-lock"
-            /></span>
           </h2>
         </NuxtLink>
         <div class="stats">
