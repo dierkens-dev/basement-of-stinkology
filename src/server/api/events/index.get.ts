@@ -25,19 +25,31 @@ export default defineEventHandler(async () => {
   });
 
   return {
-    data: data.map(({ MovieViews, ...event }) => {
-      return {
-        ...event,
-        _sum: {
-          runtime: MovieViews.reduce(
-            (sum, view) =>
-              typeof view.movie.runtime === "number"
-                ? sum + view.movie.runtime
-                : sum,
-            0,
-          ),
-        },
-      };
-    }),
+    data: data
+      .map(({ MovieViews, ...event }) => {
+        return {
+          ...event,
+          _sum: {
+            runtime: MovieViews.reduce(
+              (sum, view) =>
+                typeof view.movie.runtime === "number"
+                  ? sum + view.movie.runtime
+                  : sum,
+              0,
+            ),
+          },
+        };
+      })
+      .sort((a, b) => {
+        const dt1 = new Date(a.createdAt).getDate();
+        const dt2 = new Date(b.createdAt).getDate();
+        if (dt1 < dt2) {
+          return 1;
+        }
+        if (dt1 > dt2) {
+          return -1;
+        }
+        return 0;
+      }),
   };
 });
