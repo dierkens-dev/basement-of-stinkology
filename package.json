@@ -5,7 +5,7 @@
   "scripts": {
     "pulumi": "pulumi --cwd infrastructure/app",
     "build": "nuxt build",
-    "predev": "yarn codegen",
+    "predev": "pnpm codegen",
     "e2e": "cypress run",
     "cypress": "cypress open",
     "dev": "nuxt dev",
@@ -52,11 +52,7 @@
     "webpack": "^5.88.2"
   },
   "engines": {
-    "node": ">=16"
-  },
-  "volta": {
-    "node": "18.13.0",
-    "yarn": "1.22.19"
+    "node": "24.8.0"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",

@@ -3,10 +3,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { FetchError } from "ofetch";
 import { useForm } from "vee-validate";
 import { componentBindsConfig } from "~/features/forms";
-import {
-  UsersMePatchErrors,
-  usersMePatchBodySchema,
-} from "~/server/api/users/-me.patch.schema";
+import { UsersMePatchErrors, usersMePatchBodySchema } from "~/features/me";
 import { escapeDialog } from "~/utils/escapeDialog";
 
 useHead({

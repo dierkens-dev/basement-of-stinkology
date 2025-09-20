@@ -1,10 +1,15 @@
-import path from "node:path";
+import path, { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import tsconfigPaths from "vite-tsconfig-paths";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   auth: {
     globalAppMiddleware: true,
+    baseUrl: "http://localhost:3000",
   },
   build: {
     transpile: ["oh-vue-icons"],
@@ -33,7 +38,7 @@ export default defineNuxtConfig({
       tsconfigPaths({
         projects: [
           path.resolve(__dirname, "tsconfig.json"),
-          path.resolve(__dirname, "src", "tsconfig.server.json"),
+          path.resolve(__dirname, "src", "server", "tsconfig.json"),
         ],
       }),
     ],

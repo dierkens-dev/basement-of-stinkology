@@ -8,9 +8,9 @@ definePageMeta({
 import { componentBindsConfig } from "~/features/forms";
 import { FetchError } from "ofetch";
 import {
-  PasswordResetPostErrors,
+  type PasswordResetPostErrors,
   passwordResetPostSchema,
-} from "~/server/api/auth/-password-reset.post.schema";
+} from "~/features/auth";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { readFetchError } from "~/utils/read-fetch-error.util";

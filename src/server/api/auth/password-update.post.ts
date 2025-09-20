@@ -1,17 +1,12 @@
 import { confirmPasswordReset } from "firebase/auth";
-import { z } from "zod";
-import { auth } from "~/features/auth";
-import { codeSchema, passwordSchema } from "~/features/forms";
-
-const schema = z.object({
-  code: codeSchema,
-  password: passwordSchema,
-});
-
-export type PasswordUpdateErrors = z.inferFlattenedErrors<typeof schema>;
+import {
+  auth,
+  passwordUpdateSchema,
+  type PasswordUpdateErrors,
+} from "~/features/auth";
 
 export default defineValidatedEventHandler(
-  schema,
+  passwordUpdateSchema,
   async (event): Promise<void | PasswordUpdateErrors> => {
     const { code, password } = await readBody(event);
 

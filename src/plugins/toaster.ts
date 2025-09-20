@@ -1,4 +1,4 @@
-import { NinjaToasterTheme } from "@cssninja/nuxt-toaster";
+import type { NinjaToasterTheme } from "@cssninja/nuxt-toaster";
 import type { ToastOptions } from "~/components/Toast.vue";
 import Toast from "~/components/Toast.vue";
 

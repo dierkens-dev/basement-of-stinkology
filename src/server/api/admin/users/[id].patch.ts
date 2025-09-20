@@ -1,5 +1,5 @@
+import { adminUsersPatchBodySchema } from "~/features/users";
 import { prisma } from "~/services/prisma.server";
-import { adminUsersPatchBodySchema } from "./-[id].patch.schema";
 
 export default defineValidatedEventHandler(
   adminUsersPatchBodySchema,

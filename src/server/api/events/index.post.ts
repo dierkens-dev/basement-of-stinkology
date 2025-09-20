@@ -1,5 +1,5 @@
+import { eventsPostBodySchema } from "~/features/events";
 import { prisma } from "~/services/prisma.server";
-import { eventsPostBodySchema } from "./-index.post.schema";
 
 export default defineValidatedEventHandler(
   eventsPostBodySchema,

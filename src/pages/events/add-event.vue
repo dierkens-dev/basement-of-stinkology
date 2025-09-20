@@ -1,9 +1,6 @@
 <script lang="ts" setup>
 import { toTypedSchema } from "@vee-validate/zod";
-import {
-  EventsPostErrors,
-  eventsPostBodySchema,
-} from "~/server/api/events/-index.post.schema";
+import { type EventsPostErrors, eventsPostBodySchema } from "~/features/events";
 import { FetchError } from "ofetch";
 import { componentBindsConfig } from "~/features/forms";
 import { useForm } from "vee-validate";

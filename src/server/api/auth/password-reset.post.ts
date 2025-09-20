@@ -1,7 +1,6 @@
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "~/features/auth";
+import { auth, passwordResetPostSchema } from "~/features/auth";
 import { defineValidatedEventHandler } from "~/server/utils/validated-handler.server";
-import { passwordResetPostSchema } from "./-password-reset.post.schema";
 
 export default defineValidatedEventHandler(
   passwordResetPostSchema,
