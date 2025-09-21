@@ -2,7 +2,6 @@ import clsx from "clsx";
 import type { SelectHTMLAttributes } from "vue";
 import { defaultProps } from "~/utils/html-attributes.util";
 import FormControl from "./FormControl";
-import {} from "./Input";
 import Label from "./Label";
 
 export default defineComponent({

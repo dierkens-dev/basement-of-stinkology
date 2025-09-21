@@ -23,8 +23,8 @@ importers:
         specifier: 0.5.10
         version: 0.5.10(tailwindcss@3.4.17)
       "@vee-validate/zod":
-        specifier: 4.11.8
-        version: 4.11.8(vue@3.5.21(typescript@5.2.2))
+        specifier: 4.15.1
+        version: 4.15.1(vue@3.5.21(typescript@5.2.2))(zod@4.1.9)
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
@@ -53,7 +53,7 @@ importers:
         specifier: 2.7.4
         version: 2.7.4
       nuxt:
-        specifier: ^3.7.4
+        specifier: 3.19.2
         version: 3.19.2(@parcel/watcher@2.5.1)(@types/node@18.19.127)(@vue/compiler-sfc@3.5.21)(db0@0.3.2)(encoding@0.1.13)(eslint@8.57.1)(ioredis@5.7.0)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.52.0)(terser@5.44.0)(typescript@5.2.2)(vite@4.5.14(@types/node@18.19.127)(terser@5.44.0))(yaml@2.8.1)
       oh-vue-icons:
         specifier: 1.0.0-rc3
@@ -68,11 +68,11 @@ importers:
         specifier: 5.0.5
         version: 5.0.5
       vee-validate:
-        specifier: 4.11.8
-        version: 4.11.8(vue@3.5.21(typescript@5.2.2))
+        specifier: 4.15.1
+        version: 4.15.1(vue@3.5.21(typescript@5.2.2))
       zod:
-        specifier: 3.22.4
-        version: 3.22.4
+        specifier: 4.1.9
+        version: 4.1.9
     devDependencies:
       "@nuxt/devtools":
         specifier: 1.0.0-beta.0
@@ -3512,11 +3512,13 @@ packages:
     peerDependencies:
       vue: ">=3.5.18"
 
-  "@vee-validate/zod@4.11.8":
+  "@vee-validate/zod@4.15.1":
     resolution:
       {
-        integrity: sha512-qAyqDEigklMf669ZqIw9t95g0Ipzu9rMYUqcZpANlCvyaIAeBlJGcsv+2CewlqgwuC6BL9EAURLJ8Ux5WlBgXg==,
+        integrity: sha512-329Z4TDBE5Vx0FdbA8S4eR9iGCFFUNGbxjpQ20ff5b5wGueScjocUIx9JHPa79LTG06RnlUR4XogQsjN4tecKA==,
       }
+    peerDependencies:
+      zod: ^3.24.0
 
   "@vercel/nft@0.30.1":
     resolution:
@@ -3629,6 +3631,12 @@ packages:
     resolution:
       {
         integrity: sha512-sGhTPMuXqZ1rVOk32RylztWkfXTRhuS7vgAKv0zjqk8gbsHkJ7xfFf+jbySxt7tWObEJwyKaHMikV/WGDiQm8g==,
+      }
+
+  "@vue/devtools-api@7.7.7":
+    resolution:
+      {
+        integrity: sha512-lwOnNBH2e7x1fIIbVT7yF5D+YWhqELm55/4ZKf45R9T8r9dE2AIOy8HKjfqzGsoTHFbWbr337O4E0A0QADnjBg==,
       }
 
   "@vue/devtools-core@7.7.7":
@@ -11685,13 +11693,13 @@ packages:
       }
     engines: { node: ">= 0.8" }
 
-  vee-validate@4.11.8:
+  vee-validate@4.15.1:
     resolution:
       {
-        integrity: sha512-ZuVpw0axWYBM3aVTD/bm94hcWHumqeUgNjptOqfBT0gyqyHaGYCrm0tSD/0bygEbWUDwEPJOQaEKaUGM82j8TQ==,
+        integrity: sha512-DkFsiTwEKau8VIxyZBGdO6tOudD+QoUBPuHj3e6QFqmbfCRj1ArmYWue9lEp6jLSWBIw4XPlDLjFIZNLdRAMSg==,
       }
     peerDependencies:
-      vue: ^3.3.4
+      vue: ^3.4.26
 
   verror@1.10.0:
     resolution:
@@ -12288,10 +12296,10 @@ packages:
       }
     engines: { node: ">= 14" }
 
-  zod@3.22.4:
+  zod@4.1.9:
     resolution:
       {
-        integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==,
+        integrity: sha512-HI32jTq0AUAC125z30E8bQNz0RQ+9Uc+4J7V97gLYjZVKRjeydPgGt6dvQzFrav7MYOUGFqqOGiHpA/fdbd0cQ==,
       }
 
 snapshots:
@@ -14698,11 +14706,11 @@ snapshots:
       unhead: 2.0.17
       vue: 3.5.21(typescript@5.2.2)
 
-  "@vee-validate/zod@4.11.8(vue@3.5.21(typescript@5.2.2))":
+  "@vee-validate/zod@4.15.1(vue@3.5.21(typescript@5.2.2))(zod@4.1.9)":
     dependencies:
       type-fest: 4.41.0
-      vee-validate: 4.11.8(vue@3.5.21(typescript@5.2.2))
-      zod: 3.22.4
+      vee-validate: 4.15.1(vue@3.5.21(typescript@5.2.2))
+      zod: 4.1.9
     transitivePeerDependencies:
       - vue
 
@@ -14824,6 +14832,10 @@ snapshots:
       he: 1.2.0
 
   "@vue/devtools-api@6.6.4": {}
+
+  "@vue/devtools-api@7.7.7":
+    dependencies:
+      "@vue/devtools-kit": 7.7.7
 
   "@vue/devtools-core@7.7.7(vite@4.5.14(@types/node@18.19.127)(terser@5.44.0))(vue@3.5.21(typescript@5.2.2))":
     dependencies:
@@ -20440,9 +20452,9 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vee-validate@4.11.8(vue@3.5.21(typescript@5.2.2)):
+  vee-validate@4.15.1(vue@3.5.21(typescript@5.2.2)):
     dependencies:
-      "@vue/devtools-api": 6.6.4
+      "@vue/devtools-api": 7.7.7
       type-fest: 4.41.0
       vue: 3.5.21(typescript@5.2.2)
 
@@ -20864,4 +20876,4 @@ snapshots:
       compress-commons: 6.0.2
       readable-stream: 4.7.0
 
-  zod@3.22.4: {}
+  zod@4.1.9: {}

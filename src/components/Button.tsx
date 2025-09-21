@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 
-import { ButtonHTMLAttributes } from "vue";
+import { type ButtonHTMLAttributes } from "vue";
 import { defaultProps } from "~/utils/html-attributes.util";
 
 export default defineComponent({
