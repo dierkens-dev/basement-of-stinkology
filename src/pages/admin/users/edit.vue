@@ -6,7 +6,7 @@ import { componentBindsConfig } from "~/features/forms";
 import {
   type AdminUsersPatchErrors,
   adminUsersPatchBodySchema,
-} from "~/features/users/[id].patch.schema";
+} from "~/features/users";
 import { RoleLevel } from "~/services/prisma.client";
 import { escapeDialog } from "~/utils/escapeDialog";
 
