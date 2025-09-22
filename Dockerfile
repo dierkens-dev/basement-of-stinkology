@@ -1,5 +1,10 @@
+FROM node:24.8.0 AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
 # Production Dependencies
-FROM node:24.8.0 AS dependencies
+FROM base AS dependencies
 WORKDIR /dependencies
 
 COPY package.json ./
@@ -9,7 +14,7 @@ COPY prisma/schema.prisma ./prisma/schema.prisma
 RUN pnpm install --prod --frozen-lockfile
 
 # Production Build
-FROM node:24.8.0 AS build
+FROM base AS build
 WORKDIR /build
 
 COPY package.json ./
@@ -22,7 +27,7 @@ COPY . .
 RUN pnpm run build
 
 # Application
-FROM node:24.8.0 AS application
+FROM base AS application
 
 # Copy production dependencies
 COPY --from=dependencies /dependencies/package.json ./package.json

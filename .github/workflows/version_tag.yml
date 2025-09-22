@@ -27,9 +27,12 @@ jobs:
     needs: migrate
     steps:
       - uses: actions/checkout@v4.3.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.1.0
       - uses: actions/setup-node@v4.4.0
         with:
           node-version-file: .nvmrc
+          cache: "pnpm"
       - run: pnpm install
       - id: "auth"
         uses: "google-github-actions/auth@v2.1.13"
