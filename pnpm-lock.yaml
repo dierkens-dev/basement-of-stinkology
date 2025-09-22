@@ -40,6 +40,9 @@ importers:
       folder-hash:
         specifier: 4.0.4
         version: 4.0.4
+      husky:
+        specifier: ^8.0.3
+        version: 8.0.3
       moviedb-promise:
         specifier: 4.0.3
         version: 4.0.3
@@ -125,9 +128,6 @@ importers:
       eslint-config-prettier:
         specifier: ^9.0.0
         version: 9.1.2(eslint@8.57.1)
-      husky:
-        specifier: ^8.0.3
-        version: 8.0.3
       lint-staged:
         specifier: ^14.0.1
         version: 14.0.1(enquirer@2.4.1)
