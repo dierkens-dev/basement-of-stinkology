@@ -8,14 +8,14 @@ Web app for the Basement of Stinkology.
 
 Install the following software
 
-- [Yarn Classic](https://classic.yarnpkg.com/lang/en/docs/install/)
+- [PNPM](https://pnpm.io/installation)
 
 ### Application Development
 
 #### Setup
 
 ```
-yarn install
+pnpm install
 ```
 
 ##### Create a `.env` file
@@ -40,7 +40,7 @@ BOS_THE_MOVIE_DB_API_TOKEN=<bos-the-movie-db-api-key>
 Start the development server on `http://localhost:3000`:
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 ### Infrastructure Development
@@ -69,7 +69,7 @@ gcloud auth application-default login
 
 ```
 pulumi login gs://bos-pulumi-state-bucket
-yarn pulumi stack select development
+pnpm pulumi stack select dev
 ```
 
 #### Commands
@@ -77,11 +77,11 @@ yarn pulumi stack select development
 ##### Deploy
 
 ```
-yarn pulumi up
+pnpm pulumi up
 ```
 
 ##### Tear Down
 
 ```
-yarn pulumi down
+pnpm pulumi down
 ```

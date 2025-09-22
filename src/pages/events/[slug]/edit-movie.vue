@@ -3,9 +3,9 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { FetchError } from "ofetch";
 import { useForm } from "vee-validate";
 import {
-  EventMoviePatchErrors,
+  type EventMoviePatchErrors,
   eventMoviePatchBodySchema,
-} from "~/server/api/movie-views/-[id].patch.schema";
+} from "~/features/movies";
 import { escapeDialog } from "~/utils/escapeDialog";
 const { query, params } = useRoute();
 

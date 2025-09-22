@@ -14,7 +14,7 @@ import {
   componentBindsConfig,
   passwordSchema,
 } from "~/features/forms";
-import { PasswordUpdateErrors } from "~/server/api/auth/password-update.post";
+import type { PasswordUpdateErrors } from "~/features/auth";
 import { readFetchError } from "~/utils/read-fetch-error.util";
 
 useHead({

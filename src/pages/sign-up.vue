@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { toTypedSchema } from "@vee-validate/zod";
 import { FetchError } from "ofetch";
-import { PublicPathState, useForm } from "vee-validate";
+import { type PublicPathState, useForm } from "vee-validate";
 import { z } from "zod";
 import { emailSchema, passwordSchema } from "~/features/forms";
-import { SignUpErrors } from "~/server/api/auth/sign-up.post";
+import type { SignUpErrors } from "~/server/api/auth/sign-up.post";
 import { readFetchError } from "~/utils/read-fetch-error.util";
 
 useHead({

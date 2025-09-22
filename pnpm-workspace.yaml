@@ -1,0 +1,10 @@
+onlyBuiltDependencies:
+  - "@firebase/util"
+  - "@prisma/client"
+  - "@prisma/engines"
+  - cypress
+  - esbuild
+  - prisma
+  - protobufjs
+  - unrs-resolver
+  - vue-demi

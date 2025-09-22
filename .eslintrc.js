@@ -15,6 +15,7 @@ module.exports = {
       files: ["src/components/**/*.tsx"],
       rules: {
         "vue/prop-name-casing": "off",
+        "vue/multi-word-component-names": "off",
       },
     },
   ],

@@ -1,6 +1,6 @@
+import { adminUsersPostBodySchema } from "~/features/users";
 import { prisma } from "~/services/prisma.server";
 import { sendEmailInvitation } from "~/utils/email.util";
-import { adminUsersPostBodySchema } from "./-[id].post.schema";
 
 export default defineValidatedEventHandler(
   adminUsersPostBodySchema,

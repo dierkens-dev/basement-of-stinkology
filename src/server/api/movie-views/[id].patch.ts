@@ -1,5 +1,5 @@
+import { eventMoviePatchBodySchema } from "~/features/movies";
 import { prisma } from "~/services/prisma.server";
-import { eventMoviePatchBodySchema } from "./-[id].patch.schema";
 
 export default defineValidatedEventHandler(
   eventMoviePatchBodySchema,

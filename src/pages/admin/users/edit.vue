@@ -4,9 +4,9 @@ import { FetchError } from "ofetch";
 import { useForm } from "vee-validate";
 import { componentBindsConfig } from "~/features/forms";
 import {
-  AdminUsersPatchErrors,
+  type AdminUsersPatchErrors,
   adminUsersPatchBodySchema,
-} from "~/server/api/admin/users/-[id].patch.schema";
+} from "~/features/users";
 import { RoleLevel } from "~/services/prisma.client";
 import { escapeDialog } from "~/utils/escapeDialog";
 

@@ -1,28 +1,33 @@
+FROM node:24.8.0 AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
 # Production Dependencies
-FROM node:18.13.0 as dependencies
+FROM base AS dependencies
 WORKDIR /dependencies
 
 COPY package.json ./
-COPY yarn.lock ./
+COPY pnpm-lock.yaml ./
 COPY prisma/schema.prisma ./prisma/schema.prisma
 
-RUN yarn install --production --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile
 
 # Production Build
-FROM node:18.13.0 as build
+FROM base AS build
 WORKDIR /build
 
 COPY package.json ./
-COPY yarn.lock ./
+COPY pnpm-lock.yaml ./
 
-RUN yarn install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN yarn run build
+RUN pnpm run build
 
 # Application
-FROM node:18.13.0 as application
+FROM base AS application
 
 # Copy production dependencies
 COPY --from=dependencies /dependencies/package.json ./package.json
@@ -36,4 +41,4 @@ EXPOSE 8080
 ENV HOST=0.0.0.0
 ENV PORT=8080
 
-ENTRYPOINT [ "yarn", "start" ]
+ENTRYPOINT [ "pnpm", "start" ]

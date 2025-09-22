@@ -1,4 +1,4 @@
-import { ComponentBindsConfig, GenericObject } from "vee-validate";
+import type { ComponentBindsConfig, GenericObject } from "vee-validate";
 
 export const componentBindsConfig: Partial<
   ComponentBindsConfig<string, GenericObject, "value">
