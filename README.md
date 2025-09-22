@@ -69,7 +69,7 @@ gcloud auth application-default login
 
 ```
 pulumi login gs://bos-pulumi-state-bucket
-yarn pulumi stack select dev
+pnpm pulumi stack select dev
 ```
 
 #### Commands

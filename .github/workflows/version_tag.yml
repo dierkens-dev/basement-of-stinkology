@@ -19,8 +19,8 @@ jobs:
         with:
           creds: ${{ secrets.GCP_CREDENTIAL }}
           instance: basement-of-stinkology:us-central1:bos-postgres-instance-a04d6d6
-      - run: yarn install
-      - run: yarn prisma migrate deploy
+      - run: pnpm install
+      - run: pnpm prisma migrate deploy
   deploy:
     name: Deploy Production
     runs-on: ubuntu-24.04
@@ -30,7 +30,7 @@ jobs:
       - uses: actions/setup-node@v4.4.0
         with:
           node-version-file: .nvmrc
-      - run: yarn install
+      - run: pnpm install
       - id: "auth"
         uses: "google-github-actions/auth@v2.1.13"
         with:
