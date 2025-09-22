@@ -3,19 +3,19 @@ on: pull_request
 jobs:
   deploy:
     name: Preview Development
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3.5.0
+      - uses: actions/checkout@v4.3.0
+      - uses: actions/setup-node@v4.4.0
         with:
           node-version-file: .nvmrc
       - run: yarn install
       - id: "auth"
-        uses: "google-github-actions/auth@v1"
+        uses: "google-github-actions/auth@v2.1.13"
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIAL }}
       - run: gcloud auth configure-docker gcr.io
-      - uses: pulumi/actions@v3
+      - uses: pulumi/actions@v5.5.1
         with:
           cloud-url: gs://bos-pulumi-state-bucket
           command: preview
