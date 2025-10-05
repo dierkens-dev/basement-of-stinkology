@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
   if (bosEvent.activeEvent) {
     return {
-      data: bosEvent.activeEvent,
+      data: bosEvent,
     };
   }
 
