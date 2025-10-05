@@ -29,6 +29,15 @@ const user = data.value?.user;
       class="fixed right-3 bottom-3 z-10 flex gap-3"
     >
       <NuxtLink
+        v-if="isAdmin(user) && !event?.data?.activeEvent"
+        class="btn btn-circle btn-success"
+        :to="`/events/${slug}/set-event-active`"
+      >
+        <v-icon name="px-forward" />
+        <span class="sr-only">Set Event Active</span>
+      </NuxtLink>
+
+      <NuxtLink
         v-if="isAdmin(user)"
         class="btn btn-circle btn-accent"
         :to="`/events/${slug}/lock-event`"
@@ -53,6 +62,7 @@ const user = data.value?.user;
         <span class="sr-only">Log Movie</span>
       </NuxtLink>
     </div>
+
     <div
       v-else-if="isAdmin(user) && event?.data?.isLocked"
       class="fixed right-3 bottom-3 z-10 flex gap-3"

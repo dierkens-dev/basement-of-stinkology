@@ -3,7 +3,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 export type {
   $Enums,
   Event,
-  MovieView,
+  MovieViewing,
   User,
   UserWatchListMovie,
 } from "@prisma/client";
