@@ -11,7 +11,9 @@ const { query, params } = useRoute();
 
 const slug = params.slug;
 
-const { data: movieView } = await useFetch(`/api/movie-views/${query.id}`);
+const { data: movieViewing } = await useFetch(
+  `/api/movie-viewings/${query.id}`,
+);
 
 const validationSchema = toTypedSchema(eventMoviePatchBodySchema);
 
@@ -37,18 +39,18 @@ const {
   validationSchema,
   // Already loaded
   initialValues: {
-    viewDateTime: movieView.value?.viewDateTime ?? undefined,
+    viewingTime: movieViewing.value?.viewingTime ?? undefined,
   },
 });
 
 // First time loading
-watch(movieView, async (values) => {
+watch(movieViewing, async (values) => {
   setValues({
-    viewDateTime: values?.viewDateTime ?? undefined,
+    viewingTime: values?.viewingTime ?? undefined,
   });
 });
 
-const viewDateTime = defineComponentBinds("viewDateTime", {
+const viewingTime = defineComponentBinds("viewingTime", {
   model: "value",
   mapProps: ({ errors, value }) => {
     return {
@@ -67,17 +69,17 @@ const onSubmit = handleSubmit(async (values) => {
     await $fetch(`/api/movie-views/${query.id}`, {
       method: "PATCH",
       body: {
-        viewDateTime:
-          typeof values.viewDateTime === "string"
-            ? new Date(values.viewDateTime).toISOString()
-            : values.viewDateTime,
+        viewingTime:
+          typeof values.viewingTime === "string"
+            ? new Date(values.viewingTime).toISOString()
+            : values.viewingTime,
       },
     });
 
     await navigateTo(
       {
         path: `/events/${slug}`,
-        hash: `#${movieView.value?.movie.id}`,
+        hash: `#${movieViewing.value?.movie.id}`,
       },
       {
         // Workaround for now to reload the page and scroll to added movie.
@@ -108,14 +110,14 @@ const { path } = useRoute();
     open
     @keydown.esc="escapeDialog(path)"
   >
-    <div v-if="movieView" class="modal-box prose">
-      <h2>Edit {{ movieView.movie.title }} View</h2>
+    <div v-if="movieViewing" class="modal-box prose">
+      <h2>Edit {{ movieViewing.movie.title }} View</h2>
 
       <form autocomplete="off" novalidate @submit="onSubmit">
         <TextField
-          v-bind="viewDateTime"
+          v-bind="viewingTime"
           label="Watch Time"
-          name="viewDateTime"
+          name="viewingTime"
           type="datetime-local"
           auto-focus
         />

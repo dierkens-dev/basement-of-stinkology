@@ -7,7 +7,7 @@ export default defineValidatedEventHandler(
     const id = getRouterParam(event, "id");
     const body = await readBody(event);
 
-    return prisma.movieView.update({
+    return prisma.movieViewing.update({
       where: {
         id,
       },

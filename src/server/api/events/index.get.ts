@@ -4,15 +4,15 @@ export default defineEventHandler(async () => {
   const data = await prisma.event.findMany({
     select: {
       createdAt: true,
-      date: true,
       id: true,
       name: true,
       slug: true,
       isLocked: true,
+      year: true,
       _count: {
-        select: { MovieViews: true },
+        select: { movieViewing: true },
       },
-      MovieViews: {
+      movieViewing: {
         select: {
           movie: {
             select: {
@@ -26,11 +26,11 @@ export default defineEventHandler(async () => {
 
   return {
     data: data
-      .map(({ MovieViews, ...event }) => {
+      .map(({ movieViewing, ...event }) => {
         return {
           ...event,
           _sum: {
-            runtime: MovieViews.reduce(
+            runtime: movieViewing.reduce(
               (sum, view) =>
                 typeof view.movie.runtime === "number"
                   ? sum + view.movie.runtime

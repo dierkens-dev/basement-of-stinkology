@@ -6,10 +6,10 @@ export default defineEventHandler(async (event) => {
   const data = await prisma.event.findFirst({
     where: { slug },
     select: {
-      MovieViews: {
+      movieViewing: {
         select: {
           id: true,
-          viewDateTime: true,
+          viewingTime: true,
           movie: {
             select: {
               id: true,
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
           },
         },
         orderBy: {
-          viewDateTime: "asc",
+          viewingTime: "asc",
         },
       },
     },

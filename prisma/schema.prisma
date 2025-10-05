@@ -49,12 +49,11 @@ model Event {
 
   slug        String    @unique
   name        String
-  date        DateTime?
   backdropUrl String?
   isLocked    Boolean   @default(false)
+  year        Int 
 
-  // TODO Lowercase this
-  MovieViews MovieView[]
+  movieViewing MovieViewing[]
 }
 
 model Movie {
@@ -62,8 +61,7 @@ model Movie {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // TODO Lowercase this
-  MovieViews MovieView[]
+  movieViewing MovieViewing[]
 
   moviedbJson Json?
 
@@ -71,12 +69,12 @@ model Movie {
   watchListMovies UserWatchListMovie[]
 }
 
-model MovieView {
+model MovieViewing {
   id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  viewDateTime DateTime
+  viewingTime DateTime
 
   event   Event  @relation(fields: [eventId], references: [id])
   eventId String @db.Uuid

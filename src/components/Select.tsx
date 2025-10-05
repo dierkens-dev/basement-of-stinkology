@@ -16,7 +16,7 @@ export default defineComponent({
       default: undefined,
     },
     errors: {
-      type: Array as PropType<string[]>,
+      type: Array as PropType<string[]> | PropType<string>,
       default: () => [],
     },
     autoFocus: {
@@ -54,6 +54,18 @@ export default defineComponent({
         }
       }
 
+      const errors = computed(() => {
+        if (Array.isArray(errors.value)) {
+          return errors.value;
+        }
+
+        if (typeof errors.value === "string" && errors.value.length) {
+          return [errors.value];
+        }
+
+        return [];
+      });
+
       return (
         <FormControl>
           <Label for={props.id}>{props.label}</Label>
@@ -61,7 +73,7 @@ export default defineComponent({
           <select
             autofocus={props.autoFocus}
             class={clsx("select select-bordered", {
-              "input-error": props.errors.length,
+              "input-error": errors.value.length,
             })}
             id={props.id}
             name={props.name}
@@ -74,8 +86,8 @@ export default defineComponent({
 
           {props.description && <div class="text-sm">{props.description}</div>}
 
-          {props.errors.length ? (
-            <div class="text-sm text-error py-2">{props.errors.join(" ")}</div>
+          {errors.value.length ? (
+            <div class="text-sm text-error py-2">{errors.value.join(" ")}</div>
           ) : null}
         </FormControl>
       );

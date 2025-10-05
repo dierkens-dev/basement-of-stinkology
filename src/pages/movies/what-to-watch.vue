@@ -73,12 +73,12 @@ async function handleAddMovieClick(moviedbId: number) {
           class="card card-side bg-base-100 shadow-xl flex-col grow xl:max-w-[50%] sm:flex-row basis-full xl:basis-5/12"
           :class="{
             'grayscale relative indicator opacity-50':
-              movie._count.MovieViews > 0,
-            hidden: !showWatched && movie._count.MovieViews > 0,
+              movie._count.movieViewing > 0,
+            hidden: !showWatched && movie._count.movieViewing > 0,
           }"
         >
           <span
-            v-if="movie._count.MovieViews > 0"
+            v-if="movie._count.movieViewing > 0"
             class="badge badge-primary indicator-item indicator-center indicator-middle px-8 h-12 text-xl gap-2"
             ><v-icon name="px-eye" scale="2.0" />Watched</span
           >

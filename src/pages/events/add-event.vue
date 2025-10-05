@@ -12,15 +12,14 @@ useHead({
 
 const validationSchema = toTypedSchema(eventsPostBodySchema);
 
-const { defineComponentBinds, handleSubmit, isSubmitting, setErrors } = useForm(
-  {
+const { defineComponentBinds, handleSubmit, isSubmitting, setErrors, errors } =
+  useForm({
     validationSchema,
-  },
-);
+  });
 
 const name = defineComponentBinds("name", componentBindsConfig);
 const slug = defineComponentBinds("slug", componentBindsConfig);
-const date = defineComponentBinds("date", componentBindsConfig);
+const year = defineComponentBinds("year", componentBindsConfig);
 
 const formErrors = ref<null | EventsPostErrors["formErrors"]>(null);
 
@@ -63,15 +62,27 @@ const onSubmit = handleSubmit(async (values) => {
       <h2>Add Event</h2>
 
       <form autocomplete="off" novalidate @submit="onSubmit">
-        <TextField v-bind="name" label="Name" name="name" auto-focus />
-
-        <TextField v-bind="slug" label="slug" name="slug" />
+        <TextField
+          v-bind="name"
+          :errors="errors.name"
+          label="Name"
+          name="name"
+          auto-focus
+        />
 
         <TextField
-          v-bind="date"
-          label="Date"
-          name="date"
-          type="datetime-local"
+          v-bind="slug"
+          :errors="errors.slug"
+          label="slug"
+          name="slug"
+        />
+
+        <TextField
+          v-bind="year"
+          :errors="errors.year"
+          label="Year"
+          name="year"
+          type="number"
         />
 
         <P

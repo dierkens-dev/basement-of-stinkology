@@ -43,14 +43,14 @@ export default defineValidatedEventHandler(
       });
     }
 
-    const movieView = await prisma.movieView.create({
+    const movieViewing = await prisma.movieViewing.create({
       data: {
-        viewDateTime: new Date(),
+        viewingTime: new Date(),
         eventId: bosEvent?.id,
         movieId: movie.id,
       },
       select: {
-        viewDateTime: true,
+        viewingTime: true,
         movie: {
           select: {
             id: true,
@@ -65,7 +65,7 @@ export default defineValidatedEventHandler(
     });
 
     return {
-      result: movieView,
+      result: movieViewing,
     };
   },
 );

@@ -75,12 +75,8 @@ const user = data.value?.user;
       <div class="hero-content text-center text-neutral-content">
         <div>
           <h1 class="mb-5 text-5xl font-bold">{{ event.data.name }}</h1>
-          <h2 v-if="event.data.date">
-            {{
-              new Date(event.data.date).toLocaleString(undefined, {
-                year: "numeric",
-              })
-            }}
+          <h2 v-if="event.data.year">
+            {{ event.data.year }}
           </h2>
         </div>
       </div>
@@ -89,7 +85,7 @@ const user = data.value?.user;
     <div class="container p-3 mx-auto my-3 w-screen sm:w-auto">
       <div v-if="movies?.data" class="flex flex-wrap gap-3 justify-center">
         <MovieCard
-          v-for="{ movie, viewDateTime, id } in movies.data.MovieViews"
+          v-for="{ movie, viewingTime, id } in movies.data.movieViewing"
           :id="movie.id"
           :key="movie.id"
           tabindex="0"
@@ -103,7 +99,7 @@ const user = data.value?.user;
             <span class="py-2">
               <v-icon scale="1.5" name="px-eye" />
               {{
-                new Date(viewDateTime).toLocaleString(undefined, {
+                new Date(viewingTime).toLocaleString(undefined, {
                   weekday: "short",
                   hour: "numeric",
                   minute: "numeric",

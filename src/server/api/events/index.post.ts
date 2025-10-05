@@ -4,13 +4,13 @@ import { prisma } from "~/services/prisma.server";
 export default defineValidatedEventHandler(
   eventsPostBodySchema,
   async (event) => {
-    const { date, name, slug } = await readBody(event);
+    const { year, name, slug } = await readBody(event);
 
     return await prisma.event.create({
       data: {
         name,
         slug,
-        date,
+        year,
       },
     });
   },

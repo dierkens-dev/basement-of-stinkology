@@ -7,7 +7,9 @@ const { query, params } = useRoute();
 
 const slug = params.slug;
 
-const { data: movieView } = await useFetch(`/api/movie-views/${query.id}`);
+const { data: movieViewing } = await useFetch(
+  `/api/movie-viewings/${query.id}`,
+);
 
 const isSubmitting = ref(false);
 async function handleConfirm() {
@@ -25,7 +27,7 @@ async function handleConfirm() {
 
     await $toast.show({
       title: `Remove successful`,
-      message: `"${movieView.value?.movie.title}" has been successfully removed`,
+      message: `"${movieViewing.value?.movie.title}" has been successfully removed`,
     });
   } finally {
     isSubmitting.value = false;
@@ -43,10 +45,10 @@ const { path } = useRoute();
     open
     @keydown.esc="escapeDialog(path)"
   >
-    <div v-if="movieView" class="modal-box prose">
+    <div v-if="movieViewing" class="modal-box prose">
       <h2>Remove Movie</h2>
       <p>
-        You are about to remove <strong>{{ movieView.movie.title }}.</strong>
+        You are about to remove <strong>{{ movieViewing.movie.title }}.</strong>
       </p>
       <div class="modal-action">
         <NuxtLink to="/admin/users" class="btn btn-secondary">Cancel</NuxtLink>

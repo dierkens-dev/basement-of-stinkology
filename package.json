@@ -15,7 +15,7 @@
     "start": "node .output/server/index.mjs",
     "typecheck": "nuxi typecheck",
     "precodegen": "rimraf src/features/movies/lib/moviedb",
-    "codegen": "openapi -i \"https://developer.themoviedb.org/openapi/64542913e1f86100738e227f\" -o src/features/movies/lib/moviedb --useOptions --useUnionTypes --name MovieDbClient",
+    "codegen": "openapi -i \"https://developer.themoviedb.org/openapi/tmdb-api.json\" -o src/features/movies/lib/moviedb --useOptions --useUnionTypes --name MovieDbClient",
     "prepare": "husky install",
     "migrate": "prisma migrate dev"
   },

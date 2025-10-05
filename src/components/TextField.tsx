@@ -16,7 +16,7 @@ export default defineComponent({
       default: undefined,
     },
     errors: {
-      type: Array as PropType<string[]>,
+      type: Array as PropType<string[]> | PropType<string>,
       default: () => [],
     },
     ...inputProps,
@@ -35,13 +35,25 @@ export default defineComponent({
         }
       }
 
+      const errors = computed(() => {
+        if (Array.isArray(props.errors)) {
+          return props.errors;
+        }
+
+        if (typeof props.errors === "string" && props.errors.length) {
+          return [props.errors];
+        }
+
+        return [];
+      });
+
       return (
         <FormControl>
           <Label for={props.id}>{props.label}</Label>
 
           <Input
             autoFocus={props.autoFocus}
-            class={clsx({ "input-error": props.errors.length })}
+            class={clsx({ "input-error": errors.value.length })}
             id={props.id}
             name={props.name}
             type={props.type}
@@ -52,8 +64,8 @@ export default defineComponent({
 
           {props.description && <div class="text-sm">{props.description}</div>}
 
-          {props.errors.length ? (
-            <div class="text-sm text-error py-2">{props.errors.join(" ")}</div>
+          {errors.value.length ? (
+            <div class="text-sm text-error py-2">{errors.value.join(" ")}</div>
           ) : null}
 
           {context.slots.default && context.slots.default()}

@@ -8,11 +8,11 @@ export default defineEventHandler(async (event) => {
     select: {
       backdropUrl: true,
       createdAt: true,
-      date: true,
       id: true,
       isLocked: true,
       name: true,
       slug: true,
+      year: true,
     },
   });
 

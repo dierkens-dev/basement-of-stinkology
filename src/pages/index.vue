@@ -22,11 +22,7 @@ const { data } = useFetch("/api/events");
             /></span>
             <span>
               {{ event.name }}
-              <span v-if="event.date" class="text-sm">{{
-                new Date(event.date).toLocaleString(undefined, {
-                  year: "numeric",
-                })
-              }}</span>
+              <span v-if="event.year" class="text-sm">{{ event.year }}</span>
             </span>
             <span v-if="event.isLocked"
               ><v-icon scale="1.15" name="px-lock"
@@ -36,7 +32,7 @@ const { data } = useFetch("/api/events");
         <div class="stats">
           <div class="stat">
             <div class="stat-value text-primary">
-              {{ event._count.MovieViews }}
+              {{ event._count.movieViewing }}
             </div>
             <div class="stat-title">Movies Watched</div>
           </div>

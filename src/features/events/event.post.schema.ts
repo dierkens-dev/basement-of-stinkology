@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const eventsPostBodySchema = z.object({
-  date: z.coerce.date(),
+  year: z.coerce.number(),
   name: z.string(),
   slug: z.string(),
 });
