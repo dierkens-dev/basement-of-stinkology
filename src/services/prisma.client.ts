@@ -1,6 +1,6 @@
 import type { Role, User } from "@prisma/client";
 
-export { Role };
+export type { Role };
 
 export const RoleLevel: Record<Role, number> = {
   VIEWER: 100,

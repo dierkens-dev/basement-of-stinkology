@@ -6,6 +6,7 @@ export default defineEventHandler(async (event) => {
   const data = await prisma.event.findFirst({
     where: { slug },
     select: {
+      activeEvent: true,
       backdropUrl: true,
       createdAt: true,
       id: true,

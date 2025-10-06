@@ -47,13 +47,20 @@ model Event {
   // TODO: Make this work (it threw an error)
   // updatedAt DateTime @updatedAt
 
-  slug        String    @unique
+  slug        String  @unique
   name        String
   backdropUrl String?
-  isLocked    Boolean   @default(false)
-  year        Int 
+  isLocked    Boolean @default(false)
+  year        Int
 
   movieViewing MovieViewing[]
+  activeEvent  ActiveEvent?
+}
+
+model ActiveEvent {
+  id      Int     @id @default(1) // singleton ID
+  event   Event?  @relation(fields: [eventId], references: [id])
+  eventId String? @unique @db.Uuid
 }
 
 model Movie {

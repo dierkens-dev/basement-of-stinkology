@@ -3,6 +3,7 @@ import { prisma } from "~/services/prisma.server";
 export default defineEventHandler(async () => {
   const data = await prisma.event.findMany({
     select: {
+      activeEvent: true,
       createdAt: true,
       id: true,
       name: true,
