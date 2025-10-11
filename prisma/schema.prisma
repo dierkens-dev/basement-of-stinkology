@@ -63,8 +63,8 @@ model Event {
 
 model ActiveEvent {
   id      Int     @id @default(1) // singleton ID
-  event   Event?  @relation(fields: [eventId], references: [id])
-  eventId String? @unique @db.Uuid
+  event   Event   @relation(fields: [eventId], references: [id])
+  eventId String  @unique @db.Uuid
 }
 
 model Movie {
