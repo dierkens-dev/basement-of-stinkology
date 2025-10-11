@@ -28,6 +28,19 @@ export default defineValidatedEventHandler(
       });
     }
 
+    const activeEvent = await prisma.activeEvent.findFirst({
+      where: { id: 1 },
+      select: { eventId: true },
+    });
+
+    if (!activeEvent) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Internal Server Error",
+        cause: "No active event",
+      });
+    }
+
     const userWatchListMovie = await prisma.userWatchListMovie.upsert({
       where: {
         userId_movieId: {
@@ -36,7 +49,11 @@ export default defineValidatedEventHandler(
         },
       },
       update: {},
-      create: { userId: event.context.user.id, movieId: movie.id },
+      create: {
+        userId: event.context.user.id,
+        movieId: movie.id,
+        eventId: activeEvent.eventId,
+      },
       select: {
         movie: {
           select: {
