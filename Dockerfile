@@ -42,15 +42,10 @@ RUN pnpm run build
 # 3. Application Runtime
 # -----------------------------
 FROM base AS application
-WORKDIR /app
 
 # Copy production dependencies including generated Prisma client
-COPY --from=dependencies /dependencies/node_modules ./node_modules
 COPY --from=dependencies /dependencies/package.json ./package.json
-
-# Important: copy Prisma client engine files too
-COPY --from=dependencies /dependencies/node_modules/.prisma ./node_modules/.prisma
-COPY --from=dependencies /dependencies/node_modules/@prisma ./node_modules/@prisma
+COPY --from=dependencies /dependencies/node_modules ./node_modules
 
 # Copy built Nuxt output
 COPY --from=build /build/.output ./.output
