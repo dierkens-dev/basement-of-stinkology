@@ -171,19 +171,22 @@ const refresh = async (event: any) => {
         </li>
 
         <li><NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink></li>
+
+        <li v-if="isEditor(user)" class="menu-title">
+          <span class="divider my-1"></span>
+        </li>
+
+        <li v-if="isEditor(user)" class="menu-title">
+          <span>Watch Lists</span>
+        </li>
+
         <li v-if="isEditor(user)">
-          <NuxtLink to="/users/me/watch-list" class="flex items-center">
-            <span>{{ activeEvent?.data?.name || "Current Event" }}</span>
-            <span class="divider divider-horizontal mx-1"></span>
-            <span class="text-sm opacity-70">Current</span>
+          <NuxtLink to="/users/me/watch-list">
+            {{ activeEvent?.data?.name || "Current Event" }}
           </NuxtLink>
         </li>
         <li v-if="isEditor(user)">
-          <NuxtLink to="/users/me/default-watch-list" class="flex items-center">
-            <span>Default</span>
-            <span class="divider divider-horizontal mx-1"></span>
-            <span class="text-sm opacity-70">Legacy</span>
-          </NuxtLink>
+          <NuxtLink to="/users/me/default-watch-list"> Default </NuxtLink>
         </li>
 
         <li v-if="user" class="menu-title">
