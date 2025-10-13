@@ -15,7 +15,7 @@ const isSubmitting = ref(false);
 async function handleConfirm() {
   try {
     isSubmitting.value = true;
-    await $fetch(`/api/movie-views/${query.id}`, {
+    await $fetch(`/api/movie-viewings/${query.id}`, {
       method: "DELETE",
     });
 

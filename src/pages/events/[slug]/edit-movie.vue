@@ -66,7 +66,7 @@ const onSubmit = handleSubmit(async (values) => {
   formErrors.value = [];
 
   try {
-    await $fetch(`/api/movie-views/${query.id}`, {
+    await $fetch(`/api/movie-viewings/${query.id}`, {
       method: "PATCH",
       body: {
         viewingTime:
