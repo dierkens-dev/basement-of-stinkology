@@ -93,6 +93,17 @@ const user = data.value?.user;
     </div>
 
     <div class="container p-3 mx-auto my-3 w-screen sm:w-auto">
+      <!-- Event Navigation -->
+      <div class="mb-6 flex justify-center">
+        <NuxtLink
+          :to="`/events/${slug}/watch-list`"
+          class="btn btn-outline btn-primary gap-2"
+        >
+          <v-icon name="px-list" />
+          View Watch List
+        </NuxtLink>
+      </div>
+
       <div v-if="movies?.data" class="flex flex-wrap gap-3 justify-center">
         <MovieCard
           v-for="{ movie, viewingTime, id } in movies.data.movieViewing"
