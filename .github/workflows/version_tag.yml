@@ -11,6 +11,8 @@ jobs:
       BOS_DATABASE_URL: ${{ secrets.BOS_DATABASE_URL }}
     steps:
       - uses: actions/checkout@v4.3.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.1.0
       - uses: actions/setup-node@v4.4.0
         with:
           node-version-file: .nvmrc
