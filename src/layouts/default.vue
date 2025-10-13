@@ -5,6 +5,7 @@ const { data } = useAuth();
 const route = useRoute();
 
 const user = data.value?.user;
+const { data: activeEvent } = await useFetch("/api/events/active");
 const refresh = async (event: any) => {
   try {
     const { data, pending, error } = await useFetch(`/api/admin/sync/sync`, {
@@ -45,33 +46,39 @@ const refresh = async (event: any) => {
         <div class="navbar-end gap-2">
           <div class="hidden lg:flex">
             <ul class="menu menu-horizontal px-1 items-center gap-2">
-              <li>
-                <NuxtLink to="/events">Events</NuxtLink>
+              <li v-if="isEditor(user)">
+                <details class="dropdown">
+                  <summary class="m-1 btn-ghost cursor-pointer">
+                    Watch Lists
+                  </summary>
+                  <ul
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-64 p-2 shadow !mt-0"
+                  >
+                    <li>
+                      <NuxtLink
+                        to="/users/me/watch-list"
+                        class="flex items-center"
+                      >
+                        {{ activeEvent?.data?.name }}
+                      </NuxtLink>
+                    </li>
+                    <li>
+                      <NuxtLink
+                        to="/users/me/watch-list/default"
+                        class="flex items-center"
+                      >
+                        Default
+                      </NuxtLink>
+                    </li>
+                  </ul>
+                </details>
               </li>
+
               <li>
                 <NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink>
               </li>
-              <li v-if="isEditor(user)">
-                <div class="dropdown dropdown-hover">
-                  <div tabindex="0" role="button" class="btn btn-ghost">
-                    Watch Lists
-                  </div>
-                  <ul
-                    tabindex="0"
-                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-                  >
-                    <li>
-                      <NuxtLink to="/users/me/watch-list"
-                        >Current Watch List</NuxtLink
-                      >
-                    </li>
-                    <li>
-                      <NuxtLink to="/users/me/watch-list/default"
-                        >Default Watch List</NuxtLink
-                      >
-                    </li>
-                  </ul>
-                </div>
+              <li>
+                <NuxtLink to="/events">Events</NuxtLink>
               </li>
 
               <div class="dropdown dropdown-end">
@@ -165,12 +172,18 @@ const refresh = async (event: any) => {
 
         <li><NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink></li>
         <li v-if="isEditor(user)">
-          <NuxtLink to="/users/me/watch-list">Current Watch List</NuxtLink>
+          <NuxtLink to="/users/me/watch-list" class="flex items-center">
+            <span>{{ activeEvent?.data?.name || "Current Event" }}</span>
+            <span class="divider divider-horizontal mx-1"></span>
+            <span class="text-sm opacity-70">Current</span>
+          </NuxtLink>
         </li>
         <li v-if="isEditor(user)">
-          <NuxtLink to="/users/me/watch-list/default"
-            >Default Watch List</NuxtLink
-          >
+          <NuxtLink to="/users/me/watch-list/default" class="flex items-center">
+            <span>Default</span>
+            <span class="divider divider-horizontal mx-1"></span>
+            <span class="text-sm opacity-70">Legacy</span>
+          </NuxtLink>
         </li>
 
         <li v-if="user" class="menu-title">
