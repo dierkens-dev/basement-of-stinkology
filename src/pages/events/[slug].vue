@@ -15,6 +15,9 @@ const { data: event } = useFetch(`/api/events/${slug}`, {
 const { data: movies } = useFetch(`/api/events/${slug}/movies`, {
   key: `${slug}/movies`,
 });
+const { data: watchListMovies } = useFetch(`/api/events/${slug}/watch-list`, {
+  key: `${slug}/watch-list`,
+});
 
 const { data } = useAuth();
 const user = data.value?.user;
@@ -93,73 +96,118 @@ const user = data.value?.user;
     </div>
 
     <div class="container p-3 mx-auto my-3 w-screen sm:w-auto">
-      <!-- Event Navigation -->
-      <div class="mb-6 flex justify-center">
-        <NuxtLink
-          :to="`/events/${slug}/watch-list`"
-          class="btn btn-outline btn-primary gap-2"
+      <!-- Movies Watched Section -->
+      <div class="mb-12">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold mb-2">Movies Watched</h2>
+          <p class="text-base-content/70">
+            Movies that were actually viewed during this event
+          </p>
+        </div>
+
+        <div
+          v-if="movies?.data && movies.data.movieViewing.length > 0"
+          class="flex flex-wrap gap-3 justify-center"
         >
-          <v-icon name="px-list" />
-          View Watch List
-        </NuxtLink>
+          <MovieCard
+            v-for="{ movie, viewingTime, id } in movies.data.movieViewing"
+            :id="movie.id"
+            :key="movie.id"
+            tabindex="0"
+            :movie="movie"
+            :is-new="hash.replace('#', '') === movie.id"
+            class="group"
+          >
+            <div
+              class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono flex justify-between items-center"
+            >
+              <span class="py-2">
+                <v-icon scale="1.5" name="px-eye" />
+                {{
+                  new Date(viewingTime).toLocaleString(undefined, {
+                    weekday: "short",
+                    hour: "numeric",
+                    minute: "numeric",
+                  })
+                }}
+              </span>
+
+              <span
+                v-if="isEditor(user) && !event?.data?.isLocked"
+                class="gap-2 hidden group-hover:flex group-focus-within:flex"
+              >
+                <NuxtLink
+                  :to="{
+                    path: `/events/${slug}/edit-movie`,
+                    query: {
+                      id,
+                    },
+                  }"
+                  class="btn btn-circle btn-primary btn-sm"
+                >
+                  <span class="sr-only">Edit {{ movie.title }}.</span>
+                  <v-icon name="px-edit" />
+                </NuxtLink>
+
+                <NuxtLink
+                  :to="{
+                    path: `/events/${slug}/remove-movie`,
+                    query: {
+                      id,
+                    },
+                  }"
+                  class="btn btn-circle btn-error btn-sm"
+                >
+                  <span class="sr-only">Remove {{ movie.title }}.</span>
+                  <v-icon name="px-trash" />
+                </NuxtLink>
+              </span>
+            </div>
+          </MovieCard>
+        </div>
+
+        <div v-else-if="movies?.data" class="text-center py-12">
+          <div class="text-6xl mb-4">🎬</div>
+          <h3 class="text-xl font-semibold mb-2">No movies watched yet</h3>
+          <p class="text-base-content/70">
+            Movies watched during this event will appear here
+          </p>
+        </div>
       </div>
 
-      <div v-if="movies?.data" class="flex flex-wrap gap-3 justify-center">
-        <MovieCard
-          v-for="{ movie, viewingTime, id } in movies.data.movieViewing"
-          :id="movie.id"
-          :key="movie.id"
-          tabindex="0"
-          :movie="movie"
-          :is-new="hash.replace('#', '') === movie.id"
-          class="group"
+      <!-- Watch List Section -->
+      <div v-if="isEditor(user)">
+        <div class="divider"></div>
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold mb-2">Your Watch List</h2>
+          <p class="text-base-content/70">
+            Movies you wanted to watch for this event
+          </p>
+        </div>
+
+        <div
+          v-if="watchListMovies && watchListMovies.length > 0"
+          class="flex flex-wrap gap-3 justify-center"
         >
-          <div
-            class="absolute bg-base-100 text-base bg-opacity-90 bottom-0 w-full p-2 shadow-inner font-mono flex justify-between items-center"
-          >
-            <span class="py-2">
-              <v-icon scale="1.5" name="px-eye" />
-              {{
-                new Date(viewingTime).toLocaleString(undefined, {
-                  weekday: "short",
-                  hour: "numeric",
-                  minute: "numeric",
-                })
-              }}
-            </span>
+          <MovieCard
+            v-for="{ movie, id } in watchListMovies"
+            :id="movie.id"
+            :key="movie.id"
+            :movie="movie"
+            tabindex="0"
+            class="group"
+          />
+        </div>
 
-            <span
-              v-if="isEditor(user) && !event?.data?.isLocked"
-              class="gap-2 hidden group-hover:flex group-focus-within:flex"
-            >
-              <NuxtLink
-                :to="{
-                  path: `/events/${slug}/edit-movie`,
-                  query: {
-                    id,
-                  },
-                }"
-                class="btn btn-circle btn-primary btn-sm"
-              >
-                <span class="sr-only">Edit {{ movie.title }}.</span>
-                <v-icon name="px-edit" />
-              </NuxtLink>
-
-              <NuxtLink
-                :to="{
-                  path: `/events/${slug}/remove-movie`,
-                  query: {
-                    id,
-                  },
-                }"
-                class="btn btn-circle btn-error btn-sm"
-              >
-                <span class="sr-only">Remove {{ movie.title }}.</span>
-                <v-icon name="px-trash" />
-              </NuxtLink>
-            </span>
-          </div>
-        </MovieCard>
+        <div v-else-if="watchListMovies" class="text-center py-12">
+          <div class="text-6xl mb-4">📝</div>
+          <h3 class="text-xl font-semibold mb-2">
+            No movies in your watch list
+          </h3>
+          <p class="text-base-content/70">
+            Movies you planned to watch for this event will appear here
+          </p>
+        </div>
       </div>
     </div>
   </div>

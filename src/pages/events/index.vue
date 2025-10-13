@@ -57,17 +57,6 @@ const user = data.value?.user;
             <div class="stat-title">Hours Watched</div>
           </div>
         </div>
-
-        <!-- Event Actions -->
-        <div class="card-actions justify-end mt-4">
-          <NuxtLink
-            :to="`/events/${event.slug}/watch-list`"
-            class="btn btn-outline btn-sm gap-2"
-          >
-            <v-icon name="px-list" scale="0.8" />
-            Watch List
-          </NuxtLink>
-        </div>
       </div>
     </div>
   </div>
