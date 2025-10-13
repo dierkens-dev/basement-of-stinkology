@@ -41,15 +41,41 @@ export default defineValidatedEventHandler(
       });
     }
 
-    const userWatchListMovie = await prisma.userWatchListMovie.upsert({
+    // Check if the movie is already in user's watch list for this event
+    const existingWatchListItem = await prisma.userWatchListMovie.findFirst({
       where: {
-        userId_movieId: {
-          userId: event.context.user.id,
-          movieId: movie.id,
-        },
+        userId: event.context.user.id,
+        movieId: movie.id,
+        eventId: activeEvent.eventId,
       },
-      update: {},
-      create: {
+    });
+
+    if (existingWatchListItem) {
+      // Already exists, just return it
+      const userWatchListMovie = await prisma.userWatchListMovie.findUnique({
+        where: { id: existingWatchListItem.id },
+        select: {
+          movie: {
+            select: {
+              id: true,
+              title: true,
+              releaseDate: true,
+              tagline: true,
+              overview: true,
+              poster: true,
+            },
+          },
+        },
+      });
+
+      return {
+        result: userWatchListMovie,
+      };
+    }
+
+    // Create new watch list item
+    const userWatchListMovie = await prisma.userWatchListMovie.create({
+      data: {
         userId: event.context.user.id,
         movieId: movie.id,
         eventId: activeEvent.eventId,
