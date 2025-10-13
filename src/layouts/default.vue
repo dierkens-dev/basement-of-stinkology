@@ -52,7 +52,26 @@ const refresh = async (event: any) => {
                 <NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink>
               </li>
               <li v-if="isEditor(user)">
-                <NuxtLink to="/users/me/watch-list">Watch List</NuxtLink>
+                <div class="dropdown dropdown-hover">
+                  <div tabindex="0" role="button" class="btn btn-ghost">
+                    Watch Lists
+                  </div>
+                  <ul
+                    tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                  >
+                    <li>
+                      <NuxtLink to="/users/me/watch-list"
+                        >Current Watch List</NuxtLink
+                      >
+                    </li>
+                    <li>
+                      <NuxtLink to="/users/me/watch-list/default"
+                        >Default Watch List</NuxtLink
+                      >
+                    </li>
+                  </ul>
+                </div>
               </li>
 
               <div class="dropdown dropdown-end">
@@ -146,7 +165,12 @@ const refresh = async (event: any) => {
 
         <li><NuxtLink to="/movies/what-to-watch">What to Watch</NuxtLink></li>
         <li v-if="isEditor(user)">
-          <NuxtLink to="/users/me/watch-list">Watch List</NuxtLink>
+          <NuxtLink to="/users/me/watch-list">Current Watch List</NuxtLink>
+        </li>
+        <li v-if="isEditor(user)">
+          <NuxtLink to="/users/me/watch-list/default"
+            >Default Watch List</NuxtLink
+          >
         </li>
 
         <li v-if="user" class="menu-title">
