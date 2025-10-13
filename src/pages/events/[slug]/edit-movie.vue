@@ -8,6 +8,7 @@ import {
 } from "~/features/movies";
 import { escapeDialog } from "~/utils/escapeDialog";
 const { query, params } = useRoute();
+const { $toast } = useNuxtApp();
 
 const slug = params.slug;
 
@@ -74,6 +75,11 @@ const onSubmit = handleSubmit(async (values) => {
             ? new Date(values.viewingTime).toISOString()
             : values.viewingTime,
       },
+    });
+
+    await $toast.show({
+      title: `Edit successful`,
+      message: `"${movieViewing.value?.movie.title}" has been successfully updated`,
     });
 
     await navigateTo(
