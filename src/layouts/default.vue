@@ -64,7 +64,7 @@ const refresh = async (event: any) => {
                     </li>
                     <li>
                       <NuxtLink
-                        to="/users/me/watch-list/default"
+                        to="/users/me/default-watch-list"
                         class="flex items-center"
                       >
                         Default
@@ -179,7 +179,7 @@ const refresh = async (event: any) => {
           </NuxtLink>
         </li>
         <li v-if="isEditor(user)">
-          <NuxtLink to="/users/me/watch-list/default" class="flex items-center">
+          <NuxtLink to="/users/me/default-watch-list" class="flex items-center">
             <span>Default</span>
             <span class="divider divider-horizontal mx-1"></span>
             <span class="text-sm opacity-70">Legacy</span>
