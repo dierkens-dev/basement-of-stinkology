@@ -1,9 +1,17 @@
 import { prisma } from "~/services/prisma.server";
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   const activeEvent = await prisma.activeEvent.findFirst({
     where: { id: 1 },
-    select: { eventId: true },
+    include: {
+      event: {
+        select: {
+          name: true,
+          slug: true,
+          year: true,
+        },
+      },
+    },
   });
 
   if (!activeEvent) {
@@ -14,11 +22,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  return prisma.userWatchListMovie.findMany({
-    where: { userId: event.context.user.id, eventId: activeEvent.eventId },
-    select: {
-      movie: true,
-      id: true,
-    },
-  });
+  return {
+    data: activeEvent.event,
+  };
 });

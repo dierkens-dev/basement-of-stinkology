@@ -1,4 +1,4 @@
-import { movieDbClient } from "~/features/movies";
+import { movieDbClient } from "~/server/lib/moviedb.lib";
 
 export default defineEventHandler(async (event) => {
   const { search } = getQuery(event);

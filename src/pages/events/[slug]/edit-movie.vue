@@ -8,6 +8,7 @@ import {
 } from "~/features/movies";
 import { escapeDialog } from "~/utils/escapeDialog";
 const { query, params } = useRoute();
+const { $toast } = useNuxtApp();
 
 const slug = params.slug;
 
@@ -29,6 +30,12 @@ function getDateTimeLocal(value: string) {
   }
 }
 
+// Helper to normalize initial value for consistent hydration
+function normalizeViewingTime(value: string | undefined) {
+  if (!value) return undefined;
+  return value.endsWith("Z") ? getDateTimeLocal(value) : value;
+}
+
 const {
   defineComponentBinds,
   handleSubmit,
@@ -37,16 +44,16 @@ const {
   setValues,
 } = useForm({
   validationSchema,
-  // Already loaded
+  // Already loaded - normalize the initial value to prevent hydration mismatch
   initialValues: {
-    viewingTime: movieViewing.value?.viewingTime ?? undefined,
+    viewingTime: normalizeViewingTime(movieViewing.value?.viewingTime),
   },
 });
 
 // First time loading
 watch(movieViewing, async (values) => {
   setValues({
-    viewingTime: values?.viewingTime ?? undefined,
+    viewingTime: normalizeViewingTime(values?.viewingTime),
   });
 });
 
@@ -55,7 +62,8 @@ const viewingTime = defineComponentBinds("viewingTime", {
   mapProps: ({ errors, value }) => {
     return {
       errors,
-      value: value && value.endsWith("Z") ? getDateTimeLocal(value) : value,
+      // Value is already normalized, no need for conditional transformation
+      value,
     };
   },
 });
@@ -66,7 +74,7 @@ const onSubmit = handleSubmit(async (values) => {
   formErrors.value = [];
 
   try {
-    await $fetch(`/api/movie-views/${query.id}`, {
+    await $fetch(`/api/movie-viewings/${query.id}`, {
       method: "PATCH",
       body: {
         viewingTime:
@@ -74,6 +82,11 @@ const onSubmit = handleSubmit(async (values) => {
             ? new Date(values.viewingTime).toISOString()
             : values.viewingTime,
       },
+    });
+
+    await $toast.show({
+      title: `Edit successful`,
+      message: `"${movieViewing.value?.movie.title}" has been successfully updated`,
     });
 
     await navigateTo(

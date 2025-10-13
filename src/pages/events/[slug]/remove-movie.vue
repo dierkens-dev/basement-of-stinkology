@@ -15,8 +15,13 @@ const isSubmitting = ref(false);
 async function handleConfirm() {
   try {
     isSubmitting.value = true;
-    await $fetch(`/api/movie-views/${query.id}`, {
+    await $fetch(`/api/movie-viewings/${query.id}`, {
       method: "DELETE",
+    });
+
+    await $toast.show({
+      title: `Remove successful`,
+      message: `"${movieViewing.value?.movie.title}" has been successfully removed`,
     });
 
     await navigateTo({
@@ -24,11 +29,6 @@ async function handleConfirm() {
     });
 
     await refreshNuxtData(`${slug}/movies`);
-
-    await $toast.show({
-      title: `Remove successful`,
-      message: `"${movieViewing.value?.movie.title}" has been successfully removed`,
-    });
   } finally {
     isSubmitting.value = false;
   }
@@ -51,7 +51,9 @@ const { path } = useRoute();
         You are about to remove <strong>{{ movieViewing.movie.title }}.</strong>
       </p>
       <div class="modal-action">
-        <NuxtLink to="/admin/users" class="btn btn-secondary">Cancel</NuxtLink>
+        <NuxtLink :to="`/events/${slug}`" class="btn btn-secondary"
+          >Cancel</NuxtLink
+        >
         <SubmitButton
           ref="confirm"
           :is-loading="isSubmitting"

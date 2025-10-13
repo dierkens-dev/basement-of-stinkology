@@ -10,6 +10,9 @@ const { data: watchListMovies } = useFetch(`/api/users/me/watch-list`, {
   key: "/users/me/watch-list",
 });
 
+// Fetch the active event details
+const { data: activeEvent } = useFetch("/api/events/active");
+
 const { data } = useAuth();
 const user = data.value?.user;
 </script>
@@ -28,9 +31,19 @@ const user = data.value?.user;
     </NuxtLink>
 
     <div class="container p-3 mx-auto mt-3 mb-14 w-screen sm:w-auto">
-      <h1 class="text-3xl font-bold">My Watchlist</h1>
+      <h1 class="text-3xl font-bold">
+        {{ activeEvent?.data?.name || "Current Event" }} Watch List
+      </h1>
+      <p class="text-base-content/70 mb-4" v-if="activeEvent?.data">
+        Movies you want to watch for {{ activeEvent.data.name }}
+        <span v-if="activeEvent.data.year">({{ activeEvent.data.year }})</span>
+      </p>
       <div class="divider"></div>
-      <div v-if="watchListMovies" class="flex flex-wrap gap-3 justify-center">
+
+      <div
+        v-if="watchListMovies && watchListMovies.length > 0"
+        class="flex flex-wrap gap-3 justify-center"
+      >
         <MovieCard
           v-for="{ movie, id } in watchListMovies"
           :id="movie.id"
@@ -60,6 +73,19 @@ const user = data.value?.user;
             </NuxtLink>
           </div>
         </MovieCard>
+      </div>
+
+      <div v-else-if="watchListMovies" class="text-center py-12">
+        <div class="text-6xl mb-4">🎬</div>
+        <h3 class="text-xl font-semibold mb-2">No movies in your watch list</h3>
+        <p class="text-base-content/70">
+          Movies you want to watch for
+          {{ activeEvent?.data?.name || "this event" }} will appear here.
+        </p>
+      </div>
+
+      <div v-else class="flex justify-center py-12">
+        <div class="loading loading-bars loading-lg"></div>
       </div>
     </div>
   </div>

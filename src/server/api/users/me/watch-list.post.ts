@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { movieDbClient } from "~/features/movies";
+import { movieDbClient } from "~/server/lib/moviedb.lib";
 import { prisma } from "~/services/prisma.server";
 
 const movieLogPostBodySchema = z.object({
@@ -28,15 +28,58 @@ export default defineValidatedEventHandler(
       });
     }
 
-    const userWatchListMovie = await prisma.userWatchListMovie.upsert({
+    const activeEvent = await prisma.activeEvent.findFirst({
+      where: { id: 1 },
+      select: { eventId: true },
+    });
+
+    if (!activeEvent) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Internal Server Error",
+        cause: "No active event",
+      });
+    }
+
+    // Check if the movie is already in user's watch list for this event
+    const existingWatchListItem = await prisma.userWatchListMovie.findFirst({
       where: {
-        userId_movieId: {
-          userId: event.context.user.id,
-          movieId: movie.id,
-        },
+        userId: event.context.user.id,
+        movieId: movie.id,
+        eventId: activeEvent.eventId,
       },
-      update: {},
-      create: { userId: event.context.user.id, movieId: movie.id },
+    });
+
+    if (existingWatchListItem) {
+      // Already exists, just return it
+      const userWatchListMovie = await prisma.userWatchListMovie.findUnique({
+        where: { id: existingWatchListItem.id },
+        select: {
+          movie: {
+            select: {
+              id: true,
+              title: true,
+              releaseDate: true,
+              tagline: true,
+              overview: true,
+              poster: true,
+            },
+          },
+        },
+      });
+
+      return {
+        result: userWatchListMovie,
+      };
+    }
+
+    // Create new watch list item
+    const userWatchListMovie = await prisma.userWatchListMovie.create({
+      data: {
+        userId: event.context.user.id,
+        movieId: movie.id,
+        eventId: activeEvent.eventId,
+      },
       select: {
         movie: {
           select: {

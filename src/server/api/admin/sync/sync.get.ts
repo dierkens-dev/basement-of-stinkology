@@ -1,5 +1,5 @@
 import limit from "promise-limit";
-import { movieDbClient } from "~/features/movies";
+import { movieDbClient } from "~/server/lib/moviedb.lib";
 import { prisma } from "~/services/prisma.server";
 
 export default defineEventHandler(async () => {
@@ -14,9 +14,15 @@ export default defineEventHandler(async () => {
   });
 
   const movieDbJson = await Promise.allSettled(jobs);
+  const failed = movieDbJson.filter((result) => result.status === "rejected");
+  const success = movieDbJson.filter(
+    <T>(
+      result: PromiseFulfilledResult<T> | PromiseRejectedResult,
+    ): result is PromiseFulfilledResult<T> => result.status === "fulfilled",
+  );
 
   const updated = [];
-  for (const json of movieDbJson) {
+  for (const json of success) {
     try {
       if (typeof json.value.id !== "number") {
         continue;
@@ -28,7 +34,6 @@ export default defineEventHandler(async () => {
         },
         data: {
           moviedbJson: json.value,
-          ttl: Date.now() + 86400000,
         },
       });
 
@@ -37,5 +42,5 @@ export default defineEventHandler(async () => {
       //ignore
     }
   }
-  return { updated };
+  return { updated, failed: failed.length };
 });
