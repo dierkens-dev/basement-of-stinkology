@@ -16,8 +16,6 @@ const user = data.value?.user;
 
 <template>
   <div>
-    <NuxtPage />
-
     <div class="container p-3 mx-auto mt-3 mb-14 w-screen sm:w-auto">
       <h1 class="text-3xl font-bold">Default Watch List</h1>
       <p class="text-base-content/70 mb-4">
