@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { movieDbClient } from "~/features/movies";
+import { movieDbClient } from "~/server/lib/moviedb.lib";
 import { prisma } from "~/services/prisma.server";
 
 const movieLogPostBodySchema = z.object({

@@ -30,6 +30,12 @@ function getDateTimeLocal(value: string) {
   }
 }
 
+// Helper to normalize initial value for consistent hydration
+function normalizeViewingTime(value: string | undefined) {
+  if (!value) return undefined;
+  return value.endsWith("Z") ? getDateTimeLocal(value) : value;
+}
+
 const {
   defineComponentBinds,
   handleSubmit,
@@ -38,16 +44,16 @@ const {
   setValues,
 } = useForm({
   validationSchema,
-  // Already loaded
+  // Already loaded - normalize the initial value to prevent hydration mismatch
   initialValues: {
-    viewingTime: movieViewing.value?.viewingTime ?? undefined,
+    viewingTime: normalizeViewingTime(movieViewing.value?.viewingTime),
   },
 });
 
 // First time loading
 watch(movieViewing, async (values) => {
   setValues({
-    viewingTime: values?.viewingTime ?? undefined,
+    viewingTime: normalizeViewingTime(values?.viewingTime),
   });
 });
 
@@ -56,7 +62,8 @@ const viewingTime = defineComponentBinds("viewingTime", {
   mapProps: ({ errors, value }) => {
     return {
       errors,
-      value: value && value.endsWith("Z") ? getDateTimeLocal(value) : value,
+      // Value is already normalized, no need for conditional transformation
+      value,
     };
   },
 });
