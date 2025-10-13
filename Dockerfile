@@ -1,9 +1,12 @@
+# Base image
 FROM node:24.8.0 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-# Production Dependencies
+# -----------------------------
+# 1. Production Dependencies
+# -----------------------------
 FROM base AS dependencies
 WORKDIR /dependencies
 
@@ -11,9 +14,15 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY prisma/schema.prisma ./prisma/schema.prisma
 
+# Install prod dependencies (includes @prisma/client)
 RUN pnpm install --prod --frozen-lockfile
 
-# Production Build
+# Generate Prisma client (must happen after install)
+RUN pnpm prisma generate
+
+# -----------------------------
+# 2. Build Stage
+# -----------------------------
 FROM base AS build
 WORKDIR /build
 
@@ -24,16 +33,26 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
+# Generate Prisma client here too (for build-time type safety)
+RUN pnpm prisma generate
+
 RUN pnpm run build
 
-# Application
+# -----------------------------
+# 3. Application Runtime
+# -----------------------------
 FROM base AS application
+WORKDIR /app
 
-# Copy production dependencies
-COPY --from=dependencies /dependencies/package.json ./package.json
+# Copy production dependencies including generated Prisma client
 COPY --from=dependencies /dependencies/node_modules ./node_modules
+COPY --from=dependencies /dependencies/package.json ./package.json
 
-# Copy built application code
+# Important: copy Prisma client engine files too
+COPY --from=dependencies /dependencies/node_modules/.prisma ./node_modules/.prisma
+COPY --from=dependencies /dependencies/node_modules/@prisma ./node_modules/@prisma
+
+# Copy built Nuxt output
 COPY --from=build /build/.output ./.output
 
 EXPOSE 8080
@@ -41,4 +60,4 @@ EXPOSE 8080
 ENV HOST=0.0.0.0
 ENV PORT=8080
 
-ENTRYPOINT [ "pnpm", "start" ]
+ENTRYPOINT ["pnpm", "start"]
