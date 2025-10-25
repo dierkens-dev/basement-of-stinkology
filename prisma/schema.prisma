@@ -38,10 +38,10 @@ model UserWatchListMovie {
   movie   Movie  @relation(fields: [movieId], references: [id])
   movieId String @db.Uuid
 
-  event Event? @relation(fields: [eventId], references: [id])
+  event   Event?  @relation(fields: [eventId], references: [id])
   eventId String? @db.Uuid
 
-  @@unique([userId, movieId])
+  @@unique([userId, movieId, eventId])
 }
 
 model Event {
@@ -56,15 +56,15 @@ model Event {
   isLocked    Boolean @default(false)
   year        Int
 
-  movieViewing MovieViewing[]
-  activeEvent  ActiveEvent?
+  movieViewing    MovieViewing[]
+  activeEvent     ActiveEvent?
   watchListMovies UserWatchListMovie[]
 }
 
 model ActiveEvent {
-  id      Int     @id @default(1) // singleton ID
-  event   Event   @relation(fields: [eventId], references: [id])
-  eventId String  @unique @db.Uuid
+  id      Int    @id @default(1) // singleton ID
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String @unique @db.Uuid
 }
 
 model Movie {

@@ -1,6 +1,9 @@
 -- Update existing null eventId values to a valid eventId
 UPDATE "ActiveEvent" SET "eventId" = (SELECT "id" FROM "Event" ORDER BY "createdAt" DESC LIMIT 1) WHERE "eventId" IS NULL;
 
+-- Remove any remaining rows with null eventId because there are no events to reference
+DELETE FROM "ActiveEvent" WHERE "eventId" IS NULL;
+
 -- DropForeignKey
 ALTER TABLE "ActiveEvent" DROP CONSTRAINT "ActiveEvent_eventId_fkey";
 
